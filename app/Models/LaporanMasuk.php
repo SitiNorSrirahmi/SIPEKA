@@ -23,11 +23,20 @@ class LaporanMasuk extends Model
         'status',
         'dibuat_oleh',
         'diverifikasi_oleh',
+        'jumlah_korban_meninggal',
+        'jumlah_korban_luka',
+        'estimasi_kerugian',
+        'deskripsi',
+        'tanggal_kejadian',
+    ];
+
+    protected $casts = [
+        'tanggal_kejadian' => 'datetime',
     ];
 
     public function jenisBencana()
     {
-        return $this->belongsTo(JenisBencana::class, 'dibuat_oleh');
+        return $this->belongsTo(JenisBencana::class, 'id_bencana');
     }
 
     public function dibuatOleh()
