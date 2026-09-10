@@ -22,6 +22,10 @@ class KejadianBencana extends Model
         'tanggal_kejadian',
     ];
 
+     protected $casts = [
+        'tanggal_kejadian' => 'datetime',
+    ];
+
     public function jenisBencana()
     {
         return $this->belongsTo(JenisBencana::class, 'id_bencana');

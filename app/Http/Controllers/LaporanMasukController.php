@@ -16,7 +16,14 @@ class LaporanMasukController extends Controller
     public function create()
     {
         $jenisBencana = JenisBencana::all();
-        return view('laporan.create', compact('jenisBencana'));
+
+        $actionRoute = match (true) {
+            request()->routeIs('admin.*') => route('admin.laporan.store'),
+            request()->routeIs('petugas.*') => route('petugas.laporan.store'),
+            default => route('laporan.store'),
+        };
+
+        return view('laporan.create', compact('jenisBencana', 'actionRoute'));
     }
 
     /**
@@ -56,8 +63,8 @@ class LaporanMasukController extends Controller
         }
 
         // Tentukan status & pemilik laporan berdasarkan siapa yang lapor
-        if (Auth::check() && Auth::user()->role === 'petugas') {
-            $status = 'verified'; // Petugas -> auto verified & langsung publish
+        if (Auth::check() && in_array(Auth::user()->role, ['petugas', 'admin'])) {
+            $status = 'verified'; // Petugas & Admin -> auto verified, langsung publish
             $dibuatOleh = Auth::id();
             $pelaporNama = null;
             $pelaporHp = null;

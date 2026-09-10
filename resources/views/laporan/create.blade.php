@@ -18,7 +18,7 @@
             </div>
         @endif
 
-        <form action="{{ route('laporan.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ $actionRoute }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <label>Jenis Bencana</label>

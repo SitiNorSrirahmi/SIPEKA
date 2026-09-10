@@ -1,44 +1,55 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanMasukController;
+use App\Http\Controllers\KejadianBencanaController;
+use Illuminate\Support\Facades\Route;
 
+
+// Guest//
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Rute khusus Admin
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'role:admin'])
-    ->name('admin.dashboard');
-
-// Rute khusus Petugas
-Route::get('/petugas/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'role:petugas'])
-    ->name('petugas.dashboard');
-
-// Form pelaporan — bisa diakses SEMUA orang (guest/Masyarakat maupun Petugas login)
 Route::get('/laporan/buat', [LaporanMasukController::class, 'create'])->name('laporan.create');
 Route::post('/laporan', [LaporanMasukController::class, 'store'])->name('laporan.store');
 
-// Khusus Petugas
+
+// ROLE PETUGAS
+
 Route::middleware(['auth', 'role:petugas'])->group(function () {
+    Route::get('/petugas/dashboard', [DashboardController::class, 'index'])->name('petugas.dashboard');
+
+    Route::get('/petugas/laporan/buat', [LaporanMasukController::class, 'create'])->name('petugas.laporan.create');
+    Route::post('/petugas/laporan', [LaporanMasukController::class, 'store'])->name('petugas.laporan.store');
+
     Route::get('/petugas/laporan-saya', [LaporanMasukController::class, 'laporanSaya'])->name('petugas.laporan-saya');
 });
 
-// Khusus Admin
+// ROLE ADMIN
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // buat laporan admin
+    Route::get('/admin/laporan/buat', [LaporanMasukController::class, 'create'])->name('admin.laporan.create');
+    Route::post('/admin/laporan', [LaporanMasukController::class, 'store'])->name('admin.laporan.store');
+
+    //Kelola laporan
     Route::get('/admin/laporan', [LaporanMasukController::class, 'index'])->name('admin.laporan.index');
     Route::get('/admin/verifikasi-laporan', [LaporanMasukController::class, 'antrean'])->name('admin.verifikasi-laporan');
     Route::post('/admin/laporan/{laporanMasuk}/verifikasi', [LaporanMasukController::class, 'verifikasi'])->name('admin.laporan.verifikasi');
     Route::post('/admin/laporan/{laporanMasuk}/tolak', [LaporanMasukController::class, 'tolak'])->name('admin.laporan.tolak');
+
+    // Kelola Data Kejadian Bencana (index, edit, hapus saja — tambah data lewat form laporan)
+    Route::get('/admin/kejadian', [KejadianBencanaController::class, 'index'])->name('admin.kejadian.index');
+    Route::get('/admin/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'show'])->name('admin.kejadian.show');
+    Route::get('/admin/kejadian/{kejadianBencana}/edit', [KejadianBencanaController::class, 'edit'])->name('admin.kejadian.edit');
+    Route::put('/admin/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'update'])->name('admin.kejadian.update');
+    Route::delete('/admin/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'destroy'])->name('admin.kejadian.destroy');
 });
 
-#Route::get('/dashboard', function () {
-    #return view('dashboard');
-#})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
