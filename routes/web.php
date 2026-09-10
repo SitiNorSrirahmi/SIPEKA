@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanMasukController;
 use App\Http\Controllers\KejadianBencanaController;
+use App\Http\Controllers\WilayahRawanController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,6 +49,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/kejadian/{kejadianBencana}/edit', [KejadianBencanaController::class, 'edit'])->name('admin.kejadian.edit');
     Route::put('/admin/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'update'])->name('admin.kejadian.update');
     Route::delete('/admin/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'destroy'])->name('admin.kejadian.destroy');
+
+    // Kelola Wilayah Rawan Bencana
+    Route::get('/admin/wilayah', [WilayahRawanController::class, 'index'])->name('admin.wilayah.index');
+    Route::get('/admin/wilayah/buat', [WilayahRawanController::class, 'create'])->name('admin.wilayah.create');
+    Route::post('/admin/wilayah', [WilayahRawanController::class, 'store'])->name('admin.wilayah.store');
+    Route::get('/admin/wilayah/{wilayahRawan}/edit', [WilayahRawanController::class, 'edit'])->name('admin.wilayah.edit');
+    Route::put('/admin/wilayah/{wilayahRawan}', [WilayahRawanController::class, 'update'])->name('admin.wilayah.update');
+    Route::delete('/admin/wilayah/{wilayahRawan}', [WilayahRawanController::class, 'destroy'])->name('admin.wilayah.destroy');
+
 });
 
 
