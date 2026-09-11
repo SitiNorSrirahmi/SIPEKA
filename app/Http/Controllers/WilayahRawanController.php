@@ -108,5 +108,6 @@ class WilayahRawanController extends Controller
         return redirect()
             ->route('admin.wilayah.index')
             ->with('success', 'Data wilayah rawan berhasil dihapus.');
+            
     }
 }

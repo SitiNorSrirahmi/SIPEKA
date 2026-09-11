@@ -12,6 +12,18 @@
                     {{ __("Selamat datang Petugas!") }}
                 </div>
             </div>
+
+            <div class="mt-4 flex gap-3">
+                <a href="{{ route('petugas.laporan.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
+                    Buat Laporan
+                </a>
+                <a href="{{ route('petugas.laporan-saya') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded text-sm">
+                    Laporan Saya
+                </a>
+                <a href="{{ route('berita.index') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded text-sm">
+                    Lihat Berita
+                </a>
+            </div>
         </div>
     </div>
 </x-app-layout>
