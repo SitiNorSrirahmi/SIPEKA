@@ -6,6 +6,7 @@ use App\Http\Controllers\LaporanMasukController;
 use App\Http\Controllers\KejadianBencanaController;
 use App\Http\Controllers\WilayahRawanController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\StatistikController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,6 +21,9 @@ Route::post('/laporan', [LaporanMasukController::class, 'store'])->name('laporan
 Route::get('/berita', [BeritaController::class, 'publikIndex'])->name('berita.index');
 Route::get('/berita/{berita}', [BeritaController::class, 'publikShow'])->name('berita.show');
 
+Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
+
+Route::get('/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'show'])->name('kejadian.show');
 
 // ROLE PETUGAS
 
