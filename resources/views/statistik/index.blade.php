@@ -15,6 +15,10 @@
                 <p class="text-sm text-gray-600">Korban Luka</p>
                 <p class="text-2xl font-bold">{{ $totalKorbanLuka }}</p>
             </div>
+            <div class="bg-yellow-50 p-4 rounded">
+                <p class="text-sm text-gray-600">Kerugian</p>
+                <p class="text-2xl font-bold">{{ $totalKerugian }}</p>
+            </div>
         </div>
 
         <h2 class="font-semibold mb-2">Per Jenis Bencana</h2>

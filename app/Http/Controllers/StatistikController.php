@@ -35,6 +35,9 @@ class StatistikController extends Controller
         
         $totalKorbanLuka = LaporanMasuk::where('status', 'verified')
             ->sum('jumlah_korban_luka');
+        
+        $totalKerugian = LaporanMasuk::where('status', 'verified')
+            ->sum('estimasi_kerugian');
 
         $isAdmin = Auth::check() && Auth::user()->role== 'admin';
 
@@ -55,6 +58,7 @@ class StatistikController extends Controller
             'perPeriode',
             'totalKorbanMeninggal',
             'totalKorbanLuka',
+            'totalKerugian',
             'daftarKejadian',
             'isAdmin'
         ));

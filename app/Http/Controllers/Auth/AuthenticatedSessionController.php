@@ -31,6 +31,17 @@ class AuthenticatedSessionController extends Controller
         // Ambil data user yang baru saja login
         $user = Auth::user();
 
+        //Cek apakah akun masih aktif
+        if (!$user->aktif) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login')->withErrors([
+            'email' => 'Akun Anda telah dinonaktifkan. Hubungi Admin.',
+        ]);
+    }
+
         // Arahkan berdasarkan rolenya ke rute baru yang sudah kita buat
         if ($user->role === 'admin') {
             return redirect()->intended(route('admin.dashboard'));

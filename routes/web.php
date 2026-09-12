@@ -7,6 +7,7 @@ use App\Http\Controllers\KejadianBencanaController;
 use App\Http\Controllers\WilayahRawanController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -73,6 +74,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/berita/{berita}/edit', [BeritaController::class, 'edit'])->name('admin.berita.edit');
     Route::put('/admin/berita/{berita}', [BeritaController::class, 'update'])->name('admin.berita.update');
     Route::delete('/admin/berita/{berita}', [BeritaController::class, 'destroy'])->name('admin.berita.destroy');
+
+    // Kelola User
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users/buat', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::post('/admin/users/{user}/toggle-aktif', [UserController::class, 'toggleAktif'])->name('admin.users.toggle-aktif');
 
 });
 
