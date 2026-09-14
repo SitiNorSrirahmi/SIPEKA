@@ -120,4 +120,28 @@ class WilayahRawanController extends Controller
             ->with('success', 'Data wilayah rawan berhasil dihapus.');
             
     }
+
+        /**
+     * Endpoint publik — return data wilayah rawan dalam format JSON untuk peta (Leaflet.js)
+     */
+    public function apiIndex(Request $request)
+    {
+        $query = WilayahRawan::with('jenisBencana');
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        $wilayah = $query->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'jenis_bencana' => $item->jenisBencana->nama_bencana ?? '-',
+                'kabupaten' => $item->kabupaten,
+                'level_rawan' => $item->level_rawan,
+                'geom' => $item->geom,
+            ];
+        });
+
+        return response()->json($wilayah);
+    }
 }
