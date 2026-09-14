@@ -53,12 +53,24 @@
             transform: scale(1.08);
         }
 
-        /* Overlay biru supaya teks terbaca */
+        /* Overlay biru gelap supaya teks kiri kebaca */
         .slideshow-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(30, 58, 138, 0.75) 0%, rgba(59, 130, 246, 0.55) 100%);
+            background: linear-gradient(90deg, rgba(10, 26, 58, 0.65) 0%, rgba(10, 26, 58, 0.35) 60%, rgba(10, 26, 58, 0.10) 100%);
             z-index: 1;
+        }
+
+        /* Efek memudar ke PUTIH di sisi kanan foto */
+        .slideshow-fade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0) 72%,
+                    rgba(255, 255, 255, 0.5) 88%,
+                    rgba(255, 255, 255, 1) 100%);
+            z-index: 2;
+            pointer-events: none;
         }
 
         /* ==================== BACKGROUND FOTO ==================== */
@@ -76,6 +88,45 @@
 
         .slide-4 {
             background-image: url("{{ asset('images/slideshow/slide4.png') }}");
+        }
+
+        /* ==================== CARD (mewah sedang) ==================== */
+        .lux-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow:
+                0 10px 40px rgba(15, 23, 42, 0.10),
+                0 4px 12px rgba(15, 23, 42, 0.06);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .lux-card:hover {
+            box-shadow:
+                0 16px 50px rgba(15, 23, 42, 0.14),
+                0 6px 16px rgba(15, 23, 42, 0.08);
+        }
+
+        /* ==================== INPUT FOCUS ==================== */
+        .input-lux {
+            transition: all 0.25s ease;
+        }
+
+        .input-lux:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+        }
+
+        /* ==================== TOMBOL (glow halus) ==================== */
+        .btn-lux {
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.28);
+            transition: all 0.3s ease;
+        }
+
+        .btn-lux:hover {
+            box-shadow: 0 10px 28px rgba(30, 58, 138, 0.40);
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -96,6 +147,7 @@
                 <div class="slide slide-4"></div>
 
                 <div class="slideshow-overlay"></div>
+                <div class="slideshow-fade"></div>
             </div>
             {{-- ====== END SLIDESHOW ====== --}}
 
@@ -111,14 +163,14 @@
                     di <span style="color: #fbbf24;">SIPEKA</span>
                 </h1>
                 <p class="text-blue-100 text-sm">
-                    Pilih akses akun untuk melanjutkan ke sistem.
+                    Sistem Informasi Pemetaan Bencana Kalimantan Selatan
                 </p>
             </div>
         </div>
 
         {{-- ==================== KANAN: FORM LOGIN ==================== --}}
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 bg-gray-100">
-            <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 sm:p-10">
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white">
+            <div class="lux-card w-full max-w-md p-8 sm:p-10">
 
                 {{-- Link Kembali ke Beranda --}}
                 <a href="{{ url('/') }}"
@@ -153,7 +205,7 @@
                             value="{{ old('email') }}"
                             required autofocus autocomplete="username"
                             placeholder="Masukkan alamat email"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-sm">
+                            class="input-lux w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
@@ -168,21 +220,19 @@
                                 name="password"
                                 required autocomplete="current-password"
                                 placeholder="Masukkan kata sandi"
-                                class="w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition text-sm">
+                                class="input-lux w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
 
                             {{-- Tombol Mata --}}
                             <button type="button"
                                 id="togglePassword"
                                 class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-800 focus:outline-none transition"
                                 aria-label="Tampilkan kata sandi">
-                                {{-- Ikon mata terbuka --}}
                                 <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
-                                {{-- Ikon mata tertutup --}}
                                 <svg id="eyeOffIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -203,7 +253,7 @@
 
                     {{-- Tombol Masuk --}}
                     <button type="submit"
-                        class="w-full py-3 rounded-lg font-bold text-white transition shadow-md hover:shadow-lg"
+                        class="btn-lux w-full py-3 rounded-lg font-bold text-white"
                         style="background-color: #1e3a8a;">
                         Masuk
                     </button>
@@ -217,7 +267,7 @@
     {{-- ==================== SCRIPT ==================== --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // ==================== SLIDESHOW ====================
+            // SLIDESHOW
             const slides = document.querySelectorAll('.slide');
             const totalSlides = slides.length;
             let currentIndex = 0;
@@ -233,7 +283,7 @@
                 setInterval(nextSlide, intervalMs);
             }
 
-            // ==================== TOGGLE PASSWORD ====================
+            // TOGGLE PASSWORD
             const toggleBtn = document.getElementById('togglePassword');
             const passwordInput = document.getElementById('password');
             const eyeIcon = document.getElementById('eyeIcon');
