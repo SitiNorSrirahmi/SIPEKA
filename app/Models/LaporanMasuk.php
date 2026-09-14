@@ -12,6 +12,7 @@ class LaporanMasuk extends Model
     protected $table = 'laporan_masuk';
 
     protected $fillable = [
+        'token',
         'id_bencana',
         'lokasi',
         'latitude',
@@ -52,6 +53,15 @@ class LaporanMasuk extends Model
     public function kejadianBencana()
     {
         return $this->hasOne(KejadianBencana::class, 'laporan_id');
+    }
+
+    protected static function boot ()
+    {
+        parent::boot();
+
+        static::creating(function ($laporan){
+            $laporan->token = 'LPR-' . strtoupper(\Illuminate\Support\Str::random(6));
+        });
     }
 
 }

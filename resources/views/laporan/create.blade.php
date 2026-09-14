@@ -8,6 +8,13 @@
             </div>
         @endif
 
+        @if (session('token'))
+            <div class="bg-blue-100 text-blue-800 p-3 mb-4 rounded">
+                 <strong>Simpan token ini untuk cek status laporan Anda nanti:</strong>
+                <p class="font-mono text-lg font-bold mt-1">{{ session('token') }}</p>
+            </div>
+        @endif
+
         @if ($errors->any())
             <div class="bg-red-100 text-red-700 p-3 mb-4 rounded">
                 <ul>
