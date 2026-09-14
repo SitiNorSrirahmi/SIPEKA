@@ -75,7 +75,7 @@ class LaporanMasukController extends Controller
             $pelaporHp = $validated['pelapor_hp'] ?? null;
         }
 
-        DB::transaction(function () use (
+        $laporanHasil = DB::transaction(function () use (
             $validated, $statusGeotag, $fotoPath, $status, $dibuatOleh, $pelaporNama, $pelaporHp
         ) {
             $laporan = LaporanMasuk::create([
@@ -100,13 +100,27 @@ class LaporanMasukController extends Controller
             if ($status === 'verified') {
                 $this->salinKeKejadianBencana($laporan);
             }
+
+            return $laporan;
         });
 
         $pesan = $status === 'verified'
             ? 'Laporan berhasil dikirim dan langsung dipublikasikan.'
             : 'Laporan berhasil dikirim, menunggu verifikasi Admin.';
 
-        return redirect()->back()->with('success', $pesan);
+        $response = redirect()->back()->with('success', $pesan);
+
+        if ($status === 'pending'){
+            $response->with('token', $laporanHasil->token);
+        }
+
+        return $response;
+    }
+
+    public function show(LaporanMasuk $laporanMasuk)
+    {
+        $laporanMasuk->load('jenisBencana', 'dibuatOleh', 'diverifikasiOleh');
+        return view('admin.laporan.show', compact('laporanMasuk'));
     }
 
     /**

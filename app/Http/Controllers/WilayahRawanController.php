@@ -11,13 +11,23 @@ class WilayahRawanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $wilayah = WilayahRawan::with('jenisBencana')
-            ->latest()
-            ->paginate(15);
+        $query = WilayahRawan::with('jenisBencana');
 
-        return view('admin.wilayah.index', compact('wilayah'));
+        if ($request->filled('kabupaten')) {
+            $query->where('kabupaten', 'like', '%' . $request->kabupaten . '%');
+        }
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        $wilayah = $query->latest()->paginate(15)->withQueryString();
+
+        $jenisBencana = JenisBencana::all();
+
+        return view('admin.wilayah.index', compact('wilayah', 'jenisBencana'));
     }
 
     /**
@@ -109,5 +119,29 @@ class WilayahRawanController extends Controller
             ->route('admin.wilayah.index')
             ->with('success', 'Data wilayah rawan berhasil dihapus.');
             
+    }
+
+        /**
+     * Endpoint publik — return data wilayah rawan dalam format JSON untuk peta (Leaflet.js)
+     */
+    public function apiIndex(Request $request)
+    {
+        $query = WilayahRawan::with('jenisBencana');
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        $wilayah = $query->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'jenis_bencana' => $item->jenisBencana->nama_bencana ?? '-',
+                'kabupaten' => $item->kabupaten,
+                'level_rawan' => $item->level_rawan,
+                'geom' => $item->geom,
+            ];
+        });
+
+        return response()->json($wilayah);
     }
 }
