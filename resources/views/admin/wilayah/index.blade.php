@@ -13,6 +13,22 @@
             </div>
         @endif
 
+        <form method="GET" class="flex gap-3 mb-4">
+            <select name="id_bencana" class="border p-2">
+                <option value="">Semua Jenis Bencana</option>
+                @foreach ($jenisBencana as $jb)
+                    <option value="{{ $jb->id }}" @selected(request('id_bencana') == $jb->id)>
+                        {{ $jb->nama_bencana }}
+                    </option>
+                @endforeach
+            </select>
+
+            <input type="text" name="kabupaten" placeholder="Cari kabupaten..." class="border p-2" value="{{ request('kabupaten') }}">
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">Filter</button>
+            <a href="{{ route('admin.wilayah.index') }}" class="bg-gray-200 px-4 py-2 rounded text-sm">Reset</a>
+        </form>
+
         <table class="w-full border-collapse border">
             <thead>
                 <tr class="bg-gray-100">

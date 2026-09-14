@@ -31,6 +31,7 @@
                         </td>
                         <td class="border p-2">{{ $item->status }}</td>
                         <td class="border p-2">
+                            <a href="{{ route('admin.laporan.show', $item->id) }}" class="text-blue-600 text-sm">Detail</a>
                             <form action="{{ route('admin.laporan.verifikasi', $item->id) }}" method="POST" class="inline">
                                 @csrf
                                 <button class="bg-green-600 text-white px-2 py-1 rounded text-sm">Verifikasi</button>

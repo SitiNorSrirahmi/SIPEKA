@@ -8,6 +8,7 @@ use App\Http\Controllers\WilayahRawanController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CekStatusController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +26,12 @@ Route::get('/berita/{berita}', [BeritaController::class, 'publikShow'])->name('b
 Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
 
 Route::get('/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'show'])->name('kejadian.show');
+
+Route::get('/cek-status', [CekStatusController::class, 'index'])->name('cek-status.index');
+Route::post('/cek-status', [CekStatusController::class, 'cari'])->name('cek-status.cari');
+
+Route::get('/api/kejadian', [KejadianBencanaController::class, 'apiIndex'])->name('api.kejadian');
+Route::get('/api/wilayah-rawan', [WilayahRawanController::class, 'apiIndex'])->name('api.wilayah-rawan');
 
 // ROLE PETUGAS
 
@@ -51,6 +58,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/verifikasi-laporan', [LaporanMasukController::class, 'antrean'])->name('admin.verifikasi-laporan');
     Route::post('/admin/laporan/{laporanMasuk}/verifikasi', [LaporanMasukController::class, 'verifikasi'])->name('admin.laporan.verifikasi');
     Route::post('/admin/laporan/{laporanMasuk}/tolak', [LaporanMasukController::class, 'tolak'])->name('admin.laporan.tolak');
+    Route::get('/admin/laporan/{laporanMasuk}', [LaporanMasukController::class, 'show'])->name('admin.laporan.show');
 
     // Kelola Data Kejadian Bencana (index, edit, hapus saja — tambah data lewat form laporan)
     Route::get('/admin/kejadian', [KejadianBencanaController::class, 'index'])->name('admin.kejadian.index');

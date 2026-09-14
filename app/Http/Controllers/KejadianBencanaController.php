@@ -14,13 +14,25 @@ class KejadianBencanaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kejadian = KejadianBencana::with('jenisBencana')
-            ->latest()
-            ->paginate(15);
-        
-            return view('admin.kejadian.index', compact('kejadian'));
+        $query = KejadianBencana::with('jenisBencana');
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        if ($request->filled('search')) {
+            $query->whereHas('laporanMasuk', function ($q) use ($request) {
+                $q->where('lokasi', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $kejadian = $query->latest()->paginate(15)->withQueryString();
+
+        $jenisBencana = JenisBencana::all();
+
+        return view('admin.kejadian.index', compact('kejadian', 'jenisBencana'));
     }
 
     /**
@@ -110,5 +122,32 @@ class KejadianBencanaController extends Controller
         return redirect()
             ->route('admin.kejadian.index')
             ->with('success', 'Data kejadian bencana berhasil dihapus.');
+    }
+
+        /**
+     * Endpoint publik — return data kejadian dalam format JSON untuk peta (Leaflet.js)
+     */
+    public function apiIndex(Request $request)
+    {
+        $query = KejadianBencana::with('jenisBencana')
+            ->where('status_data', 'published');
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        $kejadian = $query->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'jenis_bencana' => $item->jenisBencana->nama_bencana ?? '-',
+                'latitude' => $item->latitude,
+                'longitude' => $item->longitude,
+                'jumlah_korban' => $item->jumlah_korban,
+                'estimasi_kerugian' => $item->estimasi_kerugian,
+                'tanggal_kejadian' => $item->tanggal_kejadian?->format('Y-m-d'),
+            ];
+        });
+
+        return response()->json($kejadian);
     }
 }
