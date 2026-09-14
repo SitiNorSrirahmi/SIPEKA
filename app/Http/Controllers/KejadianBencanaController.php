@@ -14,13 +14,25 @@ class KejadianBencanaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kejadian = KejadianBencana::with('jenisBencana')
-            ->latest()
-            ->paginate(15);
-        
-            return view('admin.kejadian.index', compact('kejadian'));
+        $query = KejadianBencana::with('jenisBencana');
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        if ($request->filled('search')) {
+            $query->whereHas('laporanMasuk', function ($q) use ($request) {
+                $q->where('lokasi', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $kejadian = $query->latest()->paginate(15)->withQueryString();
+
+        $jenisBencana = JenisBencana::all();
+
+        return view('admin.kejadian.index', compact('kejadian', 'jenisBencana'));
     }
 
     /**
