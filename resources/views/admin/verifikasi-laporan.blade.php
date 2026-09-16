@@ -1,6 +1,11 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Verifikasi Laporan')
+
+@section('content')
     <div class="p-6 max-w-4xl mx-auto">
-        <h1 class="text-xl font-bold mb-4">Verifikasi Laporan (Testing)</h1>
+
+        <h1 class="text-xl font-bold mb-4">Verifikasi Laporan</h1>
 
         @if (session('success'))
             <div class="bg-green-100 text-green-700 p-3 mb-4 rounded">
@@ -52,4 +57,4 @@
 
         {{ $laporan->links() }}
     </div>
-</x-app-layout>
+@endsection
