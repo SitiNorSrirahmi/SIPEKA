@@ -1,5 +1,10 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Kelola Wilayah Rawan Bencana')
+
+@section('content')
     <div class="p-6 max-w-5xl mx-auto">
+
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-xl font-bold">Kelola Wilayah Rawan Bencana</h1>
             <a href="{{ route('admin.wilayah.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
@@ -68,4 +73,4 @@
 
         {{ $wilayah->links() }}
     </div>
-</x-app-layout>
+@endsection
