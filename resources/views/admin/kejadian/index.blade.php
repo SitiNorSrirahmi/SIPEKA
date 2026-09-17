@@ -1,9 +1,14 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Kelola Data Kejadian Bencana')
+
+@section('content')
     <div class="p-6 max-w-5xl mx-auto">
+
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-xl font-bold">Kelola Data Kejadian Bencana</h1>
             <a href="{{ route('admin.laporan.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
-            + Tambah Kejadian
+                + Tambah Kejadian
             </a>
         </div>
 
@@ -68,4 +73,4 @@
 
         {{ $kejadian->links() }}
     </div>
-</x-app-layout>
+@endsection

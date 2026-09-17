@@ -1,5 +1,10 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Kelola Berita')
+
+@section('content')
     <div class="p-6 max-w-5xl mx-auto">
+
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-xl font-bold">Kelola Berita</h1>
             <a href="{{ route('admin.berita.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
@@ -60,4 +65,4 @@
 
         {{ $berita->links() }}
     </div>
-</x-app-layout>
+@endsection

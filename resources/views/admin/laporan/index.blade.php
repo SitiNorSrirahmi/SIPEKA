@@ -1,4 +1,8 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Kelola Laporan')
+
+@section('content')
     <div class="p-6 max-w-5xl mx-auto">
         <h1 class="text-xl font-bold mb-4">Kelola Laporan</h1>
 
@@ -51,4 +55,4 @@
 
         {{ $laporan->links() }}
     </div>
-</x-app-layout>
+@endsection
