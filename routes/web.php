@@ -30,6 +30,9 @@ Route::get('/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'sh
 Route::get('/cek-status', [CekStatusController::class, 'index'])->name('cek-status.index');
 Route::post('/cek-status', [CekStatusController::class, 'cari'])->name('cek-status.cari');
 
+Route::get('/wilayahrawan', [WilayahRawanController::class, 'publikIndex'])->name('wilayahrawan.index');
+
+// ini untuk leaflet//
 Route::get('/api/kejadian', [KejadianBencanaController::class, 'apiIndex'])->name('api.kejadian');
 Route::get('/api/wilayah-rawan', [WilayahRawanController::class, 'apiIndex'])->name('api.wilayah-rawan');
 

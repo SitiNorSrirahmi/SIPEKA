@@ -122,6 +122,27 @@ class WilayahRawanController extends Controller
     }
 
         /**
+     * Halaman publik — bisa diakses Admin, Petugas, dan Masyarakat (guest)
+     */
+    public function publikIndex(Request $request)
+    {
+        $query = WilayahRawan::with('jenisBencana');
+
+        if ($request->filled('kabupaten')) {
+            $query->where('kabupaten', 'like', '%' . $request->kabupaten . '%');
+        }
+
+        if ($request->filled('id_bencana')) {
+            $query->where('id_bencana', $request->id_bencana);
+        }
+
+        $wilayah = $query->latest()->paginate(15)->withQueryString();
+
+        $jenisBencana = JenisBencana::all();
+
+        return view('wilayahrawan.index', compact('wilayah', 'jenisBencana'));
+    }
+        /**
      * Endpoint publik — return data wilayah rawan dalam format JSON untuk peta (Leaflet.js)
      */
     public function apiIndex(Request $request)

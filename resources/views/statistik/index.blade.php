@@ -17,7 +17,7 @@
             </div>
             <div class="bg-yellow-50 p-4 rounded">
                 <p class="text-sm text-gray-600">Kerugian</p>
-                <p class="text-2xl font-bold">{{ $totalKerugian }}</p>
+                <p class="text-2xl font-bold">Rp{{ number_format($totalKerugian, 0, ',', '.') }}</p>
             </div>
         </div>
 
