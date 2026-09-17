@@ -9,13 +9,13 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CekStatusController;
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
 
 // Guest//
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('/cari', [LandingController::class, 'search'])->name('pencarian.index');
 
 Route::get('/laporan/buat', [LaporanMasukController::class, 'create'])->name('laporan.create');
 Route::post('/laporan', [LaporanMasukController::class, 'store'])->name('laporan.store');
