@@ -1,4 +1,8 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Detail Laporan')
+
+@section('content')
     <div class="p-6 max-w-2xl mx-auto">
         <a href="{{ url()->previous() }}" class="text-blue-600 text-sm">&larr; Kembali</a>
 
@@ -89,4 +93,4 @@
             @endif
         </div>
     </div>
-</x-app-layout>
+@endsection

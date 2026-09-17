@@ -1,4 +1,8 @@
-<x-app-layout>
+@extends('layouts.admin')
+
+@section('header', 'Edit Akun Pengguna')
+
+@section('content')
     <div class="p-6 max-w-xl mx-auto">
         <h1 class="text-xl font-bold mb-4">Edit Akun Pengguna</h1>
 
@@ -34,4 +38,4 @@
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
         </form>
     </div>
-</x-app-layout>
+@endsection
