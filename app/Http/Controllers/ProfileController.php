@@ -39,22 +39,10 @@ class ProfileController extends Controller
 
     /**
      * Delete the user's account.
+     * Dinonaktifkan — penghapusan/penonaktifan akun hanya boleh dilakukan Admin lewat UserController.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        abort(403, 'Anda tidak diizinkan menghapus akun sendiri. Hubungi Admin.');
     }
 }

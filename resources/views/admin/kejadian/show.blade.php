@@ -15,7 +15,12 @@
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Lokasi (Koordinat)</p>
+                <p class="text-sm text-gray-500">Lokasi</p>
+                <p class="font-semibold">{{ $kejadianBencana->LaporanMasuk->lokasi ?? '-' }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Koordinat</p>
                 <p class="font-semibold">{{ $kejadianBencana->latitude }}, {{ $kejadianBencana->longitude }}</p>
             </div>
 
@@ -34,6 +39,15 @@
             <div>
                 <p class="text-sm text-gray-500">Tanggal Kejadian</p>
                 <p class="font-semibold">{{ $kejadianBencana->tanggal_kejadian?->format('d M Y') }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Foto</p>
+                @if ($kejadianBencana->laporanMasuk && $kejadianBencana->laporanMasuk->sumber)
+                    <img src="{{ Storage::url($kejadianBencana->laporanMasuk->sumber) }}" class="max-w-sm rounded mt-1">
+                @else
+                    <p class="text-gray-400">Tidak ada foto.</p>
+                @endif
             </div>
 
             <div>
