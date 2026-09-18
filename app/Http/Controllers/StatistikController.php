@@ -46,7 +46,7 @@ class StatistikController extends Controller
                 ->latest()
                 ->paginate(10);
         } else {
-            $daftarKejadian = KejadianBencana::with('jenisBencana')
+            $daftarKejadian = KejadianBencana::with('jenisBencana', 'laporanMasuk')
                 ->where('status_data', 'published')
                 ->latest()
                 ->paginate(10);

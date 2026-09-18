@@ -65,9 +65,7 @@
         <thead>
             <tr class="bg-gray-100">
                 <th class="border p-2">Jenis</th>
-                @if ($isAdmin)
                     <th class="border p-2">Lokasi</th>
-                @endif
                 <th class="border p-2">Tanggal</th>
                 @if ($isAdmin)
                     <th class="border p-2">Status</th>
@@ -79,9 +77,9 @@
             @forelse ($daftarKejadian as $item)
                 <tr>
                     <td class="border p-2">{{ $item->jenisBencana->nama_bencana ?? '-' }}</td>
-                    @if ($isAdmin)
-                        <td class="border p-2">{{ $item->lokasi }}</td>
-                    @endif
+                    <td class="border p-2">
+                        {{ $isAdmin ? $item->lokasi : ($item->laporanMasuk->lokasi ?? '-') }}
+                    </td>
                     <td class="border p-2">{{ $item->tanggal_kejadian?->format('d M Y') }}</td>
                     @if ($isAdmin)
                         <td class="border p-2">{{ ucfirst($item->status) }}</td>
@@ -99,7 +97,7 @@
                     @endif
                 </tr>
             @empty
-                <tr><td colspan="{{ $isAdmin ? 5 : 3 }}" class="border p-2 text-center">Belum ada data.</td></tr>
+                <tr><td colspan="{{ $isAdmin ? 5 : 4 }}" class="border p-2 text-center">Belum ada data.</td></tr>
             @endforelse
         </tbody>
     </table>
