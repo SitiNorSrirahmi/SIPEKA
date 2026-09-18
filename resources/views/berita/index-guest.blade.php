@@ -1,3 +1,7 @@
-<x-app-layout>
+@extends('layouts.publik')
+
+@section('header', 'Berita & Informasi Kebencanaan')
+
+@section('content')
     @include('berita.content-index')
-</x-app-layout>
+@endsection

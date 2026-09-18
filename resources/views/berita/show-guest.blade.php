@@ -1,3 +1,7 @@
-<x-app-layout>
-    @include('berita.content-show')
-</x-app-layout>
+@extends('layouts.publik')
+
+@section('header', 'Detail Berita')
+
+@section('content')
+@include('berita.content-show')
+@endsection
