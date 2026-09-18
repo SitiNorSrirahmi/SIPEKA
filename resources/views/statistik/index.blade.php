@@ -1,12 +1,11 @@
-@if (auth()->check() && auth()->user()->role === 'admin')
-    @extends('layouts.admin')
-    @section('header', 'Statistik Bencana')
-    @section('content')
-        @include('statistik.content')
-    @endsection
+@php
+    $role = auth()->check() ? auth()->user()->role : 'guest';
+@endphp
+
+@if ($role === 'admin')
+    @include('statistik.admin')
+@elseif ($role === 'petugas')
+    @include('statistik.petugas')
 @else
-    {{-- Fallback: petugas & publik (nanti diupdate di iterasi 2 & 3) --}}
-    <x-app-layout>
-        @include('statistik.content')
-    </x-app-layout>
+    @include('statistik.guest')
 @endif
