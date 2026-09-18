@@ -78,7 +78,7 @@ class KejadianBencanaController extends Controller
      */
     public function show(KejadianBencana $kejadianBencana)
     {
-        $kejadianBencana->load('jenisBencana');
+        $kejadianBencana->load('jenisBencana', 'laporanMasuk');
         return view('admin.kejadian.show', compact('kejadianBencana'));
     }
 
