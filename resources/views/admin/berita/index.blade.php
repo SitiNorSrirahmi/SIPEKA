@@ -3,66 +3,172 @@
 @section('header', 'Kelola Berita')
 
 @section('content')
-    <div class="p-6 max-w-5xl mx-auto">
+    <div class="max-w-6xl mx-auto px-2">
 
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-xl font-bold">Kelola Berita</h1>
-            <a href="{{ route('admin.berita.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">
-                + Tambah Berita
+        {{-- ==================== HEADER ==================== --}}
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-1.5">
+                    Kelola Berita
+                </h1>
+                <p class="text-sm text-slate-500">
+                    Kelola publikasi berita dan informasi SIPEKA
+                </p>
+            </div>
+
+            <a href="{{ route('admin.berita.create') }}"
+               class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl text-sm font-semibold transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                </svg>
+                Tambah Berita
             </a>
         </div>
 
+        {{-- ==================== SUCCESS ALERT ==================== --}}
         @if (session('success'))
-            <div class="bg-green-100 text-green-700 p-3 mb-4 rounded">
-                {{ session('success') }}
+            <div class="flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 mb-6 rounded-2xl">
+                <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="text-sm font-medium">{{ session('success') }}</p>
             </div>
         @endif
 
-        <table class="w-full border-collapse border">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="border p-2">Gambar</th>
-                    <th class="border p-2">Judul</th>
-                    <th class="border p-2">Penulis</th>
-                    <th class="border p-2">Status</th>
-                    <th class="border p-2">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($berita as $item)
-                    <tr>
-                        <td class="border p-2">
-                            @if ($item->gambar)
-                                <img src="{{ Storage::url($item->gambar) }}" class="w-16 h-16 object-cover rounded">
-                            @else
-                                <span class="text-gray-400 text-sm">Tidak ada</span>
-                            @endif
-                        </td>
-                        <td class="border p-2">{{ $item->judul }}</td>
-                        <td class="border p-2">{{ $item->penulis->name ?? '-' }}</td>
-                        <td class="border p-2">
-                            <span class="{{ $item->status === 'published' ? 'text-green-600' : 'text-gray-500' }}">
-                                {{ ucfirst($item->status) }}
-                            </span>
-                        </td>
-                        <td class="border p-2">
-                            <a href="{{ route('admin.berita.edit', $item->id) }}" class="text-blue-600 text-sm">Edit</a>
-                            |
-                            <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus berita ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-600 text-sm">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="border p-2 text-center">Belum ada berita.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+        {{-- ==================== TABLE CARD ==================== --}}
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
 
-        {{ $berita->links() }}
+            {{-- Table Header Bar --}}
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h2 class="text-xs font-semibold text-slate-900 uppercase tracking-wider">
+                    Daftar Berita
+                </h2>
+                <span class="text-xs text-slate-400">
+                    Total <span class="font-semibold text-slate-700">{{ $berita->total() }}</span> berita
+                </span>
+            </div>
+
+            {{-- Table --}}
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-slate-50/50 border-b border-slate-100">
+                            <th class="text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3 w-24">Gambar</th>
+                            <th class="text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">Judul</th>
+                            <th class="text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">Penulis</th>
+                            <th class="text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">Status</th>
+                            <th class="text-right text-[11px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3 w-32">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse ($berita as $item)
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                {{-- Gambar --}}
+                                <td class="px-6 py-4">
+                                    @if ($item->gambar)
+                                        <img src="{{ Storage::url($item->gambar) }}"
+                                             class="w-14 h-14 object-cover rounded-xl border border-slate-100">
+                                    @else
+                                        <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                    @endif
+                                </td>
+
+                                {{-- Judul --}}
+                                <td class="px-6 py-4">
+                                    <p class="text-sm font-semibold text-slate-900 line-clamp-2 max-w-md">
+                                        {{ $item->judul }}
+                                    </p>
+                                </td>
+
+                                {{-- Penulis --}}
+                                <td class="px-6 py-4">
+                                    <p class="text-sm text-slate-600">
+                                        {{ $item->penulis->name ?? '-' }}
+                                    </p>
+                                </td>
+
+                                {{-- Status --}}
+                                <td class="px-6 py-4">
+                                    @php
+                                        $isPublished = $item->status === 'published';
+                                    @endphp
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-semibold
+                                        {{ $isPublished
+                                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                            : 'bg-slate-50 text-slate-600 border-slate-200' }}">
+                                        <span class="w-1.5 h-1.5 rounded-full {{ $isPublished ? 'bg-emerald-500' : 'bg-slate-400' }}"></span>
+                                        {{ ucfirst($item->status) }}
+                                    </span>
+                                </td>
+
+                                {{-- Aksi --}}
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center justify-end gap-1.5">
+                                        {{-- Edit --}}
+                                        <a href="{{ route('admin.berita.edit', $item->id) }}"
+                                           class="w-9 h-9 rounded-lg flex items-center justify-center bg-blue-50 border border-blue-200 text-blue-600 hover:bg-blue-100 hover:border-blue-300 transition-colors"
+                                           title="Edit">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </a>
+
+                                        {{-- Hapus --}}
+                                        <form action="{{ route('admin.berita.destroy', $item->id) }}" method="POST"
+                                              class="inline"
+                                              onsubmit="return confirm('Yakin hapus berita ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="w-9 h-9 rounded-lg flex items-center justify-center bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100 hover:border-rose-300 transition-colors"
+                                                    title="Hapus">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-16 text-center">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+                                            <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                            </svg>
+                                        </div>
+                                        <p class="text-sm font-medium text-slate-700 mb-1">Belum ada berita</p>
+                                        <p class="text-xs text-slate-400 mb-4">Mulai tambahkan berita pertama Anda</p>
+                                        <a href="{{ route('admin.berita.create') }}"
+                                           class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700">
+                                            + Tambah Berita
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination --}}
+            @if ($berita->hasPages())
+                <div class="px-6 py-4 border-t border-slate-100">
+                    {{ $berita->links() }}
+                </div>
+            @endif
+        </div>
+
     </div>
 @endsection
