@@ -1,3 +1,7 @@
-<x-app-layout>
-    @include('laporan.form')
-</x-app-layout>
+@extends('layouts.petugas')
+
+@section('header', 'Buat Laporan')
+
+@section('content')
+@include('laporan.form')
+@endsection

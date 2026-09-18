@@ -1,4 +1,8 @@
-<x-app-layout>
+@extends('layouts.petugas')
+
+@section('header', 'Laporan Saya')
+
+@section('content')
     <div class="p-6 max-w-4xl mx-auto">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-xl font-bold">Laporan Saya</h1>
@@ -49,4 +53,4 @@
 
         {{ $laporan->links() }}
     </div>
-</x-app-layout>
+@endsection
