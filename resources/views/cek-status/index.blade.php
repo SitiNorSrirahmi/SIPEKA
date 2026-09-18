@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layouts.publik')
+
+@section('content')
     <div class="p-6 max-w-xl mx-auto">
         <h1 class="text-xl font-bold mb-4">Cek Status Laporan</h1>
 
@@ -43,4 +45,4 @@
             </div>
         @endisset
     </div>
-</x-app-layout>
+@endsection

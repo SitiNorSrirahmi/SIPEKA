@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layouts.publik')
+
+@section('content')
     <div class="p-6 max-w-4xl mx-auto">
         <h1 class="text-xl font-bold mb-4">Hasil Pencarian: "{{ $keyword }}"</h1>
 
@@ -31,4 +33,4 @@
 
         {{ $hasil->links() }}
     </div>
-</x-app-layout>
+@endsection

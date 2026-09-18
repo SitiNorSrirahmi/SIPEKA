@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layouts.publik')
+
+@section('content')
     <div class="p-6 max-w-4xl mx-auto">
         <h1 class="text-2xl font-bold mb-2">SIPEKA</h1>
         <p class="text-gray-600 mb-6">Sistem Informasi Peta Kebencanaan Kalimantan Selatan</p>
@@ -38,12 +40,12 @@
         <h2 class="font-semibold mb-2">Berita Terbaru</h2>
         <div class="grid gap-3 mb-4">
             @forelse ($beritaTerbaru as $item)
-                <a href="{{ route('berita.show', $item->id) }}" class="block border rounded p-3 hover:bg-gray-50">
-                    <p class="font-semibold">{{ $item->judul }}</p>
-                    <p class="text-sm text-gray-500">{{ $item->created_at->format('d M Y') }}</p>
-                </a>
+            <a href="{{ route('berita.show', $item->id) }}" class="block border rounded p-3 hover:bg-gray-50">
+                <p class="font-semibold">{{ $item->judul }}</p>
+                <p class="text-sm text-gray-500">{{ $item->created_at->format('d M Y') }}</p>
+            </a>
             @empty
-                <p class="text-gray-500">Belum ada berita.</p>
+            <p class="text-gray-500">Belum ada berita.</p>
             @endforelse
         </div>
         <a href="{{ route('berita.index') }}" class="text-blue-600 text-sm">Lihat Semua Berita &rarr;</a>
@@ -52,4 +54,4 @@
             <a href="{{ route('wilayahrawan.index') }}" class="text-blue-600 text-sm">Lihat Wilayah Rawan &rarr;</a>
         </div>
     </div>
-</x-app-layout>
+@endsection
