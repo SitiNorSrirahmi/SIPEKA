@@ -1,3 +1,7 @@
-<x-app-layout>
-    @include('statistik.content')
-</x-app-layout>
+@extends('layouts.petugas')
+
+@section('header', 'Statistik Bencana')
+
+@section('content')
+@include('statistik.content')
+@endsection
