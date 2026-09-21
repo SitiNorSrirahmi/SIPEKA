@@ -1,14 +1,18 @@
 @php
-    // Helper: format rupiah singkat
+    // Helper: format rupiah singkat (buang .0 kalau bulat)
     function formatRupiahSingkat($angka) {
         if ($angka >= 1000000000000) {
-            return 'Rp' . number_format($angka / 1000000000000, 1, ',', '.') . ' T';
+            $val = $angka / 1000000000000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' T';
         } elseif ($angka >= 1000000000) {
-            return 'Rp' . number_format($angka / 1000000000, 1, ',', '.') . ' M';
+            $val = $angka / 1000000000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' M';
         } elseif ($angka >= 1000000) {
-            return 'Rp' . number_format($angka / 1000000, 1, ',', '.') . ' Jt';
+            $val = $angka / 1000000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' Jt';
         } elseif ($angka >= 1000) {
-            return 'Rp' . number_format($angka / 1000, 0, ',', '.') . ' Rb';
+            $val = $angka / 1000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' Rb';
         }
         return 'Rp' . number_format($angka, 0, ',', '.');
     }
@@ -16,15 +20,12 @@
     // ===== Generate 12 bulan =====
     $bulanNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-    // Kumpulkan tahun yang tersedia dari $perPeriode
     $tahunTersedia = $perPeriode->map(function($item) {
         return substr($item->bulan, 0, 4);
     })->unique()->sort()->values();
 
-    // Tahun aktif — dari query ?tahun=, default tahun terbaru
     $tahunAktif = request('tahun', $tahunTersedia->last() ?? date('Y'));
 
-    // Ambil data per bulan untuk tahun aktif
     $dataPerBulan = [];
     foreach ($perPeriode as $item) {
         if (substr($item->bulan, 0, 4) == $tahunAktif) {
@@ -33,7 +34,6 @@
         }
     }
 
-    // Isi semua bulan (0 kalau nggak ada data)
     $barData = [];
     $maxTotal = !empty($dataPerBulan) ? max($dataPerBulan) : 1;
     for ($i = 1; $i <= 12; $i++) {
@@ -45,7 +45,6 @@
         ];
     }
 
-    // ===== Donut =====
     $totalAll = $perJenis->sum('total');
     $palette = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899', '#84cc16'];
     $gradientParts = [];
@@ -66,19 +65,7 @@
     $gradientCSS = implode(', ', $gradientParts);
 @endphp
 
-<div class="max-w-6xl mx-auto">
-
-    {{-- ==================== HEADER ==================== --}}
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            Statistik Bencana — SIPEKA
-        </h1>
-        <p class="text-sm text-gray-500 mt-1">Data dan grafik kejadian bencana di Kalimantan Selatan</p>
-    </div>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
 
     {{-- ==================== 4 CARD STATISTIK ==================== --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -131,7 +118,7 @@
             </div>
         </div>
 
-        {{-- Kerugian — PAKAI FORMAT SINGKAT --}}
+        {{-- Kerugian --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center shrink-0">
@@ -154,7 +141,6 @@
     {{-- ==================== 2 GRAFIK ==================== --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
 
-        {{-- ============ DONUT CHART ============ --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <h2 class="font-bold text-base text-gray-800 flex items-center gap-2 mb-4">
                 <span class="text-blue-600">🥧</span>
@@ -187,7 +173,6 @@
             </div>
         </div>
 
-        {{-- ============ BAR CHART (12 BULAN + FILTER TAHUN) ============ --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
@@ -232,7 +217,6 @@
         </div>
     </div>
 
-    {{-- ==================== DAFTAR KEJADIAN ==================== --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-6 py-4 flex items-center justify-between">
             <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
