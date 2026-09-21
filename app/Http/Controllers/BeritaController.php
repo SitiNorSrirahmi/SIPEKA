@@ -17,7 +17,7 @@ class BeritaController extends Controller
         $berita = Berita::with('penulis')
             ->latest()
             ->paginate(15);
-        
+
             return view('admin.berita.index', compact('berita'));
     }
 
@@ -127,12 +127,19 @@ class BeritaController extends Controller
     /**
      * Publik: lihat daftar berita yang sudah published
      */
-    public function publikIndex()
+    public function publikIndex(Request $request)
     {
-        $berita = Berita::where('status', 'published')
-            ->with('penulis')
-            ->latest()
-            ->paginate(10);
+        $query = Berita::where('status', 'published')->with('penulis');
+
+        if ($request->filled('search')) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('judul', 'like', '%' . $keyword . '%')
+                  ->orWhere('konten', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        $berita = $query->latest()->paginate(10)->withQueryString();
 
         return view('berita.index', compact('berita'));
     }
