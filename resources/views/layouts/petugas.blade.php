@@ -28,7 +28,7 @@
         <div class="flex-1 flex flex-col min-w-0">
 
             @hasSection('header')
-                <header class="bg-white shadow-sm">
+                <header class="bg-white shadow-sm sticky top-0 z-50">
                     <div class="px-8 py-4">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                             @yield('header')
@@ -37,7 +37,7 @@
                 </header>
             @endif
 
-            <main class="flex-1 overflow-y-auto">
+            <main class="flex-1">
                 @yield('content')
             </main>
         </div>
