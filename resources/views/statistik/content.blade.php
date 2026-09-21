@@ -35,13 +35,11 @@
     }
 
     $barData = [];
-    $maxTotal = !empty($dataPerBulan) ? max($dataPerBulan) : 1;
     for ($i = 1; $i <= 12; $i++) {
         $total = $dataPerBulan[$i] ?? 0;
         $barData[] = [
             'label' => $bulanNames[$i - 1],
             'total' => $total,
-            'height' => $total > 0 ? max(($total / $maxTotal) * 100, 8) : 2,
         ];
     }
 
@@ -70,7 +68,6 @@
     {{-- ==================== 4 CARD STATISTIK ==================== --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
-        {{-- Total Kejadian --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center shrink-0">
@@ -86,7 +83,6 @@
             </div>
         </div>
 
-        {{-- Korban Meninggal --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center shrink-0">
@@ -102,7 +98,6 @@
             </div>
         </div>
 
-        {{-- Korban Luka --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center shrink-0">
@@ -118,7 +113,6 @@
             </div>
         </div>
 
-        {{-- Kerugian --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center shrink-0">
@@ -141,6 +135,7 @@
     {{-- ==================== 2 GRAFIK ==================== --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
 
+        {{-- Donut Chart --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <h2 class="font-bold text-base text-gray-800 flex items-center gap-2 mb-4">
                 <span class="text-blue-600">🥧</span>
@@ -173,6 +168,7 @@
             </div>
         </div>
 
+        {{-- Bar Chart --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
@@ -194,20 +190,8 @@
                 @endif
             </div>
 
-            <div class="flex items-end justify-between gap-1 h-48">
-                @foreach($barData as $bar)
-                    <div class="flex-1 flex flex-col items-center gap-2 group">
-                        <div class="w-full flex flex-col justify-end" style="height: 100%;">
-                            <div class="w-full bg-blue-500 hover:bg-blue-600 rounded-t-md transition-all duration-300 relative bar-chart"
-                                 data-height="{{ $bar['height'] }}">
-                                <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                    {{ $bar['total'] }}
-                                </span>
-                            </div>
-                        </div>
-                        <span class="text-[10px] font-semibold text-gray-500">{{ $bar['label'] }}</span>
-                    </div>
-                @endforeach
+            <div style="height: 240px;">
+                <canvas id="chartPerBulan"></canvas>
             </div>
 
             <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs">
@@ -217,6 +201,7 @@
         </div>
     </div>
 
+    {{-- ==================== TABEL ==================== --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-6 py-4 flex items-center justify-between">
             <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
@@ -308,8 +293,23 @@
     </div>
 </div>
 
+{{-- ============================================================== --}}
+{{-- DATA UNTUK CHART.JS — dikirim lewat <script type="application/json"> --}}
+{{-- Sintaks PHP ada di HTML, BUKAN di dalam <script> JavaScript --}}
+{{-- ============================================================== --}}
+<script id="chart-data-per-bulan" type="application/json">
+{
+    "labels": {!! json_encode(array_column($barData, 'label')) !!},
+    "values": {!! json_encode(array_column($barData, 'total')) !!}
+}
+</script>
+
+{{-- Chart.js CDN --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // ============ DONUT CHART ============
     document.querySelectorAll('.donut-wrap').forEach(function (wrap) {
         var gradient = wrap.getAttribute('data-gradient');
         var inner = wrap.querySelector('.donut-inner');
@@ -325,9 +325,60 @@ document.addEventListener('DOMContentLoaded', function () {
         if (color) dot.style.backgroundColor = color;
     });
 
-    document.querySelectorAll('.bar-chart').forEach(function (bar) {
-        var height = bar.getAttribute('data-height');
-        if (height) bar.style.height = height + '%';
+    // ============ BAR CHART (Chart.js) ============
+    var canvas = document.getElementById('chartPerBulan');
+    if (!canvas) return;
+
+    // Baca data dari <script type="application/json">
+    var dataEl = document.getElementById('chart-data-per-bulan');
+    if (!dataEl) return;
+
+    var chartData = JSON.parse(dataEl.textContent);
+
+    new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: chartData.labels,
+            datasets: [{
+                label: 'Jumlah Kejadian',
+                data: chartData.values,
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                hoverBackgroundColor: 'rgba(37, 99, 235, 1)',
+                borderRadius: 6,
+                borderSkipped: false,
+                maxBarThickness: 40,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#0f172a',
+                    padding: 10,
+                    titleFont: { size: 12, weight: 'bold' },
+                    bodyFont: { size: 12 },
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' kejadian';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 10, weight: '600' }, color: '#64748b' }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, font: { size: 10 }, color: '#94a3b8', precision: 0 },
+                    grid: { color: '#f1f5f9', drawBorder: false }
+                }
+            }
+        }
     });
 });
 </script>
