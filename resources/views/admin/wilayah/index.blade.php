@@ -55,14 +55,6 @@
                         <span class="w-3 h-3 rounded-sm" style="background:#991b1b;"></span>
                         <span class="text-gray-500">Karhutla</span>
                     </span>
-                    <span class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-sm" style="background:#a16207;"></span>
-                        <span class="text-gray-500">Longsor</span>
-                    </span>
-                    <span class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-sm" style="background:#f97316;"></span>
-                        <span class="text-gray-500">Kebakaran</span>
-                    </span>
                 </div>
             </div>
 
@@ -266,21 +258,6 @@
                 sedang: '#f97316',
                 tinggi: '#9a3412',
             },
-            'angin': {
-                rendah: '#86efac',
-                sedang: '#10b981',
-                tinggi: '#065f46',
-            },
-            'tsunami': {
-                rendah: '#67e8f9',
-                sedang: '#06b6d4',
-                tinggi: '#164e63',
-            },
-            'kekeringan': {
-                rendah: '#fde68a',
-                sedang: '#d97706',
-                tinggi: '#78350f',
-            },
         };
 
         const fallbackColor = {
@@ -292,7 +269,6 @@
         function getColor(jenis, level) {
             const jenisKey = (jenis || '').toLowerCase().trim();
             const levelKey = (level || '').toLowerCase().trim();
-
             const normalizedJenis = jenisKey.replace(/\s+/g, '');
 
             for (const key in colorMap) {
@@ -306,6 +282,11 @@
 
         // Variabel global untuk bounds Kalsel
         let kalselBounds = null;
+
+        // ============ BACA FILTER DARI URL ============
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterBencana = urlParams.get('id_bencana');     // id jenis bencana (string)
+        const filterKabupaten = urlParams.get('kabupaten');    // kata kunci kabupaten
 
         // ============ LOAD GEOJSON + HIGHLIGHT KALSEL ============
         fetch('{{ asset("geojson/indonesia-province-simple.json") }}')
@@ -409,17 +390,34 @@
                     map.addControl(new FokusControl());
                 }
 
-                // ============ DATA WILAYAH RAWAN ============
-                fetch('/api/wilayah-rawan')
+                // ============ DATA WILAYAH RAWAN (DENGAN FILTER) ============
+                let apiUrl = '/api/wilayah-rawan';
+                if (filterBencana) {
+                    apiUrl += '?id_bencana=' + encodeURIComponent(filterBencana);
+                }
+
+                fetch(apiUrl)
                     .then(res => res.json())
                     .then(data => {
-                        if (!Array.isArray(data) || data.length === 0) {
+                        // Filter tambahan by kabupaten (kalau ada)
+                        let filtered = data;
+                        if (filterKabupaten) {
+                            const keyword = filterKabupaten.toLowerCase();
+                            filtered = data.filter(item =>
+                                (item.kabupaten || '').toLowerCase().includes(keyword)
+                            );
+                        }
+
+                        if (!Array.isArray(filtered) || filtered.length === 0) {
                             const emptyInfo = document.getElementById('peta-empty');
-                            if (emptyInfo) emptyInfo.classList.remove('hidden');
+                            if (emptyInfo) {
+                                emptyInfo.textContent = '⚠️ Tidak ada wilayah rawan yang cocok dengan filter.';
+                                emptyInfo.classList.remove('hidden');
+                            }
                             return;
                         }
 
-                        data.forEach(function (item) {
+                        filtered.forEach(function (item) {
                             if (!item.geom || !item.geom.coordinates) return;
 
                             const warna = getColor(item.jenis_bencana, item.level_rawan);
@@ -434,11 +432,8 @@
                                     }
                                 });
 
-                                // ============ POPUP BARU ============
                                 layer.bindPopup(
                                     '<div style="font-family: Plus Jakarta Sans, system-ui, sans-serif; min-width: 220px;">' +
-
-                                        // Badge level
                                         '<div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">' +
                                             '<span style="display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; background:' + warna + '20; color:' + warna + '; border:1px solid ' + warna + '40;">' +
                                                 '<span style="width:6px; height:6px; border-radius:999px; background:' + warna + ';"></span>' +
@@ -446,12 +441,10 @@
                                             '</span>' +
                                         '</div>' +
 
-                                        // Judul jenis bencana
                                         '<p style="font-weight:800; font-size:15px; color:#0f172a; margin:0 0 10px 0; line-height:1.3;">' +
                                             (item.jenis_bencana || '-') +
                                         '</p>' +
 
-                                        // Baris lokasi
                                         '<div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:8px;">' +
                                             '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" style="flex-shrink:0; margin-top:2px;">' +
                                                 '<path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>' +
@@ -462,7 +455,6 @@
                                             '</span>' +
                                         '</div>' +
 
-                                        // Baris sumber data (kalau ada)
                                         (item.sumber_data ?
                                             '<div style="display:flex; align-items:flex-start; gap:8px;">' +
                                                 '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" style="flex-shrink:0; margin-top:2px;">' +
