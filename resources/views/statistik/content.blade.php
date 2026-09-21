@@ -1,4 +1,18 @@
 @php
+    // Helper: format rupiah singkat
+    function formatRupiahSingkat($angka) {
+        if ($angka >= 1000000000000) {
+            return 'Rp' . number_format($angka / 1000000000000, 1, ',', '.') . ' T';
+        } elseif ($angka >= 1000000000) {
+            return 'Rp' . number_format($angka / 1000000000, 1, ',', '.') . ' M';
+        } elseif ($angka >= 1000000) {
+            return 'Rp' . number_format($angka / 1000000, 1, ',', '.') . ' Jt';
+        } elseif ($angka >= 1000) {
+            return 'Rp' . number_format($angka / 1000, 0, ',', '.') . ' Rb';
+        }
+        return 'Rp' . number_format($angka, 0, ',', '.');
+    }
+
     // ===== Generate 12 bulan =====
     $bulanNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
@@ -69,6 +83,7 @@
     {{-- ==================== 4 CARD STATISTIK ==================== --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 
+        {{-- Total Kejadian --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center shrink-0">
@@ -84,6 +99,7 @@
             </div>
         </div>
 
+        {{-- Korban Meninggal --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center shrink-0">
@@ -99,6 +115,7 @@
             </div>
         </div>
 
+        {{-- Korban Luka --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center shrink-0">
@@ -114,6 +131,7 @@
             </div>
         </div>
 
+        {{-- Kerugian — PAKAI FORMAT SINGKAT --}}
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center shrink-0">
@@ -124,7 +142,10 @@
                 </div>
                 <div class="min-w-0 flex-1">
                     <p class="text-xs uppercase tracking-wider text-gray-500 font-bold">Kerugian</p>
-                    <p class="text-xl font-extrabold text-gray-800 mt-1">Rp{{ number_format($totalKerugian, 0, ',', '.') }}</p>
+                    <p class="text-3xl font-extrabold text-gray-800 mt-1 cursor-help truncate"
+                       title="Rp{{ number_format($totalKerugian, 0, ',', '.') }}">
+                        {{ formatRupiahSingkat($totalKerugian) }}
+                    </p>
                 </div>
             </div>
         </div>
