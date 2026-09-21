@@ -206,7 +206,7 @@
         <div class="px-6 py-4 flex items-center justify-between">
             <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
                 <span class="text-red-500">📍</span>
-                Kejadian per Kabupaten
+                Daftar Kejadian
             </h2>
         </div>
 
@@ -216,7 +216,6 @@
                     <tr class="bg-gray-50 border-y border-gray-100">
                         <th class="text-left px-6 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Jenis</th>
                         <th class="text-left px-6 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Lokasi</th>
-                        <th class="text-left px-6 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Kabupaten</th>
                         <th class="text-left px-6 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Tanggal</th>
                         @if ($isAdmin)
                             <th class="text-center px-6 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Status</th>
@@ -232,9 +231,6 @@
                             </td>
                             <td class="px-6 py-4 text-gray-700 text-sm">
                                 {{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}
-                            </td>
-                            <td class="px-6 py-4 text-gray-600 text-sm">
-                                {{ $isAdmin ? ($item->kabupaten ?? '-') : ($item->laporanMasuk->kabupaten ?? '-') }}
                             </td>
                             <td class="px-6 py-4 text-gray-600 text-sm">
                                 {{ $item->tanggal_kejadian?->format('d M Y') ?? $item->created_at?->format('d M Y') }}
@@ -276,7 +272,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="{{ $isAdmin ? 6 : 5 }}" class="px-6 py-12 text-center text-sm text-gray-400">
+                            <td colspan="{{ $isAdmin ? 5 : 4 }}" class="px-6 py-12 text-center text-sm text-gray-400">
                                 Belum ada data kejadian.
                             </td>
                         </tr>
@@ -293,10 +289,7 @@
     </div>
 </div>
 
-{{-- ============================================================== --}}
-{{-- DATA UNTUK CHART.JS — dikirim lewat <script type="application/json"> --}}
-{{-- Sintaks PHP ada di HTML, BUKAN di dalam <script> JavaScript --}}
-{{-- ============================================================== --}}
+{{-- DATA UNTUK CHART.JS --}}
 <script id="chart-data-per-bulan" type="application/json">
 {
     "labels": {!! json_encode(array_column($barData, 'label')) !!},
@@ -329,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById('chartPerBulan');
     if (!canvas) return;
 
-    // Baca data dari <script type="application/json">
     var dataEl = document.getElementById('chart-data-per-bulan');
     if (!dataEl) return;
 
