@@ -6,14 +6,10 @@
     <section class="pt-8 pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-            {{-- Hero Card — Navy Polos --}}
             <div class="relative isolate overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
-
-                {{-- Dekorasi blur --}}
                 <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -mt-32"></div>
                 <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl -mb-24"></div>
 
-                {{-- KONTEN --}}
                 <div class="relative z-10 p-8 sm:p-12 lg:p-16 lg:py-20">
                     <div class="max-w-2xl">
                         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-5">
@@ -27,7 +23,6 @@
                             Dukung bersama upaya mitigasi dan keselamatan masyarakat Kalimantan Selatan.
                         </p>
 
-                        {{-- Search --}}
                         <form action="{{ route('pencarian.index') }}" method="GET">
                             <div class="flex flex-col sm:flex-row gap-2 max-w-xl">
                                 <div class="relative flex-1">
@@ -51,7 +46,6 @@
                         </form>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -119,12 +113,13 @@
         </div>
     </section>
 
-    {{-- ==================== 2 KOLOM: WILAYAH (2/3) + BERITA (1/3) ==================== --}}
+    {{-- ==================== 3 KOLOM ==================== --}}
     <section class="pb-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                {{-- KIRI: WILAYAH RAWAN --}}
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                     <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
                             <span class="text-red-500">📍</span>
@@ -138,7 +133,8 @@
                     <div id="peta-wilayah-mini" class="flex-1" style="min-height: 420px; z-index: 0;"></div>
                 </div>
 
-                <div class="lg:col-span-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                {{-- TENGAH: BERITA --}}
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                     <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
                             <span class="text-blue-600">📰</span>
@@ -185,6 +181,21 @@
                     </div>
                 </div>
 
+                {{-- KANAN: PETA & KEJADIAN --}}
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                    <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                        <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                            <span class="text-red-500">🗺️</span>
+                            Peta & Kejadian
+                        </h2>
+                        <a href="{{ route('kejadian.index') }}"
+                           class="text-[11px] font-bold text-blue-600 hover:text-blue-800">
+                            Lihat semua →
+                        </a>
+                    </div>
+                    <div id="peta-kejadian-mini" class="flex-1" style="min-height: 420px; z-index: 0;"></div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -221,6 +232,80 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // ============ HELPER: TOMBOL FOKUS KE KALSEL ============
+    // Dipakai bareng oleh peta wilayah rawan & peta kejadian
+    function tambahTombolFokus(map, getBounds) {
+        const FokusControl = L.Control.extend({
+            options: { position: 'topright' },
+            onAdd: function() {
+                const btn = L.DomUtil.create('button', 'leaflet-bar');
+                btn.innerHTML = '🎯';
+                btn.title = 'Kembali ke Kalimantan Selatan';
+                btn.style.cssText = `
+                    width: 34px;
+                    height: 34px;
+                    background: white;
+                    border: 2px solid rgba(0,0,0,0.2);
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+                    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+                `;
+
+                btn.onmouseenter = function() {
+                    btn.style.background = '#f0f4fb';
+                    btn.style.transform = 'scale(1.05)';
+                };
+                btn.onmouseleave = function() {
+                    btn.style.background = 'white';
+                    btn.style.transform = 'scale(1)';
+                };
+
+                L.DomEvent.disableClickPropagation(btn);
+                L.DomEvent.on(btn, 'click', function(e) {
+                    L.DomEvent.stopPropagation(e);
+                    const bounds = getBounds();
+                    if (bounds) {
+                        map.flyToBounds(bounds, {
+                            padding: [20, 20],
+                            duration: 1.2
+                        });
+                    }
+                });
+
+                return btn;
+            }
+        });
+
+        map.addControl(new FokusControl());
+    }
+
+    // ============ WARNA MARKER ============
+    const markerColor = {
+        'banjir': '#1e40af',
+        'karhutla': '#991b1b',
+        'longsor': '#a16207',
+        'kebakaran': '#f97316',
+        'angin': '#10b981',
+        'tsunami': '#06b6d4',
+        'kekeringan': '#d97706',
+    };
+
+    function getMarkerColor(jenis) {
+        const key = (jenis || '').toLowerCase().replace(/\s+/g, '');
+        for (const k in markerColor) {
+            if (key.includes(k) || key.includes(k)) {
+                return markerColor[k];
+            }
+        }
+        return '#6b7280';
+    }
+
+    // ============ PETA WILAYAH RAWAN ============
     (async function() {
         const el = document.getElementById('peta-wilayah-mini');
         if (!el) return;
@@ -230,6 +315,8 @@ document.addEventListener('DOMContentLoaded', function () {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OSM'
         }).addTo(map);
+
+        let kalselBounds = null;
 
         const kalselFeature = await loadKalselGeoJSON();
 
@@ -244,6 +331,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     interactive: false
                 }
             }).addTo(map);
+
+            kalselBounds = kalselLayer.getBounds();
 
             const worldRing = [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]];
             let kalselHoles = [];
@@ -269,7 +358,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }).addTo(map);
 
-            map.fitBounds(kalselLayer.getBounds(), { padding: [20, 20] });
+            map.fitBounds(kalselBounds, { padding: [20, 20] });
+
+            // Tambah tombol fokus
+            tambahTombolFokus(map, () => kalselBounds);
         }
 
         const colorMap = {
@@ -318,6 +410,127 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         } catch (err) {
             console.warn('Gagal load wilayah rawan:', err);
+        }
+    })();
+
+    // ============ PETA KEJADIAN ============
+    (async function() {
+        const el = document.getElementById('peta-kejadian-mini');
+        if (!el) return;
+
+        const map = L.map('peta-kejadian-mini').setView([-3.0, 115.5], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OSM'
+        }).addTo(map);
+
+        let kalselBounds = null;
+
+        const kalselFeature = await loadKalselGeoJSON();
+
+        if (kalselFeature) {
+            const kalselLayer = L.geoJSON(kalselFeature, {
+                style: {
+                    color: '#1e40af',
+                    weight: 2,
+                    fillColor: '#3b82f6',
+                    fillOpacity: 0.1,
+                    dashArray: '4,4',
+                    interactive: false
+                }
+            }).addTo(map);
+
+            kalselBounds = kalselLayer.getBounds();
+
+            const worldRing = [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]];
+            let kalselHoles = [];
+            if (kalselFeature.geometry.type === 'Polygon') {
+                kalselHoles = kalselFeature.geometry.coordinates;
+            } else if (kalselFeature.geometry.type === 'MultiPolygon') {
+                kalselFeature.geometry.coordinates.forEach(poly => {
+                    poly.forEach(ring => kalselHoles.push(ring));
+                });
+            }
+
+            L.geoJSON({
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [worldRing, ...kalselHoles] },
+                properties: {}
+            }, {
+                style: {
+                    color: 'transparent',
+                    weight: 0,
+                    fillColor: '#0f172a',
+                    fillOpacity: 0.55,
+                    interactive: false
+                }
+            }).addTo(map);
+
+            map.fitBounds(kalselBounds, { padding: [20, 20] });
+
+            // Tambah tombol fokus
+            tambahTombolFokus(map, () => kalselBounds);
+        }
+
+        try {
+            const res = await fetch('/api/kejadian');
+            const data = await res.json();
+
+            if (!Array.isArray(data)) return;
+
+            data.forEach(function (item) {
+                if (!item.latitude || !item.longitude) return;
+
+                const lat = parseFloat(item.latitude);
+                const lng = parseFloat(item.longitude);
+                if (isNaN(lat) || isNaN(lng)) return;
+
+                const warna = getMarkerColor(item.jenis_bencana);
+
+                const markerIcon = L.divIcon({
+                    html: '<div style="position:relative;">' +
+                        '<svg width="24" height="30" viewBox="0 0 24 30" fill="none">' +
+                        '<path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 18 12 18s12-9 12-18c0-6.6-5.4-12-12-12z" fill="' + warna + '" stroke="white" stroke-width="1.5"/>' +
+                        '<circle cx="12" cy="12" r="4" fill="white"/>' +
+                        '</svg>' +
+                        '</div>',
+                    className: 'custom-marker',
+                    iconSize: [24, 30],
+                    iconAnchor: [12, 30],
+                    popupAnchor: [0, -30]
+                });
+
+                const marker = L.marker([lat, lng], { icon: markerIcon });
+
+                const kerugian = item.estimasi_kerugian ?
+                    'Rp' + parseInt(item.estimasi_kerugian).toLocaleString('id-ID') :
+                    '-';
+
+                marker.bindPopup(
+                    '<div style="font-family: Plus Jakarta Sans, system-ui, sans-serif; min-width: 180px;">' +
+                    '<span style="display:inline-flex; align-items:center; gap:6px; padding:3px 8px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; background:' + warna + '20; color:' + warna + '; border:1px solid ' + warna + '40; margin-bottom:8px;">' +
+                    '<span style="width:6px; height:6px; border-radius:999px; background:' + warna + ';"></span>' +
+                    (item.jenis_bencana || '-') +
+                    '</span>' +
+                    '<p style="font-size:11px; color:#475569; margin:6px 0 3px 0;">' +
+                    '<strong style="color:#0f172a;">Korban:</strong> ' + (item.jumlah_korban || 0) + ' orang' +
+                    '</p>' +
+                    '<p style="font-size:11px; color:#475569; margin:0 0 3px 0;">' +
+                    '<strong style="color:#0f172a;">Kerugian:</strong> ' + kerugian +
+                    '</p>' +
+                    '<p style="font-size:11px; color:#475569; margin:0 0 10px 0;">' +
+                    '<strong style="color:#0f172a;">Tanggal:</strong> ' + (item.tanggal_kejadian || '-') +
+                    '</p>' +
+                    '<a href="/kejadian/' + item.id + '" style="display:inline-flex; align-items:center; gap:4px; padding:5px 10px; border-radius:6px; background:' + warna + '; color:white; font-size:10px; font-weight:700; text-decoration:none;">' +
+                    'Detail →' +
+                    '</a>' +
+                    '</div>'
+                );
+
+                marker.addTo(map);
+            });
+        } catch (err) {
+            console.warn('Gagal load kejadian:', err);
         }
     })();
 
