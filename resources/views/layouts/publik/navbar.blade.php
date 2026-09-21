@@ -30,6 +30,11 @@
                           {{ request()->routeIs('statistik.*') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600' }}">
                     Statistik
                 </a>
+                <a href="{{ route('kejadian.index') }}"
+                   class="px-3 py-2 rounded-lg text-sm font-medium transition
+                          {{ request()->routeIs('kejadian.*') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600' }}">
+                    Kejadian
+                </a>
                 <a href="{{ route('cek-status.index') }}"
                    class="px-3 py-2 rounded-lg text-sm font-medium transition
                           {{ request()->routeIs('cek-status.*') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600' }}">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\KejadianBencana;
 use App\Models\JenisBencana;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class KejadianBencanaController extends Controller
@@ -32,7 +33,17 @@ class KejadianBencanaController extends Controller
 
         $jenisBencana = JenisBencana::all();
 
-        return view('admin.kejadian.index', compact('kejadian', 'jenisBencana'));
+        if (Auth::check()) {
+            $role = Auth::user()->role;
+
+            if ($role === 'admin') {
+                return view('admin.kejadian.index', compact('kejadian', 'jenisBencana'));
+            } elseif ($role === 'petugas') {
+                return view('admin.kejadian.index-petugas', compact('kejadian', 'jenisBencana'));
+            }
+        }
+
+        return view('admin.kejadian.index-guest', compact('kejadian', 'jenisBencana'));
     }
 
     /**
@@ -79,7 +90,18 @@ class KejadianBencanaController extends Controller
     public function show(KejadianBencana $kejadianBencana)
     {
         $kejadianBencana->load('jenisBencana', 'laporanMasuk');
-        return view('admin.kejadian.show', compact('kejadianBencana'));
+
+        if (Auth::check()) {
+            $role = Auth::user()->role;
+
+            if ($role === 'admin') {
+                return view('admin.kejadian.show-admin', compact('kejadianBencana'));
+            } elseif ($role === 'petugas') {
+                return view('admin.kejadian.show-petugas', compact('kejadianBencana'));
+            }
+        }
+
+        return view('admin.kejadian.show-guest', compact('kejadianBencana'));
     }
 
     /**
