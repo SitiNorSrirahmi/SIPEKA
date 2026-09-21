@@ -19,7 +19,8 @@ class LandingController extends Controller
         $totalKorbanLuka = LaporanMasuk::where('status', 'verified')
             ->sum('jumlah_korban_luka');
 
-        $totalKerugian = KejadianBencana::where('status_data', 'published')
+        // ✅ UBAH: dari kejadian_bencana → laporan_masuk (biar konsisten)
+        $totalKerugian = LaporanMasuk::where('status', 'verified')
             ->sum('estimasi_kerugian');
 
         $beritaTerbaru = Berita::where('status', 'published')

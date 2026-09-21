@@ -1,5 +1,25 @@
 @extends('layouts.publik')
 
+@php
+    // Helper: format rupiah singkat (sama seperti di statistik)
+    function formatRupiahSingkat($angka) {
+        if ($angka >= 1000000000000) {
+            $val = $angka / 1000000000000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' T';
+        } elseif ($angka >= 1000000000) {
+            $val = $angka / 1000000000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' M';
+        } elseif ($angka >= 1000000) {
+            $val = $angka / 1000000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' Jt';
+        } elseif ($angka >= 1000) {
+            $val = $angka / 1000;
+            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' Rb';
+        }
+        return 'Rp' . number_format($angka, 0, ',', '.');
+    }
+@endphp
+
 @section('content')
 
     {{-- ==================== HERO SECTION ==================== --}}
@@ -94,6 +114,7 @@
                     <p class="text-3xl font-extrabold text-slate-800">{{ $totalKorbanLuka }}</p>
                 </div>
 
+                {{-- ============ KERUGIAN (FORMAT SINGKAT) ============ --}}
                 <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
@@ -106,7 +127,7 @@
                     </div>
                     <p class="text-xl font-extrabold text-slate-800 truncate"
                        title="Rp{{ number_format($totalKerugian ?? 0, 0, ',', '.') }}">
-                        Rp{{ number_format($totalKerugian ?? 0, 0, ',', '.') }}
+                        {{ formatRupiahSingkat($totalKerugian ?? 0) }}
                     </p>
                 </div>
             </div>
@@ -233,7 +254,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ============ HELPER: TOMBOL FOKUS KE KALSEL ============
-    // Dipakai bareng oleh peta wilayah rawan & peta kejadian
     function tambahTombolFokus(map, getBounds) {
         const FokusControl = L.Control.extend({
             options: { position: 'topright' },
@@ -298,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function getMarkerColor(jenis) {
         const key = (jenis || '').toLowerCase().replace(/\s+/g, '');
         for (const k in markerColor) {
-            if (key.includes(k) || key.includes(k)) {
+            if (key.includes(k) || k.includes(key)) {
                 return markerColor[k];
             }
         }
@@ -360,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             map.fitBounds(kalselBounds, { padding: [20, 20] });
 
-            // Tambah tombol fokus
             tambahTombolFokus(map, () => kalselBounds);
         }
 
@@ -468,7 +487,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             map.fitBounds(kalselBounds, { padding: [20, 20] });
 
-            // Tambah tombol fokus
             tambahTombolFokus(map, () => kalselBounds);
         }
 
