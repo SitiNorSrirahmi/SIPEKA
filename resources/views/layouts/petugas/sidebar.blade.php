@@ -1,8 +1,8 @@
-<aside class="w-64 text-white flex flex-col shrink-0 min-h-screen"
+<aside class="w-64 text-white flex flex-col shrink-0 h-screen sticky top-0 overflow-hidden"
     style="background: linear-gradient(to bottom, #0A1A3A 0%, #0D2440 100%);">
 
     {{-- ============ LOGO ============ --}}
-    <div class="px-5 py-5 border-b border-white/10">
+    <div class="px-5 py-5 border-b border-white/10 shrink-0">
         <img src="{{ asset('images/logo-sidebar.png') }}" alt="SIPEKA"
              class="h-9 w-auto object-contain"
              style="filter: brightness(0) invert(1);">
@@ -12,7 +12,7 @@
         </p>
     </div>
 
-    {{-- ============ MENU ============ --}}
+    {{-- ============ MENU (scrollable sendiri) ============ --}}
     <nav class="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
 
         {{-- Dashboard --}}
@@ -83,10 +83,21 @@
             Statistik
         </a>
 
+        {{-- Peta & Kejadian --}}
+        <a href="{{ route('kejadian.index') }}"
+            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
+                  {{ request()->routeIs('kejadian.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            Peta & Kejadian
+        </a>
+
     </nav>
 
-    {{-- ============ LOGOUT ============ --}}
-    <div class="px-3 py-3 border-t border-white/10">
+    {{-- ============ LOGOUT (selalu di bawah) ============ --}}
+    <div class="px-3 py-3 border-t border-white/10 shrink-0">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"

@@ -25,6 +25,9 @@ Route::get('/berita/{berita}', [BeritaController::class, 'publikShow'])->name('b
 
 Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
 
+// daftar kejadian publik (HARUS di atas route detail)
+Route::get('/kejadian', [KejadianBencanaController::class, 'index'])->name('kejadian.index');
+
 //cek detail kejadian//
 Route::get('/kejadian/{kejadianBencana}', [KejadianBencanaController::class, 'show'])->name('kejadian.show');
 
