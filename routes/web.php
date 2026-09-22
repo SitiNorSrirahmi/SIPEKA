@@ -10,6 +10,7 @@ use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CekStatusController;
 use App\Http\Controllers\LandingController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,6 +36,22 @@ Route::get('/cek-status', [CekStatusController::class, 'index'])->name('cek-stat
 Route::post('/cek-status', [CekStatusController::class, 'cari'])->name('cek-status.cari');
 
 Route::get('/wilayahrawan', [WilayahRawanController::class, 'publikIndex'])->name('wilayahrawan.index');
+
+// ============ TENTANG SIPEKA (DINAMIS SESUAI ROLE) ============
+Route::get('/tentang', function (Request $request) {
+    $user = $request->user();
+    $role = $user ? $user->role : 'publik';
+
+    if ($role === 'admin') {
+        $layout = 'layouts.admin';
+    } elseif ($role === 'petugas') {
+        $layout = 'layouts.petugas';
+    } else {
+        $layout = 'layouts.publik';
+    }
+
+    return view('tentang', ['layout' => $layout]);
+})->name('tentang');
 
 // ini untuk leaflet//
 Route::get('/api/kejadian', [KejadianBencanaController::class, 'apiIndex'])->name('api.kejadian');

@@ -16,20 +16,17 @@
     class="fixed lg:sticky top-0 left-0 z-[70] lg:z-30 w-64 text-white flex flex-col shrink-0 h-screen overflow-hidden transition-transform duration-300 ease-in-out"
     style="background: linear-gradient(to bottom, #0A1A3A 0%, #0D2440 100%);">
 
-    {{-- ============ HEADER: LOGO + TOMBOL CLOSE ============ --}}
+    {{-- HEADER --}}
     <div class="px-5 py-5 border-b border-white/10 shrink-0 flex items-start justify-between gap-3">
         <div class="min-w-0 flex-1">
             <img src="{{ asset('images/logo-sidebar.png') }}" alt="SIPEKA"
                  class="h-9 w-auto object-contain"
                  style="filter: brightness(0) invert(1);">
-
             <p class="text-[10px] text-gray-400 mt-2 leading-tight tracking-wide whitespace-nowrap">
                 Sistem Informasi Peta Kebencanaan<br>
                 Kalimantan Selatan
             </p>
         </div>
-
-        {{-- Tombol close (panah kiri) — cuma mobile --}}
         <button type="button"
                 @click="sidebarOpen = false"
                 title="Tutup sidebar"
@@ -40,7 +37,7 @@
         </button>
     </div>
 
-    {{-- ============ MENU ============ --}}
+    {{-- MENU --}}
     <nav class="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
 
         {{-- Dashboard --}}
@@ -55,7 +52,10 @@
             Dashboard
         </a>
 
-        {{-- Buat Laporan --}}
+        {{-- Divider --}}
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- LAPORAN --}}
         <a href="{{ route('admin.laporan.create') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -67,7 +67,6 @@
             Buat Laporan
         </a>
 
-        {{-- Laporan Masuk --}}
         <a href="{{ route('admin.laporan.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -79,7 +78,6 @@
             Laporan Masuk
         </a>
 
-        {{-- Verifikasi Laporan --}}
         <a href="{{ route('admin.verifikasi-laporan') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -91,7 +89,10 @@
             Verifikasi Laporan
         </a>
 
-        {{-- Peta & Kejadian --}}
+        {{-- Divider --}}
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- PETA & DATA --}}
         <a href="{{ route('admin.kejadian.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -103,19 +104,6 @@
             Peta &amp; Kejadian
         </a>
 
-        {{-- Pengguna --}}
-        <a href="{{ route('admin.users.index') }}"
-            @click="if (window.innerWidth < 1024) sidebarOpen = false"
-            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
-                  {{ request()->routeIs('admin.users.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
-            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Pengguna
-        </a>
-
-        {{-- Wilayah Rawan --}}
         <a href="{{ route('admin.wilayah.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -129,7 +117,6 @@
             Wilayah Rawan
         </a>
 
-        {{-- Statistik --}}
         <a href="{{ route('statistik.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -141,7 +128,10 @@
             Statistik
         </a>
 
-        {{-- Kelola Berita --}}
+        {{-- Divider --}}
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- KONTEN --}}
         <a href="{{ route('admin.berita.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -153,7 +143,21 @@
             Kelola Berita
         </a>
 
-        {{-- ============ PROFILE (BARU) ============ --}}
+        {{-- Divider --}}
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- SISTEM --}}
+        <a href="{{ route('admin.users.index') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
+            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
+                  {{ request()->routeIs('admin.users.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Pengguna
+        </a>
+
         <a href="{{ route('profile.edit') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -165,9 +169,20 @@
             Profile
         </a>
 
+        <a href="{{ route('tentang') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
+            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
+                  {{ request()->routeIs('tentang') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Tentang SIPEKA
+        </a>
+
     </nav>
 
-    {{-- ============ LOGOUT ============ --}}
+    {{-- LOGOUT --}}
     <div class="px-3 py-3 border-t border-white/10 shrink-0">
         <form method="POST" action="{{ route('logout') }}">
             @csrf

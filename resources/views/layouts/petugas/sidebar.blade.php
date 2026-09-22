@@ -7,29 +7,26 @@
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
     @click="sidebarOpen = false"
-    class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+    class="fixed inset-0 bg-black/50 z-50 lg:hidden"
     x-cloak></div>
 
 {{-- SIDEBAR --}}
 <aside x-cloak
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-    class="fixed lg:sticky top-0 left-0 z-50 lg:z-30 w-64 text-white flex flex-col shrink-0 h-screen overflow-hidden transition-transform duration-300 ease-in-out"
+    class="fixed lg:sticky top-0 left-0 z-[60] lg:z-30 w-64 text-white flex flex-col shrink-0 h-screen overflow-hidden transition-transform duration-300 ease-in-out"
     style="background: linear-gradient(to bottom, #0A1A3A 0%, #0D2440 100%);">
 
-    {{-- ============ HEADER: LOGO + TOMBOL CLOSE ============ --}}
+    {{-- HEADER --}}
     <div class="px-5 py-5 border-b border-white/10 shrink-0 flex items-start justify-between gap-3">
         <div class="min-w-0 flex-1">
             <img src="{{ asset('images/logo-sidebar.png') }}" alt="SIPEKA"
                 class="h-9 w-auto object-contain"
                 style="filter: brightness(0) invert(1);">
-
             <p class="text-[10px] text-gray-400 mt-2 leading-tight tracking-wide whitespace-nowrap">
                 Sistem Informasi Peta Kebencanaan<br>
                 Kalimantan Selatan
             </p>
         </div>
-
-        {{-- Tombol close (panah kiri) — cuma mobile --}}
         <button type="button"
             @click="sidebarOpen = false"
             title="Tutup sidebar"
@@ -40,7 +37,7 @@
         </button>
     </div>
 
-    {{-- ============ MENU (scrollable sendiri) ============ --}}
+    {{-- MENU --}}
     <nav class="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
 
         {{-- Dashboard --}}
@@ -54,6 +51,8 @@
             </svg>
             Dashboard
         </a>
+
+        <div class="border-t border-white/5 my-2"></div>
 
         {{-- Buat Laporan --}}
         <a href="{{ route('petugas.laporan.create') }}"
@@ -79,6 +78,20 @@
             Laporan Saya
         </a>
 
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- Peta & Kejadian --}}
+        <a href="{{ route('kejadian.index') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
+            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
+                  {{ request()->routeIs('kejadian.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            Peta &amp; Kejadian
+        </a>
+
         {{-- Wilayah Rawan --}}
         <a href="{{ route('wilayahrawan.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
@@ -93,18 +106,6 @@
             Wilayah Rawan
         </a>
 
-        {{-- Berita --}}
-        <a href="{{ route('berita.index') }}"
-            @click="if (window.innerWidth < 1024) sidebarOpen = false"
-            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
-                  {{ request()->routeIs('berita.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
-            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
-            Berita
-        </a>
-
         {{-- Statistik --}}
         <a href="{{ route('statistik.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
@@ -117,19 +118,23 @@
             Statistik
         </a>
 
-        {{-- Peta & Kejadian --}}
-        <a href="{{ route('kejadian.index') }}"
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- Berita --}}
+        <a href="{{ route('berita.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
-                  {{ request()->routeIs('kejadian.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                  {{ request()->routeIs('berita.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
             </svg>
-            Peta &amp; Kejadian
+            Berita
         </a>
 
-        {{-- ============ PROFILE (BARU) ============ --}}
+        <div class="border-t border-white/5 my-2"></div>
+
+        {{-- Profile --}}
         <a href="{{ route('profile.edit') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
@@ -141,9 +146,21 @@
             Profile
         </a>
 
+        {{-- Tentang SIPEKA --}}
+        <a href="{{ route('tentang') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
+            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
+                  {{ request()->routeIs('tentang') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Tentang SIPEKA
+        </a>
+
     </nav>
 
-    {{-- ============ LOGOUT (selalu di bawah) ============ --}}
+    {{-- LOGOUT --}}
     <div class="px-3 py-3 border-t border-white/10 shrink-0">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
