@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 
-    {{-- ==================== HEADER — SEJAJAR 1 BARIS ==================== --}}
+    {{-- ==================== HEADER — SEJAJAR ==================== --}}
     <div class="flex items-center justify-between gap-3 mb-4 sm:mb-6">
         <div class="flex items-center gap-3 min-w-0">
             <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
@@ -19,8 +19,6 @@
                 <p class="text-[11px] sm:text-sm text-gray-500 truncate">Selamat datang kembali, {{ auth()->user()->name ?? 'Petugas' }}!</p>
             </div>
         </div>
-
-        {{-- Tombol Buat Laporan — sejajar kanan, compact --}}
         <a href="{{ route('petugas.laporan.create') }}"
             class="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 shrink-0">
             <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,23 +145,22 @@
                         </p>
                     </div>
                     <div class="shrink-0">
-                        @if($item->status === 'verified')
-                        <span class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-green-100 text-green-700">
-                            TERVERIFIKASI
+                        @php
+                            $statusBadge = [
+                                'verified' => 'bg-green-100 text-green-700',
+                                'pending' => 'bg-yellow-100 text-yellow-700',
+                                'rejected' => 'bg-red-100 text-red-700',
+                            ][$item->status] ?? 'bg-gray-100 text-gray-600';
+
+                            $statusLabel = [
+                                'verified' => 'TERVERIFIKASI',
+                                'pending' => 'MENUNGGU',
+                                'rejected' => 'DITOLAK',
+                            ][$item->status] ?? strtoupper($item->status ?? '-');
+                        @endphp
+                        <span class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold {{ $statusBadge }}">
+                            {{ $statusLabel }}
                         </span>
-                        @elseif($item->status === 'pending')
-                        <span class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-yellow-100 text-yellow-700">
-                            MENUNGGU
-                        </span>
-                        @elseif($item->status === 'rejected')
-                        <span class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-red-100 text-red-700">
-                            DITOLAK
-                        </span>
-                        @else
-                        <span class="inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-gray-100 text-gray-600">
-                            {{ strtoupper($item->status ?? '-') }}
-                        </span>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -198,23 +195,32 @@
             <div class="p-4 sm:p-5 space-y-3 sm:space-y-4">
                 @forelse ($laporanTerbaru as $item)
                 <div class="flex items-start gap-3">
-                    <span class="w-2 h-2 rounded-full mt-1.5 shrink-0
-                            @if($item->status === 'verified') bg-green-500
-                            @elseif($item->status === 'pending') bg-yellow-500
-                            @elseif($item->status === 'rejected') bg-red-500
-                            @else bg-blue-500 @endif">
-                    </span>
+                    @php
+                        $dotClass = [
+                            'verified' => 'bg-green-500',
+                            'pending' => 'bg-yellow-500',
+                            'rejected' => 'bg-red-500',
+                        ][$item->status] ?? 'bg-blue-500';
+
+                        $statusText = [
+                            'verified' => 'terverifikasi',
+                            'pending' => 'menunggu',
+                            'rejected' => 'ditolak',
+                        ][$item->status] ?? '';
+
+                        $statusTextColor = [
+                            'verified' => 'text-green-600',
+                            'pending' => 'text-yellow-600',
+                            'rejected' => 'text-red-600',
+                        ][$item->status] ?? '';
+                    @endphp
+                    <span class="w-2 h-2 rounded-full mt-1.5 shrink-0 {{ $dotClass }}"></span>
                     <div class="min-w-0 flex-1">
                         <p class="text-xs text-gray-700 leading-snug">
                             <span class="font-bold text-gray-800">Anda</span>
-                            @if($item->status === 'verified')
-                            membuat laporan <span class="font-semibold text-green-600">terverifikasi</span>
-                            @elseif($item->status === 'pending')
-                            membuat laporan <span class="font-semibold text-yellow-600">menunggu</span>
-                            @elseif($item->status === 'rejected')
-                            membuat laporan <span class="font-semibold text-red-600">ditolak</span>
-                            @else
                             membuat laporan
+                            @if($statusText)
+                                <span class="font-semibold {{ $statusTextColor }}">{{ $statusText }}</span>
                             @endif
                         </p>
                         <p class="text-[10px] text-gray-400 mt-0.5">
