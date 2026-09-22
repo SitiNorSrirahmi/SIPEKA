@@ -27,8 +27,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
             <div class="relative isolate overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
-                <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -mt-32"></div>
-                <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl -mb-24"></div>
+
+                {{-- ============ FOTO THUMBNAIL (full, fade ke kiri) ============ --}}
+                <div class="absolute inset-0 pointer-events-none">
+                    <img src="{{ asset('images/thumbnail.png') }}"
+                         alt="Ilustrasi SIPEKA"
+                         class="w-full h-full object-cover object-center">
+                    {{-- Fade gradient dari kanan (terang) ke kiri (pudar) --}}
+                    <div class="absolute inset-0 bg-gradient-to-l from-transparent via-[#0A1A3A]/60 to-[#0A1A3A]"></div>
+                </div>
+
+                {{-- Dekorasi blur (opsional, biar tetap ada aksen) --}}
+                <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -mt-32 pointer-events-none"></div>
+                <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl -mb-24 pointer-events-none"></div>
 
                 <div class="relative z-10 p-8 sm:p-12 lg:p-16 lg:py-20">
                     <div class="max-w-2xl">
@@ -114,7 +125,6 @@
                     <p class="text-3xl font-extrabold text-slate-800">{{ $totalKorbanLuka }}</p>
                 </div>
 
-                {{-- ============ KERUGIAN (FORMAT SINGKAT) ============ --}}
                 <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-3 mb-3">
                         <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
