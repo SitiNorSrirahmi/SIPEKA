@@ -3,37 +3,47 @@
 @section('header', 'Tambah Wilayah Rawan Bencana')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-2">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 
     {{-- ==================== BACK ==================== --}}
     <a href="{{ url()->previous() }}"
-        class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors mb-4">
+        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors mb-3 sm:mb-4">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Kembali
     </a>
 
-    {{-- ==================== HEADER ==================== --}}
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-1.5">
-            Tambah Wilayah Rawan Bencana
-        </h1>
-        <p class="text-sm text-slate-500">
-            Daftarkan wilayah rawan bencana baru untuk SIPEKA
-        </p>
+    {{-- ==================== HEADER — SEJAJAR ==================== --}}
+    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+        </div>
+        <div class="min-w-0">
+            <h1 class="text-base sm:text-xl lg:text-2xl font-bold text-slate-900 truncate">
+                Tambah Wilayah Rawan Bencana
+            </h1>
+            <p class="text-[11px] sm:text-sm text-slate-500 truncate">
+                Daftarkan wilayah rawan bencana baru untuk SIPEKA
+            </p>
+        </div>
     </div>
 
     {{-- ==================== ERROR ==================== --}}
     @if ($errors->any())
-    <div class="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 p-4 mb-6 rounded-2xl">
+    <div class="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 p-3 sm:p-4 mb-4 sm:mb-6 rounded-2xl">
         <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <div>
             <p class="text-sm font-semibold mb-1">Ada beberapa kesalahan:</p>
-            <ul class="list-disc list-inside text-sm space-y-0.5">
+            <ul class="list-disc list-inside text-xs sm:text-sm space-y-0.5">
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
                 @endforeach
@@ -42,38 +52,38 @@
     </div>
     @endif
 
-    {{-- ==================== FORM WRAPPER ==================== --}}
+    {{-- ==================== FORM ==================== --}}
     <form action="{{ route('admin.wilayah.store') }}" method="POST" id="form-wilayah">
         @csrf
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
             {{-- ============ LEFT: FORM ============ --}}
-            <div class="lg:col-span-2 space-y-6">
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
 
                 {{-- CARD: INFORMASI WILAYAH --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 lg:p-7">
+                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                             </svg>
                         </div>
                         <div>
                             <h2 class="text-sm font-semibold text-slate-900">Informasi Wilayah</h2>
-                            <p class="text-xs text-slate-400">Data dasar wilayah rawan</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400">Data dasar wilayah rawan</p>
                         </div>
                     </div>
 
-                    <div class="space-y-5">
+                    <div class="space-y-4 sm:space-y-5">
                         {{-- Jenis Bencana --}}
                         <div>
                             <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
                                 Jenis Bencana <span class="text-rose-500">*</span>
                             </label>
                             <select name="id_bencana" id="id_bencana"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
+                                class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
                                 @foreach ($jenisBencana as $jb)
                                 <option value="{{ $jb->id }}" data-nama="{{ $jb->nama_bencana }}" @selected(old('id_bencana')==$jb->id)>
                                     {{ $jb->nama_bencana }}
@@ -83,22 +93,22 @@
                         </div>
 
                         {{-- Grid 2 kolom: Kabupaten + Level --}}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="grid grid-cols-2 gap-3 sm:gap-5">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
                                     Kabupaten/Kota <span class="text-rose-500">*</span>
                                 </label>
                                 <input type="text" name="kabupaten" id="input-kabupaten" value="{{ old('kabupaten') }}"
-                                    placeholder="Otomatis terisi dari peta"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-500">
+                                    placeholder="Otomatis terisi"
+                                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-xs sm:text-sm text-slate-900 placeholder:text-slate-500">
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
-                                    Level Kerawanan <span class="text-rose-500">*</span>
+                                    Level <span class="text-rose-500">*</span>
                                 </label>
                                 <select name="level_rawan" id="level_rawan"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
+                                    class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
                                     <option value="rendah" @selected(old('level_rawan')==='rendah' )>Rendah</option>
                                     <option value="sedang" @selected(old('level_rawan')==='sedang' )>Sedang</option>
                                     <option value="tinggi" @selected(old('level_rawan')==='tinggi' )>Tinggi</option>
@@ -109,32 +119,32 @@
                         {{-- Sumber Data --}}
                         <div>
                             <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
-                                Sumber Data <span class="text-slate-400 normal-case tracking-normal font-normal">(opsional)</span>
+                                Sumber Data <span class="text-slate-400 normal-case tracking-normal font-normal hidden sm:inline">(opsional)</span>
                             </label>
                             <input type="text" name="sumber_data" value="{{ old('sumber_data') }}"
                                 placeholder="Contoh: BPBD Kalsel 2024"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-500">
+                                class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-500">
                         </div>
                     </div>
                 </div>
 
                 {{-- CARD: PETA POLYGON --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 lg:p-7">
+                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                             </svg>
                         </div>
                         <div>
                             <h2 class="text-sm font-semibold text-slate-900">Gambar Polygon di Peta</h2>
-                            <p class="text-xs text-slate-400">Klik titik demi titik, klik titik pertama untuk menutup</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400">Klik titik demi titik, klik titik pertama untuk menutup</p>
                         </div>
                     </div>
 
                     {{-- Petunjuk --}}
-                    <div class="flex items-start gap-2 bg-blue-50 border border-blue-200 text-blue-700 p-3 mb-4 rounded-xl text-xs">
+                    <div class="flex items-start gap-2 bg-blue-50 border border-blue-200 text-blue-700 p-2.5 sm:p-3 mb-3 sm:mb-4 rounded-xl text-[11px] sm:text-xs">
                         <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -142,27 +152,27 @@
                         <span>
                             <strong>Klik di peta</strong> untuk bikin titik polygon.
                             <strong>Klik titik pertama</strong> untuk menutup polygon.
-                            Gunakan toolbar di kiri atas untuk <strong>gambar, edit, atau hapus</strong>.
-                            Warna polygon <strong>otomatis mengikuti jenis & level</strong> yang dipilih.
+                            Toolbar di kiri atas untuk <strong>gambar, edit, atau hapus</strong>.
+                            Warna otomatis mengikuti <strong>jenis & level</strong>.
                         </span>
                     </div>
 
-                    {{-- Peta --}}
-                    <div id="peta-polygon" class="rounded-xl overflow-hidden border border-slate-200" style="height: 400px; z-index: 0;"></div>
+                    {{-- Peta tinggi responsive --}}
+                    <div id="peta-polygon" class="rounded-xl overflow-hidden border border-slate-200 h-[300px] sm:h-[400px]" style="z-index: 0;"></div>
                 </div>
 
                 {{-- CARD: DATA POLYGON --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 lg:p-7">
+                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                             </svg>
                         </div>
                         <div>
                             <h2 class="text-sm font-semibold text-slate-900">Data Polygon (GeoJSON)</h2>
-                            <p class="text-xs text-slate-400">Terisi otomatis dari peta. Bisa diedit manual juga.</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400">Terisi otomatis dari peta. Bisa diedit manual.</p>
                         </div>
                     </div>
 
@@ -172,8 +182,8 @@
                         </label>
                         <textarea name="geom" id="input-geom" rows="6"
                             placeholder='Gambar polygon di peta, otomatis terisi di sini...'
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm font-mono text-slate-900 placeholder:text-slate-500 leading-relaxed resize-y">{{ old('geom') }}</textarea>
-                        <p class="text-[11px] text-slate-400 mt-2">
+                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-xs sm:text-sm font-mono text-slate-900 placeholder:text-slate-500 leading-relaxed resize-y">{{ old('geom') }}</textarea>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-2">
                             GeoJSON ini juga bisa dipaste manual dari <span class="font-medium text-slate-600">geojson.io</span>.
                         </p>
                     </div>
@@ -183,10 +193,10 @@
 
             {{-- ============ RIGHT: SIDEBAR ============ --}}
             <div class="lg:col-span-1">
-                <div class="lg:sticky lg:top-6 space-y-6">
+                <div class="lg:sticky lg:top-6 space-y-4 sm:space-y-6">
 
                     {{-- CARD: INFO --}}
-                    <div class="bg-slate-50/70 rounded-2xl border border-slate-100 p-6">
+                    <div class="bg-slate-50/70 rounded-2xl border border-slate-100 p-4 sm:p-6">
                         <div class="flex items-start gap-3">
                             <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                                 <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,7 +214,7 @@
                     </div>
 
                     {{-- CARD: LEVEL KERAWANAN --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
                         <h3 class="text-xs font-semibold text-slate-900 uppercase tracking-wider mb-4">
                             Panduan Level
                         </h3>
@@ -234,16 +244,16 @@
                     </div>
 
                     {{-- CARD: AKSI --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
                         <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-semibold transition-colors mb-3">
+                            class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold transition-colors mb-2 sm:mb-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                             </svg>
                             Simpan Wilayah
                         </button>
                         <a href="{{ route('admin.wilayah.index') }}"
-                            class="w-full inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+                            class="w-full inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
                             Batal
                         </a>
                     </div>
@@ -272,7 +282,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectJenis = document.getElementById('id_bencana');
     const selectLevel = document.getElementById('level_rawan');
 
-    // ============ WARNA POLYGON ============
     const colorMap = {
         'banjir':    { rendah: '#93c5fd', sedang: '#3b82f6', tinggi: '#1e40af' },
         'karhutla':  { rendah: '#fca5a5', sedang: '#ef4444', tinggi: '#991b1b' },
@@ -293,14 +302,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return '#6b7280';
     }
 
-    // ============ INIT PETA ============
     const map = L.map('peta-polygon').setView([-3.0, 115.5], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // ============ HIGHLIGHT KALSEL (terang di Kalsel, gelap di luar) ============
     fetch('{{ asset("geojson/indonesia-province-simple.json") }}')
         .then(res => res.json())
         .then(geojson => {
@@ -311,7 +318,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!kalselFeature) return;
 
-            // Batas Kalsel (garis putus-putus biru)
             const kalselLayer = L.geoJSON(kalselFeature, {
                 style: {
                     color: '#1e40af',
@@ -325,7 +331,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const kalselBounds = kalselLayer.getBounds();
 
-            // ============ OVERLAY GELAP DI LUAR KALSEL ============
             const worldRing = [
                 [-180, -90],
                 [180, -90],
@@ -360,10 +365,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }).addTo(map);
 
-            // Zoom ke Kalsel
             map.fitBounds(kalselBounds, { padding: [20, 20] });
 
-            // Tombol fokus ke Kalsel
             const FokusControl = L.Control.extend({
                 options: { position: 'topright' },
                 onAdd: function() {
@@ -410,7 +413,6 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(err => console.warn('Gagal load GeoJSON:', err));
 
-    // ============ FEATURE GROUP + LEAFLET.DRAW ============
     const drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
 
@@ -440,7 +442,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     map.addControl(drawControl);
 
-    // ============ LOAD GEOM AWAL (kalau ada dari old()) ============
     const initialGeom = inputGeom.value.trim();
     if (initialGeom) {
         try {
@@ -460,7 +461,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ============ UPDATE WARNA SAAT JENIS/LEVEL BERUBAH ============
     function updatePolygonColor() {
         const warna = getPolygonColor();
         drawnItems.eachLayer(function (layer) {
@@ -476,7 +476,6 @@ document.addEventListener('DOMContentLoaded', function () {
     selectJenis.addEventListener('change', updatePolygonColor);
     selectLevel.addEventListener('change', updatePolygonColor);
 
-    // ============ AUTO-FILL GEOJSON SAAT POLYGON DIBUAT ============
     map.on(L.Draw.Event.CREATED, function (e) {
         const layer = e.layer;
         const warna = getPolygonColor();
@@ -491,22 +490,18 @@ document.addEventListener('DOMContentLoaded', function () {
         drawnItems.addLayer(layer);
         updateGeomInput();
 
-        // Reverse geocode untuk auto-fill kabupaten
         const center = layer.getBounds().getCenter();
         reverseGeocodeKabupaten(center.lat, center.lng);
     });
 
-    // ============ UPDATE GEOJSON SAAT POLYGON DIEDIT ============
     map.on(L.Draw.Event.EDITED, function (e) {
         updateGeomInput();
     });
 
-    // ============ HAPUS GEOJSON SAAT POLYGON DIHAPUS ============
     map.on(L.Draw.Event.DELETED, function (e) {
         updateGeomInput();
     });
 
-    // ============ FUNGSI: UPDATE TEXTAREA GEOJSON ============
     function updateGeomInput() {
         if (drawnItems.getLayers().length === 0) {
             inputGeom.value = '';
@@ -518,7 +513,6 @@ document.addEventListener('DOMContentLoaded', function () {
         inputGeom.value = JSON.stringify(geojson.geometry);
     }
 
-    // ============ FUNGSI: REVERSE GEOCODE KABUPATEN ============
     let lastGeocodeKey = null;
 
     async function reverseGeocodeKabupaten(lat, lng) {

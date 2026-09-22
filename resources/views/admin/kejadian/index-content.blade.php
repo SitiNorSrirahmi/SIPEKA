@@ -1,11 +1,11 @@
 {{-- ==================== PETA ==================== --}}
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-    <div class="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4 sm:mb-6">
+    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+        <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
             <span class="text-blue-600">🗺️</span>
             Peta Sebaran Kejadian
         </h2>
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+        <div class="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2 text-xs">
             <span class="flex items-center gap-1.5">
                 <span class="w-3 h-3 rounded-full" style="background:#1e40af;"></span>
                 <span class="text-gray-500">Banjir</span>
@@ -17,18 +17,18 @@
         </div>
     </div>
 
-    <div id="peta-kejadian" style="height: 400px; z-index: 0;"></div>
+    <div id="peta-kejadian" class="h-[300px] sm:h-[400px]" style="z-index: 0;"></div>
 
-    <div id="peta-empty" class="px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
+    <div id="peta-empty" class="px-4 sm:px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
         ⚠️ Belum ada data kejadian. Peta akan otomatis menampilkan marker setelah data ditambahkan.
     </div>
 </div>
 
 {{-- ==================== FILTER ==================== --}}
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-    <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 mb-4 sm:mb-6">
+    <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
         <select name="id_bencana"
-            class="px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
+            class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
             <option value="">Semua Jenis Bencana</option>
             @foreach ($jenisBencana as $jb)
             <option value="{{ $jb->id }}" @selected(request('id_bencana')==$jb->id)>
@@ -39,9 +39,9 @@
 
         <input type="text" name="search" value="{{ request('search') }}"
             placeholder="Cari lokasi..."
-            class="px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition md:col-span-2">
+            class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition sm:col-span-1 md:col-span-2">
 
-        <div class="flex gap-2">
+        <div class="flex gap-2 sm:col-span-2 md:col-span-1">
             <button type="submit"
                 class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition">
                 Filter
@@ -56,7 +56,9 @@
 
 {{-- ==================== TABEL ==================== --}}
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-    <div class="overflow-x-auto">
+
+    {{-- Desktop: tabel --}}
+    <div class="hidden md:block overflow-x-auto">
         <table class="w-full text-sm">
             <thead>
                 <tr class="bg-gray-50 border-b border-gray-100">
@@ -151,8 +153,91 @@
         </table>
     </div>
 
+    {{-- ==================== Mobile: card list ==================== --}}
+    <div class="md:hidden divide-y divide-gray-100">
+        @forelse ($kejadian as $item)
+            <div class="p-4 hover:bg-blue-50/30 transition-colors">
+                <div class="flex items-center gap-3">
+                    {{-- KIRI: Info --}}
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <span class="font-mono text-[10px] text-gray-400">#{{ $item->id }}</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-red-100 text-red-700">
+                                {{ $item->jumlah_korban ?? 0 }} korban
+                            </span>
+                        </div>
+                        <p class="font-bold text-gray-800 text-sm mb-1">
+                            {{ $item->jenisBencana->nama_bencana ?? '-' }}
+                        </p>
+                        <div class="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px] text-gray-500">
+                            <span>
+                                <span class="text-gray-400 uppercase font-bold">Kerugian:</span>
+                                <span class="font-semibold">Rp{{ number_format($item->estimasi_kerugian ?? 0, 0, ',', '.') }}</span>
+                            </span>
+                            <span>
+                                <span class="text-gray-400 uppercase font-bold">Tanggal:</span>
+                                <span class="font-semibold">{{ $item->tanggal_kejadian?->format('d M Y') ?? '-' }}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    {{-- KANAN: Tombol --}}
+                    <div class="shrink-0">
+                        @if (!empty($showAksi) && $showAksi)
+                            {{-- Aksi admin (mobile) --}}
+                            <div class="flex flex-col gap-1">
+                                <a href="{{ route('admin.kejadian.edit', $item->id) }}"
+                                    class="inline-flex items-center justify-center gap-1 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Edit
+                                </a>
+                                <form action="{{ route('admin.kejadian.destroy', $item->id) }}" method="POST"
+                                    onsubmit="return confirm('Yakin hapus data ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="w-full inline-flex items-center justify-center gap-1 bg-red-50 hover:bg-red-100 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        @else
+                            {{-- Detail (guest/petugas) --}}
+                            <a href="{{ route('kejadian.show', $item->id) }}"
+                                class="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-[10px] font-bold transition whitespace-nowrap">
+                                Lihat
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="p-8 text-center">
+                <div class="flex flex-col items-center gap-3 text-gray-400">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                    </div>
+                    <p class="text-sm font-medium">Belum ada data kejadian.</p>
+                </div>
+            </div>
+        @endforelse
+    </div>
+
     @if ($kejadian->hasPages())
-    <div class="px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+    <div class="px-4 sm:px-5 py-3 sm:py-4 border-t border-gray-100 bg-gray-50/50">
         {{ $kejadian->links() }}
     </div>
     @endif

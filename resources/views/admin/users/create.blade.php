@@ -3,37 +3,45 @@
 @section('header', 'Tambah Akun Pengguna')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-2">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 
     {{-- ==================== BACK ==================== --}}
     <a href="{{ url()->previous() }}"
-        class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors mb-4">
+       class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors mb-3 sm:mb-4">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Kembali
     </a>
 
-    {{-- ==================== HEADER ==================== --}}
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-1.5">
-            Tambah Akun Pengguna
-        </h1>
-        <p class="text-sm text-slate-500">
-            Buat akun baru untuk admin atau petugas SIPEKA
-        </p>
+    {{-- ==================== HEADER — SEJAJAR ==================== --}}
+    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+        </div>
+        <div class="min-w-0">
+            <h1 class="text-base sm:text-xl lg:text-2xl font-bold text-slate-900 truncate">
+                Tambah Akun Pengguna
+            </h1>
+            <p class="text-[11px] sm:text-sm text-slate-500 truncate">
+                Buat akun baru untuk admin atau petugas SIPEKA
+            </p>
+        </div>
     </div>
 
     {{-- ==================== ERROR ==================== --}}
     @if ($errors->any())
-    <div class="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 p-4 mb-6 rounded-2xl">
+    <div class="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 p-3 sm:p-4 mb-4 sm:mb-6 rounded-2xl">
         <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <div>
             <p class="text-sm font-semibold mb-1">Ada beberapa kesalahan:</p>
-            <ul class="list-disc list-inside text-sm space-y-0.5">
+            <ul class="list-disc list-inside text-xs sm:text-sm space-y-0.5">
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
                 @endforeach
@@ -42,39 +50,39 @@
     </div>
     @endif
 
-    {{-- ==================== FORM WRAPPER ==================== --}}
+    {{-- ==================== FORM ==================== --}}
     <form action="{{ route('admin.users.store') }}" method="POST">
         @csrf
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 
             {{-- ============ LEFT: FORM ============ --}}
-            <div class="lg:col-span-2 space-y-6">
+            <div class="lg:col-span-2 space-y-4 sm:space-y-6">
 
                 {{-- CARD: DATA AKUN --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 lg:p-7">
+                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </div>
                         <div>
                             <h2 class="text-sm font-semibold text-slate-900">Data Akun</h2>
-                            <p class="text-xs text-slate-400">Informasi dasar pengguna</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400">Informasi dasar pengguna</p>
                         </div>
                     </div>
 
-                    <div class="space-y-5">
+                    <div class="space-y-4 sm:space-y-5">
                         {{-- Nama --}}
                         <div>
                             <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
                                 Nama Lengkap <span class="text-rose-500">*</span>
                             </label>
                             <input type="text" name="name" value="{{ old('name') }}"
-                                placeholder="Masukkan nama lengkap"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
+                                   placeholder="Masukkan nama lengkap"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
                         </div>
 
                         {{-- Email --}}
@@ -83,19 +91,19 @@
                                 Email <span class="text-rose-500">*</span>
                             </label>
                             <input type="email" name="email" value="{{ old('email') }}"
-                                placeholder="nama@sipeka.test"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
+                                   placeholder="nama@sipeka.test"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
                         </div>
 
                         {{-- Grid 2 kolom: NIP + Role --}}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="grid grid-cols-2 gap-3 sm:gap-5">
                             <div>
                                 <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
-                                    NIP <span class="text-slate-400 normal-case tracking-normal font-normal">(opsional)</span>
+                                    NIP <span class="text-slate-400 normal-case tracking-normal font-normal hidden sm:inline">(opsional)</span>
                                 </label>
                                 <input type="text" name="nip" value="{{ old('nip') }}"
-                                    placeholder="Nomor Induk Pegawai"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm font-mono text-slate-900 placeholder:text-slate-400">
+                                       placeholder="Nomor Induk"
+                                       class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-xs sm:text-sm font-mono text-slate-900 placeholder:text-slate-400">
                             </div>
 
                             <div>
@@ -103,7 +111,7 @@
                                     Role <span class="text-rose-500">*</span>
                                 </label>
                                 <select name="role"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
+                                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
                                     <option value="petugas" @selected(old('role')==='petugas' )>Petugas</option>
                                     <option value="admin" @selected(old('role')==='admin' )>Admin</option>
                                 </select>
@@ -113,29 +121,29 @@
                 </div>
 
                 {{-- CARD: KEAMANAN --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 lg:p-7">
+                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                         </div>
                         <div>
                             <h2 class="text-sm font-semibold text-slate-900">Keamanan</h2>
-                            <p class="text-xs text-slate-400">Atur kata sandi akun</p>
+                            <p class="text-[11px] sm:text-xs text-slate-400">Atur kata sandi akun</p>
                         </div>
                     </div>
 
-                    <div class="space-y-5">
+                    <div class="space-y-4 sm:space-y-5">
                         {{-- Password --}}
                         <div>
                             <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
                                 Password <span class="text-rose-500">*</span>
                             </label>
                             <input type="password" name="password"
-                                placeholder="Minimal 8 karakter"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
+                                   placeholder="Minimal 8 karakter"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
                         </div>
 
                         {{-- Konfirmasi Password --}}
@@ -144,8 +152,8 @@
                                 Konfirmasi Password <span class="text-rose-500">*</span>
                             </label>
                             <input type="password" name="password_confirmation"
-                                placeholder="Ulangi password"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
+                                   placeholder="Ulangi password"
+                                   class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-400">
                         </div>
                     </div>
                 </div>
@@ -154,10 +162,10 @@
 
             {{-- ============ RIGHT: SIDEBAR ============ --}}
             <div class="lg:col-span-1">
-                <div class="lg:sticky lg:top-6 space-y-6">
+                <div class="lg:sticky lg:top-6 space-y-4 sm:space-y-6">
 
                     {{-- CARD: RINGKASAN --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
                         <h3 class="text-xs font-semibold text-slate-900 uppercase tracking-wider mb-4">
                             Ringkasan
                         </h3>
@@ -181,8 +189,8 @@
                     </div>
 
                     {{-- CARD: INFO --}}
-                    <div class="bg-slate-50/70 rounded-2xl border border-slate-100 p-6">
-                        <div class="flex items-start gap-3 mb-3">
+                    <div class="bg-slate-50/70 rounded-2xl border border-slate-100 p-4 sm:p-6">
+                        <div class="flex items-start gap-3">
                             <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                                 <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -199,16 +207,16 @@
                     </div>
 
                     {{-- CARD: AKSI --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
                         <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-semibold transition-colors mb-3">
+                                class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold transition-colors mb-2 sm:mb-3">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                             </svg>
                             Simpan Akun
                         </button>
                         <a href="{{ route('admin.users.index') }}"
-                            class="w-full inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
+                           class="w-full inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors">
                             Batal
                         </a>
                     </div>

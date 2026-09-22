@@ -63,67 +63,67 @@
     $gradientCSS = implode(', ', $gradientParts);
 @endphp
 
-<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
     {{-- ==================== 4 CARD STATISTIK ==================== --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
 
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
-            <div class="flex items-start gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center shrink-0">
-                    <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300">
+            <div class="flex items-start gap-3 sm:gap-4">
+                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-blue-100 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 sm:w-7 sm:h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                     </svg>
                 </div>
                 <div class="min-w-0 flex-1">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-bold">Total Kejadian</p>
-                    <p class="text-3xl font-extrabold text-gray-800 mt-1">{{ $totalKejadian }}</p>
+                    <p class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-500 font-bold leading-tight">Total Kejadian</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gray-800 mt-1">{{ $totalKejadian }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
-            <div class="flex items-start gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center shrink-0">
-                    <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300">
+            <div class="flex items-start gap-3 sm:gap-4">
+                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-red-100 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 sm:w-7 sm:h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                 </div>
                 <div class="min-w-0 flex-1">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-bold">Korban Meninggal</p>
-                    <p class="text-3xl font-extrabold text-gray-800 mt-1">{{ $totalKorbanMeninggal }}</p>
+                    <p class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-500 font-bold leading-tight">Korban Meninggal</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gray-800 mt-1">{{ $totalKorbanMeninggal }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
-            <div class="flex items-start gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-yellow-100 flex items-center justify-center shrink-0">
-                    <svg class="w-7 h-7 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300">
+            <div class="flex items-start gap-3 sm:gap-4">
+                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-yellow-100 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 sm:w-7 sm:h-7 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                 </div>
                 <div class="min-w-0 flex-1">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-bold">Korban Luka</p>
-                    <p class="text-3xl font-extrabold text-gray-800 mt-1">{{ $totalKorbanLuka }}</p>
+                    <p class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-500 font-bold leading-tight">Korban Luka</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gray-800 mt-1">{{ $totalKorbanLuka }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
-            <div class="flex items-start gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center shrink-0">
-                    <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300">
+            <div class="flex items-start gap-3 sm:gap-4">
+                <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-green-100 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 sm:w-7 sm:h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
                 <div class="min-w-0 flex-1">
-                    <p class="text-xs uppercase tracking-wider text-gray-500 font-bold">Kerugian</p>
-                    <p class="text-3xl font-extrabold text-gray-800 mt-1 cursor-help truncate"
+                    <p class="text-[9px] sm:text-xs uppercase tracking-wider text-gray-500 font-bold leading-tight">Kerugian</p>
+                    <p class="text-lg sm:text-2xl font-extrabold text-gray-800 mt-1 cursor-help truncate"
                        title="Rp{{ number_format($totalKerugian, 0, ',', '.') }}">
                         {{ formatRupiahSingkat($totalKerugian) }}
                     </p>
@@ -133,30 +133,30 @@
     </div>
 
     {{-- ==================== 2 GRAFIK ==================== --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 mb-4 sm:mb-6">
 
         {{-- Donut Chart --}}
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h2 class="font-bold text-base text-gray-800 flex items-center gap-2 mb-4">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+            <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2 mb-3 sm:mb-4">
                 <span class="text-blue-600">🥧</span>
                 Grafik per Jenis
             </h2>
 
-            <div class="flex flex-col sm:flex-row items-center gap-6">
-                <div class="relative shrink-0 donut-wrap" data-gradient="{{ $gradientCSS }}" style="width: 180px; height: 180px;">
+            <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <div class="relative shrink-0 donut-wrap" data-gradient="{{ $gradientCSS }}" style="width: 140px; height: 140px;">
                     <div class="w-full h-full rounded-full donut-inner"></div>
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="bg-white rounded-full flex flex-col items-center justify-center"
-                             style="width: 120px; height: 120px;">
-                            <p class="text-2xl font-extrabold text-gray-800">{{ $totalKejadian }}</p>
-                            <p class="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Total</p>
+                             style="width: 90px; height: 90px;">
+                            <p class="text-xl font-extrabold text-gray-800">{{ $totalKejadian }}</p>
+                            <p class="text-[9px] uppercase tracking-wider text-gray-400 font-bold">Total</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex-1 space-y-2 w-full">
+                <div class="flex-1 space-y-1.5 sm:space-y-2 w-full">
                     @forelse($legendData as $row)
-                        <div class="flex items-center gap-2 text-sm">
+                        <div class="flex items-center gap-2 text-xs sm:text-sm">
                             <span class="w-3 h-3 rounded-full shrink-0 legend-dot" data-color="{{ $row['color'] }}"></span>
                             <span class="text-gray-700 flex-1 truncate">{{ $row['nama'] }}</span>
                             <span class="text-gray-500 font-semibold">{{ $row['total'] }}</span>
@@ -169,9 +169,9 @@
         </div>
 
         {{-- Bar Chart --}}
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
+            <div class="flex items-center justify-between gap-2 mb-3 sm:mb-4">
+                <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
                     <span class="text-blue-600">📊</span>
                     Kejadian per Bulan
                 </h2>
@@ -179,7 +179,7 @@
                 @if($tahunTersedia->isNotEmpty())
                     <form method="GET" class="flex items-center gap-2">
                         <select name="tahun" onchange="this.form.submit()"
-                                class="px-3 py-1.5 rounded-lg border border-gray-300 text-xs font-bold text-gray-700 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition cursor-pointer">
+                                class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border border-gray-300 text-[10px] sm:text-xs font-bold text-gray-700 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition cursor-pointer">
                             @foreach($tahunTersedia as $tahun)
                                 <option value="{{ $tahun }}" @selected($tahun == $tahunAktif)>
                                     {{ $tahun }}
@@ -190,12 +190,12 @@
                 @endif
             </div>
 
-            <div style="height: 240px;">
+            <div class="h-[180px] sm:h-[240px]">
                 <canvas id="chartPerBulan"></canvas>
             </div>
 
-            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs">
-                <span class="text-gray-500">Total kejadian tahun <strong class="text-gray-700">{{ $tahunAktif }}</strong>:</span>
+            <div class="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100 flex items-center justify-between text-[10px] sm:text-xs">
+                <span class="text-gray-500">Total tahun <strong class="text-gray-700">{{ $tahunAktif }}</strong>:</span>
                 <span class="font-bold text-blue-600">{{ array_sum($dataPerBulan) }}</span>
             </div>
         </div>
@@ -203,14 +203,15 @@
 
     {{-- ==================== TABEL ==================== --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 flex items-center justify-between">
-            <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
+        <div class="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+            <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
                 <span class="text-red-500">📍</span>
                 Daftar Kejadian
             </h2>
         </div>
 
-        <div class="overflow-x-auto">
+        {{-- Desktop: tabel --}}
+        <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="bg-gray-50 border-y border-gray-100">
@@ -281,8 +282,65 @@
             </table>
         </div>
 
+        {{-- Mobile: card list --}}
+        <div class="md:hidden divide-y divide-gray-100">
+            @forelse ($daftarKejadian as $item)
+                <div class="p-4 hover:bg-blue-50/30 transition-colors">
+                    <div class="flex items-start justify-between gap-3 mb-2">
+                        <div class="min-w-0 flex-1">
+                            <p class="font-bold text-gray-800 text-sm">
+                                {{ $item->jenisBencana->nama_bencana ?? '-' }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-0.5 truncate">
+                                📍 {{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}
+                            </p>
+                        </div>
+                        @if($isAdmin)
+                            @if(($item->status ?? '') === 'verified')
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-green-100 text-green-700 shrink-0">
+                                    TERVERIFIKASI
+                                </span>
+                            @elseif(($item->status ?? '') === 'pending')
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-yellow-100 text-yellow-700 shrink-0">
+                                    MENUNGGU
+                                </span>
+                            @else
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold bg-red-100 text-red-700 shrink-0">
+                                    DITOLAK
+                                </span>
+                            @endif
+                        @endif
+                    </div>
+
+                    <div class="flex items-center justify-between gap-2 mt-3">
+                        <p class="text-[10px] text-gray-400">
+                            {{ $item->tanggal_kejadian?->format('d M Y') ?? $item->created_at?->format('d M Y') }}
+                        </p>
+
+                        @if ($isAdmin)
+                            @if (($item->status ?? '') === 'verified' && $item->kejadianBencana)
+                                <a href="{{ route('kejadian.show', $item->kejadianBencana->id) }}"
+                                   class="inline-flex items-center px-3 py-1 rounded-lg border border-blue-400 text-blue-600 text-[10px] font-bold hover:bg-blue-50 transition">
+                                    Detail
+                                </a>
+                            @endif
+                        @else
+                            <a href="{{ route('kejadian.show', $item->id) }}"
+                               class="inline-flex items-center px-3 py-1 rounded-lg border border-blue-400 text-blue-600 text-[10px] font-bold hover:bg-blue-50 transition">
+                                Detail
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="p-8 text-center text-sm text-gray-400">
+                    Belum ada data kejadian.
+                </div>
+            @endforelse
+        </div>
+
         @if($daftarKejadian->hasPages())
-            <div class="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+            <div class="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-100 bg-gray-50/50">
                 {{ $daftarKejadian->links() }}
             </div>
         @endif
@@ -362,11 +420,11 @@ document.addEventListener('DOMContentLoaded', function () {
             scales: {
                 x: {
                     grid: { display: false },
-                    ticks: { font: { size: 10, weight: '600' }, color: '#64748b' }
+                    ticks: { font: { size: 9 }, color: '#64748b' }
                 },
                 y: {
                     beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 10 }, color: '#94a3b8', precision: 0 },
+                    ticks: { stepSize: 1, font: { size: 9 }, color: '#94a3b8', precision: 0 },
                     grid: { color: '#f1f5f9', drawBorder: false }
                 }
             }

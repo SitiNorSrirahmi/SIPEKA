@@ -1,13 +1,13 @@
-<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
     {{-- ==================== PETA ==================== --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div class="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <h2 class="font-bold text-base text-gray-800 flex items-center gap-2">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4 sm:mb-6">
+        <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+            <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
                 <span class="text-blue-600">🗺️</span>
                 Peta Sebaran Wilayah Rawan
             </h2>
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+            <div class="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2 text-xs">
                 <span class="flex items-center gap-1.5">
                     <span class="w-3 h-3 rounded-sm" style="background:#1e40af;"></span>
                     <span class="text-gray-500">Banjir</span>
@@ -19,18 +19,19 @@
             </div>
         </div>
 
-        <div id="peta-wilayah" style="height: 400px; z-index: 0;"></div>
+        {{-- PETA: tinggi responsive --}}
+        <div id="peta-wilayah" class="h-[300px] sm:h-[400px]" style="z-index: 0;"></div>
 
-        <div id="peta-empty" class="px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
+        <div id="peta-empty" class="px-4 sm:px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
             ⚠️ Belum ada data wilayah rawan. Peta akan otomatis menampilkan polygon setelah data ditambahkan.
         </div>
     </div>
 
     {{-- ==================== FILTER ==================== --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-        <form method="GET" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 mb-4 sm:mb-6">
+        <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
             <select name="id_bencana"
-                    class="px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
+                    class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
                 <option value="">Semua Jenis Bencana</option>
                 @foreach ($jenisBencana as $jb)
                     <option value="{{ $jb->id }}" @selected(request('id_bencana') == $jb->id)>
@@ -41,9 +42,9 @@
 
             <input type="text" name="kabupaten" value="{{ request('kabupaten') }}"
                    placeholder="Cari kabupaten..."
-                   class="px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition md:col-span-2">
+                   class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition sm:col-span-1 md:col-span-2">
 
-            <div class="flex gap-2">
+            <div class="flex gap-2 sm:col-span-2 md:col-span-1">
                 <button type="submit"
                         class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition">
                     Filter
@@ -56,9 +57,11 @@
         </form>
     </div>
 
-    {{-- ==================== TABEL ==================== --}}
+    {{-- ==================== TABEL DESKTOP ==================== --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
+
+        {{-- Desktop: tabel --}}
+        <div class="hidden md:block overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
                     <tr class="bg-gray-50 border-b border-gray-100">
@@ -128,8 +131,70 @@
             </table>
         </div>
 
+        {{-- Mobile: card list --}}
+        <div class="md:hidden divide-y divide-gray-100">
+            @forelse ($wilayah as $item)
+                @php
+                    $level = strtolower($item->level_rawan ?? '');
+                    $levelStyle = match($level) {
+                        'tinggi', 'high' => 'bg-red-100 text-red-700',
+                        'sedang', 'medium' => 'bg-yellow-100 text-yellow-700',
+                        'rendah', 'low' => 'bg-green-100 text-green-700',
+                        default => 'bg-gray-100 text-gray-600',
+                    };
+                    $levelDot = match($level) {
+                        'tinggi', 'high' => 'bg-red-500',
+                        'sedang', 'medium' => 'bg-yellow-500',
+                        'rendah', 'low' => 'bg-green-500',
+                        default => 'bg-gray-400',
+                    };
+                @endphp
+
+                <div class="p-4 hover:bg-blue-50/30 transition-colors">
+                    <div class="flex items-start justify-between gap-3 mb-2">
+                        <div class="min-w-0 flex-1">
+                            <p class="font-bold text-gray-800 text-sm">
+                                {{ $item->jenisBencana->nama_bencana ?? '-' }}
+                            </p>
+                            <div class="flex items-center gap-1.5 mt-1">
+                                <svg class="w-3.5 h-3.5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span class="text-xs text-gray-600 truncate">{{ $item->kabupaten ?? '-' }}</span>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ring-1 {{ $levelStyle }} shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full {{ $levelDot }}"></span>
+                            {{ $item->level_rawan ?? '-' }}
+                        </span>
+                    </div>
+
+                    @if($item->sumber_data)
+                        <p class="text-[10px] text-gray-400 mt-2">
+                            <span class="font-semibold text-gray-500">Sumber:</span> {{ $item->sumber_data }}
+                        </p>
+                    @endif
+                </div>
+            @empty
+                <div class="p-8 text-center">
+                    <div class="flex flex-col items-center gap-3 text-gray-400">
+                        <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium">Belum ada data wilayah rawan.</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
         @if ($wilayah->hasPages())
-            <div class="px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+            <div class="px-4 sm:px-5 py-4 border-t border-gray-100 bg-gray-50/50">
                 {{ $wilayah->links() }}
             </div>
         @endif
