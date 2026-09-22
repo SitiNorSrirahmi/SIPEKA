@@ -1,25 +1,25 @@
-<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
     {{-- ==================== FILTER ==================== --}}
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 mb-6">
-        <form method="GET" class="flex flex-col sm:flex-row gap-2">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 sm:p-4 mb-4 sm:mb-6">
+        <form method="GET" class="flex flex-row gap-2">
             <input type="text" name="search" value="{{ request('search') }}"
                 placeholder="Cari berita..."
-                class="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
+                class="flex-1 px-3 sm:px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
             <button type="submit"
-                class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition">
+                class="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-5 py-2.5 rounded-lg text-sm font-semibold transition shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                Cari
+                <span class="hidden sm:inline">Cari</span>
             </button>
         </form>
     </div>
 
     {{-- ==================== GRID BERITA ==================== --}}
     @if ($berita->count() > 0)
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         @foreach ($berita as $item)
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-1 flex flex-col">
 
@@ -40,25 +40,25 @@
             </a>
 
             {{-- ISI --}}
-            <div class="p-4 flex flex-col flex-1">
+            <div class="p-3 sm:p-4 flex flex-col flex-1">
                 {{-- JUDUL --}}
-                <h3 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 min-h-[2.5rem]">
+                <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
                     <a href="{{ route('berita.show', $item->id) }}" class="hover:text-blue-600 transition">
                         {{ $item->judul }}
                     </a>
                 </h3>
 
                 {{-- TANGGAL --}}
-                <p class="text-[11px] text-slate-400 mt-1.5">
+                <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1.5">
                     {{ $item->created_at?->timezone('Asia/Makassar')->format('d M Y') }}
                 </p>
 
                 {{-- TOMBOL DETAIL --}}
                 <div class="mt-auto pt-3">
                     <a href="{{ route('berita.show', $item->id) }}"
-                        class="w-full inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-xs font-bold transition">
+                        class="w-full inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold transition">
                         Detail
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
                         </svg>
                     </a>
@@ -70,13 +70,13 @@
 
     {{-- PAGINATION --}}
     @if ($berita->hasPages())
-    <div class="mt-6">
+    <div class="mt-4 sm:mt-6">
         {{ $berita->links() }}
     </div>
     @endif
     @else
     {{-- EMPTY STATE --}}
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-16 text-center">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 sm:p-16 text-center">
         <div class="flex flex-col items-center gap-3">
             <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
                 <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

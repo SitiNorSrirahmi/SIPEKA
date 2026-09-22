@@ -23,55 +23,55 @@
 @section('content')
 
     {{-- ==================== HERO SECTION ==================== --}}
-    <section class="pt-8 pb-12">
+    <section class="pt-4 sm:pt-6 lg:pt-8 pb-8 sm:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-            <div class="relative isolate overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
+            <div class="relative isolate overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
 
-                {{-- ============ FOTO THUMBNAIL (full, fade ke kiri) ============ --}}
+                {{-- FOTO THUMBNAIL (full, fade ke kiri) --}}
                 <div class="absolute inset-0 pointer-events-none">
                     <img src="{{ asset('images/thumbnail.png') }}"
                          alt="Ilustrasi SIPEKA"
                          class="w-full h-full object-cover object-center">
-                    {{-- Fade gradient dari kanan (terang) ke kiri (pudar) --}}
                     <div class="absolute inset-0 bg-gradient-to-l from-transparent via-[#0A1A3A]/60 to-[#0A1A3A]"></div>
                 </div>
 
-                {{-- Dekorasi blur (opsional, biar tetap ada aksen) --}}
+                {{-- Dekorasi blur --}}
                 <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -mt-32 pointer-events-none"></div>
                 <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl -mb-24 pointer-events-none"></div>
 
-                <div class="relative z-10 p-8 sm:p-12 lg:p-16 lg:py-20">
+                <div class="relative z-10 p-6 sm:p-12 lg:p-16 lg:py-20">
                     <div class="max-w-2xl">
-                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-5">
+                        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4 sm:mb-5">
                             Sistem Informasi<br>
                             Pemetaan Bencana<br>
                             <span class="text-yellow-400">Kalimantan Selatan</span>
                         </h1>
 
-                        <p class="text-sm sm:text-base text-blue-100/90 leading-relaxed mb-8 max-w-xl">
+                        <p class="text-xs sm:text-base text-blue-100/90 leading-relaxed mb-6 sm:mb-8 max-w-xl">
                             Pantau informasi bencana secara cepat dan akurat melalui SIPEKA.
                             Dukung bersama upaya mitigasi dan keselamatan masyarakat Kalimantan Selatan.
                         </p>
 
+                        {{-- FORM SEARCH: SEJAJAR --}}
                         <form action="{{ route('pencarian.index') }}" method="GET">
-                            <div class="flex flex-col sm:flex-row gap-2 max-w-xl">
+                            <div class="flex flex-row gap-2 max-w-xl">
                                 <div class="relative flex-1">
-                                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                     <input type="text" name="keyword" required
                                            placeholder="Cari lokasi atau jenis bencana..."
-                                           class="w-full pl-11 pr-4 py-3.5 rounded-xl border-0 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-yellow-400 outline-none transition">
+                                           class="w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 rounded-xl border-0 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-yellow-400 outline-none transition">
                                 </div>
                                 <button type="submit"
-                                        class="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-7 py-3.5 rounded-xl text-sm font-bold transition whitespace-nowrap">
+                                        class="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-5 py-3 sm:py-3.5 rounded-xl text-xs sm:text-sm font-bold transition shrink-0">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
-                                    Cari
+                                    <span class="hidden sm:inline">Cari</span>
                                 </button>
                             </div>
                         </form>
@@ -82,60 +82,60 @@
     </section>
 
     {{-- ==================== 4 CARD STATISTIK ==================== --}}
-    <section class="pb-12">
+    <section class="pb-8 sm:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
-                <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                             </svg>
                         </div>
-                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Total Kejadian</p>
+                        <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Total Kejadian</p>
                     </div>
-                    <p class="text-3xl font-extrabold text-slate-800">{{ $totalKejadian }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $totalKejadian }}</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-red-100 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
-                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Korban Meninggal</p>
+                        <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Korban Meninggal</p>
                     </div>
-                    <p class="text-3xl font-extrabold text-slate-800">{{ $totalKorbanMeninggal }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $totalKorbanMeninggal }}</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-yellow-100 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         </div>
-                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Korban Luka</p>
+                        <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Korban Luka</p>
                     </div>
-                    <p class="text-3xl font-extrabold text-slate-800">{{ $totalKorbanLuka }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $totalKorbanLuka }}</p>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-green-100 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <p class="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Kerugian</p>
+                        <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Kerugian</p>
                     </div>
-                    <p class="text-xl font-extrabold text-slate-800 truncate"
+                    <p class="text-lg sm:text-xl font-extrabold text-slate-800 truncate"
                        title="Rp{{ number_format($totalKerugian ?? 0, 0, ',', '.') }}">
                         {{ formatRupiahSingkat($totalKerugian ?? 0) }}
                     </p>
@@ -145,13 +145,13 @@
     </section>
 
     {{-- ==================== 3 KOLOM ==================== --}}
-    <section class="pb-16">
+    <section class="pb-12 sm:pb-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
 
                 {{-- KIRI: WILAYAH RAWAN --}}
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
                             <span class="text-red-500">📍</span>
                             Wilayah Rawan
@@ -161,12 +161,12 @@
                             Lihat semua →
                         </a>
                     </div>
-                    <div id="peta-wilayah-mini" class="flex-1" style="min-height: 420px; z-index: 0;"></div>
+                    <div id="peta-wilayah-mini" class="h-[300px] sm:h-[360px] lg:h-[420px]" style="z-index: 0;"></div>
                 </div>
 
                 {{-- TENGAH: BERITA --}}
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
                             <span class="text-blue-600">📰</span>
                             Berita Terbaru
@@ -176,11 +176,11 @@
                             Lihat semua →
                         </a>
                     </div>
-                    <div class="flex-1 divide-y divide-slate-100">
+                    <div class="divide-y divide-slate-100">
                         @forelse ($beritaTerbaru as $item)
                             <a href="{{ route('berita.show', $item->id) }}"
-                               class="flex items-start gap-3 p-4 hover:bg-blue-50/40 transition group">
-                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+                               class="flex items-start gap-3 p-3 sm:p-4 hover:bg-blue-50/40 transition group">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0">
                                     @if ($item->gambar)
                                         <img src="{{ Storage::url($item->gambar) }}"
                                              alt="{{ $item->judul }}"
@@ -214,7 +214,7 @@
 
                 {{-- KANAN: PETA & KEJADIAN --}}
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
                             <span class="text-red-500">🗺️</span>
                             Peta & Kejadian
@@ -224,7 +224,7 @@
                             Lihat semua →
                         </a>
                     </div>
-                    <div id="peta-kejadian-mini" class="flex-1" style="min-height: 420px; z-index: 0;"></div>
+                    <div id="peta-kejadian-mini" class="h-[300px] sm:h-[360px] lg:h-[420px]" style="z-index: 0;"></div>
                 </div>
 
             </div>

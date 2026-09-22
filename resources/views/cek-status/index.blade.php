@@ -1,27 +1,27 @@
 @extends('layouts.publik')
 
 @section('content')
-    <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
         {{-- ==================== HEADER ==================== --}}
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 mb-4">
-                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="text-center mb-6 sm:mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-blue-100 mb-3 sm:mb-4">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
-            <h1 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-1.5 sm:mb-2">
                 Cek Status Laporan
             </h1>
-            <p class="text-sm text-slate-500">
+            <p class="text-xs sm:text-sm text-slate-500">
                 Masukkan token laporan Anda untuk melihat status verifikasi
             </p>
         </div>
 
         {{-- ==================== ERROR ==================== --}}
         @if ($errors->any())
-            <div class="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 p-4 mb-6 rounded-2xl">
+            <div class="flex items-start gap-3 bg-rose-50 border border-rose-200 text-rose-700 p-3 sm:p-4 mb-4 sm:mb-6 rounded-2xl">
                 <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -38,7 +38,7 @@
         @endif
 
         {{-- ==================== FORM ==================== --}}
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 mb-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6">
             <form action="{{ route('cek-status.cari') }}" method="POST">
                 @csrf
 
@@ -49,14 +49,14 @@
                        value="{{ old('token') }}"
                        placeholder="Contoh: LRP-A3F9K2"
                        autocomplete="off"
-                       class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-base font-mono uppercase tracking-wider text-center text-slate-900 placeholder:text-slate-400 placeholder:normal-case placeholder:tracking-normal placeholder:font-sans">
+                       class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm sm:text-base font-mono uppercase tracking-wider text-center text-slate-900 placeholder:text-slate-400 placeholder:normal-case placeholder:tracking-normal placeholder:font-sans">
 
-                <p class="text-[11px] text-slate-400 mt-2 text-center">
+                <p class="text-[10px] sm:text-[11px] text-slate-400 mt-2 text-center">
                     Token diberikan saat Anda pertama kali mengirim laporan.
                 </p>
 
                 <button type="submit"
-                        class="w-full mt-5 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+                        class="w-full mt-4 sm:mt-5 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 sm:py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -101,55 +101,55 @@
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 
                 {{-- HERO STATUS --}}
-                <div class="relative overflow-hidden bg-gradient-to-br {{ $statusConfig['bg'] }} p-6 sm:p-8">
+                <div class="relative overflow-hidden bg-gradient-to-br {{ $statusConfig['bg'] }} p-5 sm:p-6 lg:p-8">
                     <div class="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
 
-                    <div class="relative flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center shrink-0">
-                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="relative flex items-center gap-3 sm:gap-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="{{ $statusConfig['icon'] }}" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-[10px] uppercase tracking-widest text-white/70 font-bold mb-1">Status Laporan</p>
-                            <p class="text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                            <p class="text-[9px] sm:text-[10px] uppercase tracking-widest text-white/70 font-bold mb-1">Status Laporan</p>
+                            <p class="text-lg sm:text-xl lg:text-2xl font-extrabold text-white leading-tight">
                                 {{ $statusConfig['label'] }}
                             </p>
-                            <p class="text-xs text-white/85 mt-1">{{ $statusConfig['desc'] }}</p>
+                            <p class="text-[11px] sm:text-xs text-white/85 mt-1">{{ $statusConfig['desc'] }}</p>
                         </div>
                     </div>
                 </div>
 
                 {{-- DETAIL LAPORAN --}}
-                <div class="p-6 sm:p-8 space-y-1">
+                <div class="p-4 sm:p-6 lg:p-8 space-y-1">
 
                     {{-- Token --}}
-                    <div class="flex items-start gap-4 py-4 border-b border-slate-100">
-                        <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-start gap-3 sm:gap-4 py-3 sm:py-4 border-b border-slate-100">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                             </svg>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs text-slate-400 mb-1">Token</p>
-                            <p class="text-sm font-semibold text-slate-900 font-mono tracking-wider">
+                            <p class="text-[10px] sm:text-xs text-slate-400 mb-1">Token</p>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-900 font-mono tracking-wider break-all">
                                 {{ $laporan->token ?? '-' }}
                             </p>
                         </div>
                     </div>
 
                     {{-- Jenis Bencana --}}
-                    <div class="flex items-start gap-4 py-4 border-b border-slate-100">
-                        <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-start gap-3 sm:gap-4 py-3 sm:py-4 border-b border-slate-100">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                             </svg>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs text-slate-400 mb-1">Jenis Bencana</p>
+                            <p class="text-[10px] sm:text-xs text-slate-400 mb-1">Jenis Bencana</p>
                             <p class="text-sm font-semibold text-slate-900">
                                 {{ $laporan->jenisBencana->nama_bencana ?? '-' }}
                             </p>
@@ -157,9 +157,9 @@
                     </div>
 
                     {{-- Lokasi --}}
-                    <div class="flex items-start gap-4 py-4 border-b border-slate-100">
-                        <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-                            <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-start gap-3 sm:gap-4 py-3 sm:py-4 border-b border-slate-100">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -167,7 +167,7 @@
                             </svg>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs text-slate-400 mb-1">Lokasi</p>
+                            <p class="text-[10px] sm:text-xs text-slate-400 mb-1">Lokasi</p>
                             <p class="text-sm font-semibold text-slate-900">
                                 {{ $laporan->lokasi ?? '-' }}
                             </p>
@@ -176,15 +176,15 @@
 
                     {{-- Tanggal Laporan --}}
                     @if ($laporan->created_at)
-                        <div class="flex items-start gap-4 py-4">
-                            <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
-                                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="flex items-start gap-3 sm:gap-4 py-3 sm:py-4">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-xs text-slate-400 mb-1">Tanggal Laporan</p>
+                                <p class="text-[10px] sm:text-xs text-slate-400 mb-1">Tanggal Laporan</p>
                                 <p class="text-sm font-semibold text-slate-900">
                                     {{ $laporan->created_at->format('d F Y, H:i') }} WITA
                                 </p>
@@ -198,7 +198,7 @@
 
         {{-- ==================== INFO BAWAH ==================== --}}
         @if (!isset($laporan))
-            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 flex items-start gap-3">
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 sm:p-5 flex items-start gap-3">
                 <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

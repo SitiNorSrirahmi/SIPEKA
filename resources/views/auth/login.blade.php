@@ -28,7 +28,7 @@
             font-family: 'Plus Jakarta Sans', 'Figtree', sans-serif !important;
         }
 
-        /* ==================== SLIDESHOW ==================== */
+        /* ==================== SLIDESHOW (DESKTOP) ==================== */
         .slideshow-wrapper {
             position: absolute;
             inset: 0;
@@ -53,7 +53,6 @@
             transform: scale(1.08);
         }
 
-        /* Overlay biru gelap supaya teks kiri kebaca */
         .slideshow-overlay {
             position: absolute;
             inset: 0;
@@ -61,7 +60,6 @@
             z-index: 1;
         }
 
-        /* Efek memudar ke PUTIH di sisi kanan foto */
         .slideshow-fade {
             position: absolute;
             inset: 0;
@@ -73,24 +71,33 @@
             pointer-events: none;
         }
 
-        /* ==================== BACKGROUND FOTO ==================== */
-        .slide-1 {
+        /* ==================== FOTO BACKGROUND (MOBILE) ==================== */
+        .mobile-bg {
+            position: fixed;
+            inset: 0;
             background-image: url("{{ asset('images/slideshow/slide1.png') }}");
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
         }
 
-        .slide-2 {
-            background-image: url("{{ asset('images/slideshow/slide2.png') }}");
+        .mobile-bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(10, 26, 58, 0.75) 0%,
+                    rgba(10, 26, 58, 0.85) 50%,
+                    rgba(10, 26, 58, 0.95) 100%);
+            z-index: -1;
         }
 
-        .slide-3 {
-            background-image: url("{{ asset('images/slideshow/slide3.png') }}");
-        }
+        /* ==================== BACKGROUND FOTO ==================== */
+        .slide-1 { background-image: url("{{ asset('images/slideshow/slide1.png') }}"); }
+        .slide-2 { background-image: url("{{ asset('images/slideshow/slide2.png') }}"); }
+        .slide-3 { background-image: url("{{ asset('images/slideshow/slide3.png') }}"); }
+        .slide-4 { background-image: url("{{ asset('images/slideshow/slide4.png') }}"); }
 
-        .slide-4 {
-            background-image: url("{{ asset('images/slideshow/slide4.png') }}");
-        }
-
-        /* ==================== CARD (mewah sedang) ==================== */
+        /* ==================== CARD ==================== */
         .lux-card {
             background: #ffffff;
             border-radius: 20px;
@@ -116,7 +123,7 @@
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
         }
 
-        /* ==================== TOMBOL (glow halus) ==================== */
+        /* ==================== TOMBOL ==================== */
         .btn-lux {
             position: relative;
             overflow: hidden;
@@ -128,18 +135,36 @@
             box-shadow: 0 10px 28px rgba(30, 58, 138, 0.40);
             transform: translateY(-1px);
         }
+
+        /* ==================== MOBILE ONLY ==================== */
+        @media (max-width: 1023px) {
+            body {
+                background-color: #0a1a3a;
+            }
+        }
+
+        /* Sembunyikan mobile background di desktop */
+        @media (min-width: 1024px) {
+            .mobile-bg,
+            .mobile-bg-overlay {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body class="antialiased">
 
+    {{-- ==================== MOBILE BACKGROUND (HANYA MOBILE) ==================== --}}
+    <div class="mobile-bg"></div>
+    <div class="mobile-bg-overlay"></div>
+
     <div class="min-h-screen flex">
 
-        {{-- ==================== KIRI: BRANDING ==================== --}}
+        {{-- ==================== KIRI: BRANDING (HANYA DESKTOP) ==================== --}}
         <div class="hidden lg:flex lg:w-1/2 relative flex-col justify-between p-12 text-white"
             style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);">
 
-            {{-- ====== AUTO-SLIDE FOTO ====== --}}
             <div class="slideshow-wrapper" id="slideshow">
                 <div class="slide slide-1 active"></div>
                 <div class="slide slide-2"></div>
@@ -149,11 +174,8 @@
                 <div class="slideshow-overlay"></div>
                 <div class="slideshow-fade"></div>
             </div>
-            {{-- ====== END SLIDESHOW ====== --}}
 
-            <div class="relative z-10">
-                {{-- Kosong di atas --}}
-            </div>
+            <div class="relative z-10"></div>
 
             <div class="relative z-10">
                 <h1 class="text-4xl font-bold leading-tight mb-2">
@@ -169,12 +191,12 @@
         </div>
 
         {{-- ==================== KANAN: FORM LOGIN ==================== --}}
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white">
-            <div class="lux-card w-full max-w-md p-8 sm:p-10">
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:bg-white">
+            <div class="lux-card w-full max-w-md p-6 sm:p-8 lg:p-10">
 
                 {{-- Link Kembali ke Beranda --}}
                 <a href="{{ url('/') }}"
-                    class="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900 mb-6">
+                    class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-blue-700 hover:text-blue-900 mb-5 sm:mb-6">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -183,20 +205,20 @@
                 </a>
 
                 {{-- Logo SIPEKA --}}
-                <div class="flex justify-center mb-8">
-                    <img src="{{ asset('images/SIPEKA.png') }}" alt="SIPEKA" class="h-20 object-contain">
+                <div class="flex justify-center mb-6 sm:mb-8">
+                    <img src="{{ asset('images/SIPEKA.png') }}" alt="SIPEKA" class="h-14 sm:h-16 lg:h-20 object-contain">
                 </div>
 
                 {{-- Session Status --}}
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                {{-- FORM LOGIN — atribut name, @csrf, action, method TIDAK DIUBAH --}}
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                {{-- FORM LOGIN --}}
+                <form method="POST" action="{{ route('login') }}" class="space-y-4 sm:space-y-5">
                     @csrf
 
                     {{-- Email --}}
                     <div>
-                        <label for="email" class="block text-sm font-bold text-gray-700 mb-2 tracking-wide">
+                        <label for="email" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2 tracking-wide">
                             EMAIL
                         </label>
                         <input id="email"
@@ -205,13 +227,13 @@
                             value="{{ old('email') }}"
                             required autofocus autocomplete="username"
                             placeholder="Masukkan alamat email"
-                            class="input-lux w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
+                            class="input-lux w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
-                    {{-- Password (dengan toggle mata) --}}
+                    {{-- Password --}}
                     <div>
-                        <label for="password" class="block text-sm font-bold text-gray-700 mb-2 tracking-wide">
+                        <label for="password" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2 tracking-wide">
                             KATA SANDI
                         </label>
                         <div class="relative">
@@ -220,12 +242,11 @@
                                 name="password"
                                 required autocomplete="current-password"
                                 placeholder="Masukkan kata sandi"
-                                class="input-lux w-full px-4 py-3 pr-12 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
+                                class="input-lux w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-11 sm:pr-12 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
 
-                            {{-- Tombol Mata --}}
                             <button type="button"
                                 id="togglePassword"
-                                class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-gray-800 focus:outline-none transition"
+                                class="absolute inset-y-0 right-0 flex items-center pr-3 sm:pr-4 text-gray-500 hover:text-gray-800 focus:outline-none transition"
                                 aria-label="Tampilkan kata sandi">
                                 <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -243,7 +264,7 @@
                     </div>
 
                     {{-- Remember Me --}}
-                    <div class="flex items-center text-sm">
+                    <div class="flex items-center text-xs sm:text-sm">
                         <label for="remember_me" class="inline-flex items-center cursor-pointer">
                             <input id="remember_me" type="checkbox" name="remember"
                                 class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
@@ -253,7 +274,7 @@
 
                     {{-- Tombol Masuk --}}
                     <button type="submit"
-                        class="btn-lux w-full py-3 rounded-lg font-bold text-white"
+                        class="btn-lux w-full py-2.5 sm:py-3 rounded-lg font-bold text-white text-sm sm:text-base"
                         style="background-color: #1e3a8a;">
                         Masuk
                     </button>
@@ -267,7 +288,7 @@
     {{-- ==================== SCRIPT ==================== --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // SLIDESHOW
+            // SLIDESHOW (desktop)
             const slides = document.querySelectorAll('.slide');
             const totalSlides = slides.length;
             let currentIndex = 0;

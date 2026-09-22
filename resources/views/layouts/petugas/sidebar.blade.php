@@ -1,15 +1,43 @@
-<aside class="w-64 text-white flex flex-col shrink-0 h-screen sticky top-0 overflow-hidden"
+{{-- OVERLAY BACKDROP --}}
+<div x-show="sidebarOpen"
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     x-transition:leave="transition ease-in duration-200"
+     x-transition:leave-start="opacity-100"
+     x-transition:leave-end="opacity-0"
+     @click="sidebarOpen = false"
+     class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+     x-cloak></div>
+
+{{-- SIDEBAR --}}
+<aside x-cloak
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+    class="fixed lg:sticky top-0 left-0 z-50 lg:z-30 w-64 text-white flex flex-col shrink-0 h-screen overflow-hidden transition-transform duration-300 ease-in-out"
     style="background: linear-gradient(to bottom, #0A1A3A 0%, #0D2440 100%);">
 
-    {{-- ============ LOGO ============ --}}
-    <div class="px-5 py-5 border-b border-white/10 shrink-0">
-        <img src="{{ asset('images/logo-sidebar.png') }}" alt="SIPEKA"
-             class="h-9 w-auto object-contain"
-             style="filter: brightness(0) invert(1);">
-        <p class="text-[10px] text-gray-400 mt-2 leading-snug tracking-wide">
-            Sistem Informasi Peta Kebencanaan<br>
-            Kalimantan Selatan
-        </p>
+    {{-- ============ HEADER: LOGO + TOMBOL CLOSE ============ --}}
+    <div class="px-5 py-5 border-b border-white/10 shrink-0 flex items-start justify-between gap-3">
+        <div class="min-w-0 flex-1">
+            <img src="{{ asset('images/logo-sidebar.png') }}" alt="SIPEKA"
+                 class="h-9 w-auto object-contain"
+                 style="filter: brightness(0) invert(1);">
+
+            <p class="text-[10px] text-gray-400 mt-2 leading-tight tracking-wide whitespace-nowrap">
+                Sistem Informasi Peta Kebencanaan<br>
+                Kalimantan Selatan
+            </p>
+        </div>
+
+        {{-- Tombol close (panah kiri) — cuma mobile --}}
+        <button type="button"
+                @click="sidebarOpen = false"
+                title="Tutup sidebar"
+                class="lg:hidden shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-lg text-gray-300 hover:text-white bg-white/5 hover:bg-white/15 border border-white/10 transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
     </div>
 
     {{-- ============ MENU (scrollable sendiri) ============ --}}
@@ -17,6 +45,7 @@
 
         {{-- Dashboard --}}
         <a href="{{ route('petugas.dashboard') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('petugas.dashboard') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,6 +57,7 @@
 
         {{-- Buat Laporan --}}
         <a href="{{ route('petugas.laporan.create') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('petugas.laporan.create') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,6 +69,7 @@
 
         {{-- Laporan Saya --}}
         <a href="{{ route('petugas.laporan-saya') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('petugas.laporan-saya') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,6 +81,7 @@
 
         {{-- Wilayah Rawan --}}
         <a href="{{ route('wilayahrawan.index') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('wilayahrawan.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,6 +95,7 @@
 
         {{-- Berita --}}
         <a href="{{ route('berita.index') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('berita.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,6 +107,7 @@
 
         {{-- Statistik --}}
         <a href="{{ route('statistik.index') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('statistik.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,13 +119,14 @@
 
         {{-- Peta & Kejadian --}}
         <a href="{{ route('kejadian.index') }}"
+            @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                   {{ request()->routeIs('kejadian.*') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
             </svg>
-            Peta & Kejadian
+            Peta &amp; Kejadian
         </a>
 
     </nav>
