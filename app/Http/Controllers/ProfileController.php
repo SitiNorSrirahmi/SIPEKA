@@ -16,8 +16,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+
+        $layout = match($user->role) {
+            'admin'   => 'layouts.admin',
+            'petugas' => 'layouts.petugas',
+            default   => 'layouts.publik',
+        };
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user'   => $user,
+            'layout' => $layout,
         ]);
     }
 
