@@ -1,24 +1,39 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends($layout)
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+@section('header', 'Profil')
+
+@section('content')
+
+<div class="min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        {{-- INFO --}}
+        <div class="mb-6">
+            <p class="text-sm text-slate-500">
+                Kelola informasi akun dan kata sandi kamu di sini.
+            </p>
+        </div>
+
+        {{-- FORM-FORM --}}
+        <div class="space-y-6">
+
+            {{-- UPDATE PROFIL --}}
+            <div class="p-4 sm:p-6 lg:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            {{-- UPDATE PASSWORD --}}
+            <div class="p-4 sm:p-6 lg:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-password-form')
                 </div>
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+</div>
+
+@endsection
