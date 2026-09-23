@@ -1,7 +1,6 @@
 @extends('layouts.publik')
 
 @php
-    // Helper: format rupiah singkat (sama seperti di statistik)
     function formatRupiahSingkat($angka) {
         if ($angka >= 1000000000000) {
             $val = $angka / 1000000000000;
@@ -28,7 +27,6 @@
 
             <div class="relative isolate overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
 
-                {{-- FOTO THUMBNAIL (full, fade ke kiri) --}}
                 <div class="absolute inset-0 pointer-events-none">
                     <img src="{{ asset('images/thumbnail.png') }}"
                          alt="Ilustrasi SIPEKA"
@@ -36,7 +34,6 @@
                     <div class="absolute inset-0 bg-gradient-to-l from-transparent via-[#0A1A3A]/60 to-[#0A1A3A]"></div>
                 </div>
 
-                {{-- Dekorasi blur --}}
                 <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -mt-32 pointer-events-none"></div>
                 <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl -mb-24 pointer-events-none"></div>
 
@@ -53,7 +50,6 @@
                             Dukung bersama upaya mitigasi dan keselamatan masyarakat Kalimantan Selatan.
                         </p>
 
-                        {{-- FORM SEARCH: SEJAJAR --}}
                         <form action="{{ route('pencarian.index') }}" method="GET">
                             <div class="flex flex-row gap-2 max-w-xl">
                                 <div class="relative flex-1">
@@ -144,28 +140,54 @@
         </div>
     </section>
 
-    {{-- ==================== 3 KOLOM ==================== --}}
+    {{-- ==================== PETA + BERITA (2/3 + 1/3) ==================== --}}
     <section class="pb-12 sm:pb-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
 
-                {{-- KIRI: WILAYAH RAWAN --}}
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
+                {{-- KIRI: PETA (2/3) --}}
+                <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+
+                    {{-- Header peta + tombol switch --}}
+                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
-                            <span class="text-red-500">📍</span>
-                            Wilayah Rawan
+                            <span class="text-blue-600">🗺️</span>
+                            <span id="peta-title">Peta Wilayah Rawan</span>
                         </h2>
-                        <a href="{{ route('wilayahrawan.index') }}"
-                           class="text-[11px] font-bold text-blue-600 hover:text-blue-800">
+
+                        {{-- TOMBOL SWITCH MODE --}}
+                        <div class="inline-flex bg-slate-100 rounded-lg p-1 self-start sm:self-auto">
+                            <button type="button"
+                                    id="btn-mode-wilayah"
+                                    onclick="switchMapMode('wilayah')"
+                                    class="px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition-all duration-200 bg-white text-blue-600 shadow-sm">
+                                Wilayah Rawan
+                            </button>
+                            <button type="button"
+                                    id="btn-mode-kejadian"
+                                    onclick="switchMapMode('kejadian')"
+                                    class="px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900">
+                                Kejadian
+                            </button>
+                        </div>
+                    </div>
+
+                    {{-- PETA --}}
+                    <div id="peta-utama" class="h-[350px] sm:h-[420px] lg:h-[500px] w-full" style="z-index: 0;"></div>
+
+                    {{-- Footer peta --}}
+                    <div class="px-4 sm:px-5 py-3 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-[11px] text-slate-500" id="peta-info">
+                            Menampilkan wilayah rawan bencana di Kalimantan Selatan
+                        </p>
+                        <a href="#" id="peta-link" class="text-[11px] font-bold text-blue-600 hover:text-blue-800">
                             Lihat semua →
                         </a>
                     </div>
-                    <div id="peta-wilayah-mini" class="h-[300px] sm:h-[360px] lg:h-[420px]" style="z-index: 0;"></div>
                 </div>
 
-                {{-- TENGAH: BERITA --}}
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                {{-- KANAN: BERITA (1/3) --}}
+                <div class="lg:col-span-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                     <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
                         <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
                             <span class="text-blue-600">📰</span>
@@ -176,7 +198,7 @@
                             Lihat semua →
                         </a>
                     </div>
-                    <div class="divide-y divide-slate-100">
+                    <div class="divide-y divide-slate-100 flex-1">
                         @forelse ($beritaTerbaru as $item)
                             <a href="{{ route('berita.show', $item->id) }}"
                                class="flex items-start gap-3 p-3 sm:p-4 hover:bg-blue-50/40 transition group">
@@ -212,21 +234,6 @@
                     </div>
                 </div>
 
-                {{-- KANAN: PETA & KEJADIAN --}}
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
-                        <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
-                            <span class="text-red-500">🗺️</span>
-                            Peta & Kejadian
-                        </h2>
-                        <a href="{{ route('kejadian.index') }}"
-                           class="text-[11px] font-bold text-blue-600 hover:text-blue-800">
-                            Lihat semua →
-                        </a>
-                    </div>
-                    <div id="peta-kejadian-mini" class="h-[300px] sm:h-[360px] lg:h-[420px]" style="z-index: 0;"></div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -237,15 +244,17 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<script src="https://unpkg.com/d3@7"></script>
-<script src="https://unpkg.com/topojson-client@3"></script>
-<script src="https://unpkg.com/leaflet-globe-minimap@2.0.1/dist/leaflet-globe-minimap.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
     let kalselFeatureCache = null;
+    let currentMode = 'wilayah';
+    let map = null;
+    let kalselBounds = null;
+    let layerWilayah = null;
+    let layerKejadian = null;
 
+    // ============ LOAD GEOJSON KALSEL ============
     async function loadKalselGeoJSON() {
         if (kalselFeatureCache) return kalselFeatureCache;
         try {
@@ -264,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ============ HELPER: TOMBOL FOKUS KE KALSEL ============
-    function tambahTombolFokus(map, getBounds) {
+    function tambahTombolFokus(mapInstance, getBounds) {
         const FokusControl = L.Control.extend({
             options: { position: 'topright' },
             onAdd: function() {
@@ -300,18 +309,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     L.DomEvent.stopPropagation(e);
                     const bounds = getBounds();
                     if (bounds) {
-                        map.flyToBounds(bounds, {
-                            padding: [20, 20],
-                            duration: 1.2
-                        });
+                        mapInstance.flyToBounds(bounds, { padding: [20, 20], duration: 1.2 });
                     }
                 });
 
                 return btn;
             }
         });
-
-        map.addControl(new FokusControl());
+        mapInstance.addControl(new FokusControl());
     }
 
     // ============ WARNA MARKER ============
@@ -335,22 +340,42 @@ document.addEventListener('DOMContentLoaded', function () {
         return '#6b7280';
     }
 
-    // ============ PETA WILAYAH RAWAN ============
+    // ============ WARNA WILAYAH ============
+    const colorMap = {
+        'banjir': { rendah: '#93c5fd', sedang: '#3b82f6', tinggi: '#1e40af' },
+        'karhutla': { rendah: '#fca5a5', sedang: '#ef4444', tinggi: '#991b1b' },
+        'longsor': { rendah: '#d6b28c', sedang: '#a16207', tinggi: '#713f12' },
+        'kebakaran': { rendah: '#fed7aa', sedang: '#f97316', tinggi: '#9a3412' },
+    };
+
+    function getColor(jenis, level) {
+        const jenisKey = (jenis || '').toLowerCase().trim();
+        const levelKey = (level || '').toLowerCase().trim();
+        const normalizedJenis = jenisKey.replace(/\s+/g, '');
+
+        for (const key in colorMap) {
+            if (normalizedJenis.includes(key) || key.includes(normalizedJenis)) {
+                return colorMap[key][levelKey] || '#6b7280';
+            }
+        }
+        return '#6b7280';
+    }
+
+    // ============ INIT MAP ============
     (async function() {
-        const el = document.getElementById('peta-wilayah-mini');
+        const el = document.getElementById('peta-utama');
         if (!el) return;
 
-        const map = L.map('peta-wilayah-mini').setView([-3.0, 115.5], 7);
+        map = L.map('peta-utama').setView([-3.0, 115.5], 7);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OSM'
         }).addTo(map);
 
-        let kalselBounds = null;
-
         const kalselFeature = await loadKalselGeoJSON();
 
         if (kalselFeature) {
+            // Layer Kalsel (garis batas)
             const kalselLayer = L.geoJSON(kalselFeature, {
                 style: {
                     color: '#1e40af',
@@ -364,6 +389,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             kalselBounds = kalselLayer.getBounds();
 
+            // Gelap di luar Kalsel
             const worldRing = [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]];
             let kalselHoles = [];
             if (kalselFeature.geometry.type === 'Polygon') {
@@ -393,25 +419,18 @@ document.addEventListener('DOMContentLoaded', function () {
             tambahTombolFokus(map, () => kalselBounds);
         }
 
-        const colorMap = {
-            'banjir': { rendah: '#93c5fd', sedang: '#3b82f6', tinggi: '#1e40af' },
-            'karhutla': { rendah: '#fca5a5', sedang: '#ef4444', tinggi: '#991b1b' },
-            'longsor': { rendah: '#d6b28c', sedang: '#a16207', tinggi: '#713f12' },
-            'kebakaran': { rendah: '#fed7aa', sedang: '#f97316', tinggi: '#9a3412' },
-        };
+        // Load data kedua mode
+        await Promise.all([loadWilayahRawan(), loadKejadian()]);
 
-        function getColor(jenis, level) {
-            const jenisKey = (jenis || '').toLowerCase().trim();
-            const levelKey = (level || '').toLowerCase().trim();
-            const normalizedJenis = jenisKey.replace(/\s+/g, '');
+        // Tampilkan mode awal
+        switchMapMode('wilayah');
+    })();
 
-            for (const key in colorMap) {
-                if (normalizedJenis.includes(key) || key.includes(normalizedJenis)) {
-                    return colorMap[key][levelKey] || '#6b7280';
-                }
-            }
-            return '#6b7280';
-        }
+    // ============ LOAD WILAYAH RAWAN ============
+    async function loadWilayahRawan() {
+        if (layerWilayah) return; // udah ada
+
+        layerWilayah = L.layerGroup();
 
         try {
             const res = await fetch('/api/wilayah-rawan');
@@ -429,76 +448,24 @@ document.addEventListener('DOMContentLoaded', function () {
                             fillOpacity: 0.55,
                             weight: 2,
                         }
-                    }).addTo(map).bindPopup(
+                    }).bindPopup(
                         '<div style="font-family: Plus Jakarta Sans, sans-serif; min-width: 140px;">' +
                             '<p style="font-weight:700; font-size:12px; margin:0 0 4px 0;">' + (item.jenis_bencana || '-') + '</p>' +
                             '<p style="font-size:11px; color:#475569; margin:0;">' + (item.kabupaten || '-') + ' · ' + (item.level_rawan || '-') + '</p>' +
                         '</div>'
-                    );
+                    ).addTo(layerWilayah);
                 }
             });
         } catch (err) {
             console.warn('Gagal load wilayah rawan:', err);
         }
-    })();
+    }
 
-    // ============ PETA KEJADIAN ============
-    (async function() {
-        const el = document.getElementById('peta-kejadian-mini');
-        if (!el) return;
+    // ============ LOAD KEJADIAN ============
+    async function loadKejadian() {
+        if (layerKejadian) return; // udah ada
 
-        const map = L.map('peta-kejadian-mini').setView([-3.0, 115.5], 7);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OSM'
-        }).addTo(map);
-
-        let kalselBounds = null;
-
-        const kalselFeature = await loadKalselGeoJSON();
-
-        if (kalselFeature) {
-            const kalselLayer = L.geoJSON(kalselFeature, {
-                style: {
-                    color: '#1e40af',
-                    weight: 2,
-                    fillColor: '#3b82f6',
-                    fillOpacity: 0.1,
-                    dashArray: '4,4',
-                    interactive: false
-                }
-            }).addTo(map);
-
-            kalselBounds = kalselLayer.getBounds();
-
-            const worldRing = [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]];
-            let kalselHoles = [];
-            if (kalselFeature.geometry.type === 'Polygon') {
-                kalselHoles = kalselFeature.geometry.coordinates;
-            } else if (kalselFeature.geometry.type === 'MultiPolygon') {
-                kalselFeature.geometry.coordinates.forEach(poly => {
-                    poly.forEach(ring => kalselHoles.push(ring));
-                });
-            }
-
-            L.geoJSON({
-                type: 'Feature',
-                geometry: { type: 'Polygon', coordinates: [worldRing, ...kalselHoles] },
-                properties: {}
-            }, {
-                style: {
-                    color: 'transparent',
-                    weight: 0,
-                    fillColor: '#0f172a',
-                    fillOpacity: 0.55,
-                    interactive: false
-                }
-            }).addTo(map);
-
-            map.fitBounds(kalselBounds, { padding: [20, 20] });
-
-            tambahTombolFokus(map, () => kalselBounds);
-        }
+        layerKejadian = L.layerGroup();
 
         try {
             const res = await fetch('/api/kejadian');
@@ -555,12 +522,59 @@ document.addEventListener('DOMContentLoaded', function () {
                     '</div>'
                 );
 
-                marker.addTo(map);
+                marker.addTo(layerKejadian);
             });
         } catch (err) {
             console.warn('Gagal load kejadian:', err);
         }
-    })();
+    }
+
+    // ============ SWITCH MODE ============
+    window.switchMapMode = function(mode) {
+        if (!map) return;
+        currentMode = mode;
+
+        // Remove semua layer
+        if (layerWilayah) map.removeLayer(layerWilayah);
+        if (layerKejadian) map.removeLayer(layerKejadian);
+
+        // Update tombol
+        const btnWilayah = document.getElementById('btn-mode-wilayah');
+        const btnKejadian = document.getElementById('btn-mode-kejadian');
+        const petaTitle = document.getElementById('peta-title');
+        const petaInfo = document.getElementById('peta-info');
+        const petaLink = document.getElementById('peta-link');
+
+        if (mode === 'wilayah') {
+            // Tampilkan wilayah
+            if (layerWilayah) layerWilayah.addTo(map);
+
+            // Update tombol
+            btnWilayah.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+            btnWilayah.classList.remove('text-slate-600');
+            btnKejadian.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+            btnKejadian.classList.add('text-slate-600');
+
+            // Update judul & info
+            petaTitle.textContent = 'Peta Wilayah Rawan';
+            petaInfo.textContent = 'Menampilkan wilayah rawan bencana di Kalimantan Selatan';
+            petaLink.href = '{{ route("wilayahrawan.index") }}';
+        } else {
+            // Tampilkan kejadian
+            if (layerKejadian) layerKejadian.addTo(map);
+
+            // Update tombol
+            btnKejadian.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
+            btnKejadian.classList.remove('text-slate-600');
+            btnWilayah.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
+            btnWilayah.classList.add('text-slate-600');
+
+            // Update judul & info
+            petaTitle.textContent = 'Peta Kejadian Bencana';
+            petaInfo.textContent = 'Menampilkan kejadian bencana di Kalimantan Selatan';
+            petaLink.href = '{{ route("kejadian.index") }}';
+        }
+    };
 
 });
 </script>
