@@ -17,6 +17,16 @@
             </h1>
             <p class="text-[11px] sm:text-sm text-gray-500 mt-1 truncate">Daftar semua laporan bencana yang masuk ke sistem</p>
         </div>
+
+        {{-- TOMBOL BUAT LAPORAN --}}
+        <a href="{{ route('admin.laporan.create') }}"
+           class="shrink-0 inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition shadow-sm whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+            </svg>
+            <span class="hidden sm:inline">Buat Laporan</span>
+            <span class="sm:hidden">Buat</span>
+        </a>
     </div>
 
     {{-- ==================== SUCCESS ==================== --}}
@@ -70,6 +80,7 @@
                                 default => strtoupper($item->status ?? 'UNKNOWN'),
                             };
                             $pelapor = $item->pelapor_nama ?? ($item->dibuatOleh->name ?? '-');
+                            $isPending = in_array($status, ['pending', 'menunggu']);
                         @endphp
 
                         <tr class="hover:bg-blue-50/30 transition-colors">
@@ -121,7 +132,9 @@
 
                             {{-- AKSI --}}
                             <td class="px-5 py-3.5">
-                                <div class="flex items-center justify-center">
+                                <div class="flex items-center justify-center gap-1.5">
+
+                                    {{-- DETAIL --}}
                                     <a href="{{ route('admin.laporan.show', $item->id) }}"
                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 transition"
                                        title="Detail">
@@ -132,6 +145,38 @@
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
                                     </a>
+
+                                    {{-- VERIFIKASI & TOLAK (cuma kalau pending) --}}
+                                    @if ($isPending)
+                                        {{-- VERIFIKASI --}}
+                                        <form action="{{ route('admin.laporan.verifikasi', $item->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit"
+                                                    onclick="return confirm('Verifikasi laporan {{ $item->token }}?')"
+                                                    class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 transition"
+                                                    title="Verifikasi">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                        d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </button>
+                                        </form>
+
+                                        {{-- TOLAK --}}
+                                        <form action="{{ route('admin.laporan.tolak', $item->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit"
+                                                    onclick="return confirm('Tolak laporan {{ $item->token }}?')"
+                                                    class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 transition"
+                                                    title="Tolak">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
+
                                 </div>
                             </td>
                         </tr>
@@ -179,6 +224,7 @@
                         default => strtoupper($item->status ?? 'UNKNOWN'),
                     };
                     $pelapor = $item->pelapor_nama ?? ($item->dibuatOleh->name ?? '-');
+                    $isPending = in_array($status, ['pending', 'menunggu']);
                 @endphp
 
                 <div class="p-3 sm:p-4 hover:bg-blue-50/30 transition-colors">
@@ -206,15 +252,46 @@
                                 👤 {{ $pelapor }} · {{ $item->created_at?->format('d M Y') }}
                             </p>
                         </div>
+                    </div>
 
-                        {{-- Tombol Detail --}}
+                    {{-- Tombol Aksi --}}
+                    <div class="flex items-center gap-1.5 mt-3">
+                        {{-- DETAIL --}}
                         <a href="{{ route('admin.laporan.show', $item->id) }}"
-                           class="shrink-0 inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap">
+                           class="flex-1 inline-flex items-center justify-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
                             Detail
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
                             </svg>
                         </a>
+
+                        {{-- VERIFIKASI (kalau pending) --}}
+                        @if ($isPending)
+                            <form action="{{ route('admin.laporan.verifikasi', $item->id) }}" method="POST" class="flex-1">
+                                @csrf
+                                <button type="submit"
+                                        onclick="return confirm('Verifikasi laporan {{ $item->token }}?')"
+                                        class="w-full inline-flex items-center justify-center gap-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Verifikasi
+                                </button>
+                            </form>
+
+                            {{-- TOLAK --}}
+                            <form action="{{ route('admin.laporan.tolak', $item->id) }}" method="POST" class="flex-1">
+                                @csrf
+                                <button type="submit"
+                                        onclick="return confirm('Tolak laporan {{ $item->token }}?')"
+                                        class="w-full inline-flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    Tolak
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             @empty

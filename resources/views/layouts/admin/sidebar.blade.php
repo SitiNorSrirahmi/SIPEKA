@@ -56,37 +56,15 @@
         <div class="border-t border-white/5 my-2"></div>
 
         {{-- LAPORAN --}}
-        <a href="{{ route('admin.laporan.create') }}"
-            @click="if (window.innerWidth < 1024) sidebarOpen = false"
-            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
-                  {{ request()->routeIs('admin.laporan.create') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
-            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-            Buat Laporan
-        </a>
-
         <a href="{{ route('admin.laporan.index') }}"
             @click="if (window.innerWidth < 1024) sidebarOpen = false"
             class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
-                  {{ request()->routeIs('admin.laporan.index', 'admin.laporan.show') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                  {{ request()->routeIs('admin.laporan.index', 'admin.laporan.show', 'admin.laporan.create') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
             </svg>
             Laporan Masuk
-        </a>
-
-        <a href="{{ route('admin.verifikasi-laporan') }}"
-            @click="if (window.innerWidth < 1024) sidebarOpen = false"
-            class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200
-                  {{ request()->routeIs('admin.verifikasi-laporan') ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/20' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
-            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Verifikasi Laporan
         </a>
 
         {{-- Divider --}}
