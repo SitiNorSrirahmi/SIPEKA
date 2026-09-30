@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
@@ -41,18 +40,16 @@ class BeritaController extends Controller
             'gambar' => 'nullable|image|max:2048',
         ]);
 
-        $gambarPath = null;
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('berita', 'public');
-        }
-
-        Berita::create([
+        $berita = Berita::create([
             'judul'  => $validated['judul'],
             'konten' => $validated['konten'],
-            'gambar' => $gambarPath,
             'status' => $validated['status'],
             'penulis_id' => Auth::id(),
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $berita->addMediaFromRequest('gambar')->toMediaCollection('gambar');
+        }
 
         return redirect()
             ->route('admin.berita.index')
@@ -87,21 +84,16 @@ class BeritaController extends Controller
             'gambar' => 'nullable|image|max:2048',
         ]);
 
-        $gambarPath = $berita->gambar;
-
-        if ($request->hasFile('gambar')) {
-            if ($berita->gambar) {
-                Storage::disk('public')->delete($berita->gambar);
-            }
-            $gambarPath = $request->file('gambar')->store('berita', 'public');
-        }
-
         $berita->update([
             'judul' => $validated['judul'],
             'konten' => $validated['konten'],
-            'gambar' => $gambarPath,
             'status' => $validated['status'],
         ]);
+
+        if ($request->hasFile('gambar')) {
+            $berita->clearMediaCollection('gambar'); // hapus gambar lama otomatis
+            $berita->addMediaFromRequest('gambar')->toMediaCollection('gambar');
+    }
 
         return redirect()
             ->route('admin.berita.index')
@@ -112,17 +104,13 @@ class BeritaController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Berita $berita)
-    {
-        if ($berita->gambar){
-            Storage::disk('public')->delete($berita->gambar);
-        }
-        
-        $berita->delete();
+{
+    $berita->delete(); // Media Library otomatis hapus file terkait
 
-        return redirect()
-            ->route('admin.berita.index')
-            ->with('success', 'Berita berhasil dihapus.');
-    }
+    return redirect()
+        ->route('admin.berita.index')
+        ->with('success', 'Berita berhasil dihapus.');
+}
 
     /**
      * Publik: lihat daftar berita yang sudah published

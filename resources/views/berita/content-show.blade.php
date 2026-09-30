@@ -48,9 +48,9 @@
     </div>
 
     {{-- ==================== GAMBAR UTAMA ==================== --}}
-    @if ($berita->gambar)
+    @if ($berita->getFirstMediaUrl('gambar'))
     <div class="rounded-2xl overflow-hidden border border-slate-200 mb-5 sm:mb-8">
-        <img src="{{ Storage::url($berita->gambar) }}"
+        <img src="{{ $berita->getFirstMediaUrl('gambar') }}"
             alt="{{ $berita->judul }}"
             class="w-full h-auto object-cover max-h-[300px] sm:max-h-[400px] lg:max-h-[500px]">
     </div>

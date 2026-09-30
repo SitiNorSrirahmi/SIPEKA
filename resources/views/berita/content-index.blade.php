@@ -25,8 +25,8 @@
 
             {{-- GAMBAR --}}
             <a href="{{ route('berita.show', $item->id) }}" class="block relative aspect-video bg-slate-100 overflow-hidden group">
-                @if ($item->gambar)
-                <img src="{{ Storage::url($item->gambar) }}"
+                @if ($item->getFirstMediaUrl('gambar'))
+                <img src="{{ $item->getFirstMediaUrl('gambar') }}"
                     alt="{{ $item->judul }}"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 @else

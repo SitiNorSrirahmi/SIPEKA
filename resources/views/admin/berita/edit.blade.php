@@ -133,8 +133,8 @@
 
                         {{-- Preview Gambar --}}
                         <div class="rounded-xl overflow-hidden bg-slate-100 aspect-video mb-3 sm:mb-4">
-                            @if ($berita->gambar)
-                            <img src="{{ Storage::url($berita->gambar) }}"
+                            @if ($berita->getFirstMediaUrl('gambar'))
+                            <img src="{{ $berita->getFirstMediaUrl('gambar') }}
                                 class="w-full h-full object-cover">
                             @else
                             <div class="w-full h-full flex flex-col items-center justify-center">

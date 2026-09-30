@@ -66,8 +66,8 @@
                     @forelse ($berita as $item)
                     <tr class="hover:bg-slate-50/50 transition-colors">
                         <td class="px-6 py-4">
-                            @if ($item->gambar)
-                                <img src="{{ Storage::url($item->gambar) }}"
+                            @if ($item->getFirstMediaUrl('gambar'))
+                                <img src="{{ $item->getFirstMediaUrl('gambar') }}"
                                      class="w-14 h-14 object-cover rounded-xl border border-slate-100">
                             @else
                                 <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center">
