@@ -16,10 +16,14 @@ class Berita extends Model  implements HasMedia
     protected $fillable = [
         'judul',
         'konten',
-        'gambar',
         'status',
         'penulis_id',
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('gambar')->singleFile();
+    }
 
     public function penulis()
     {

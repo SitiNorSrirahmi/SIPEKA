@@ -159,8 +159,8 @@
                     <div class="flex items-center gap-3">
                         {{-- Gambar --}}
                         <div class="shrink-0">
-                            @if ($item->gambar)
-                                <img src="{{ Storage::url($item->gambar) }}"
+                            @if ($item->getFirstMediaUrl('gambar'))
+                                <img src="{{ $item->getFirstMediaUrl('gambar') }}"
                                      class="w-14 h-14 object-cover rounded-xl border border-slate-100">
                             @else
                                 <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center">

@@ -203,8 +203,8 @@
                             <a href="{{ route('berita.show', $item->id) }}"
                                class="flex items-start gap-3 p-3 sm:p-4 hover:bg-blue-50/40 transition group">
                                 <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0">
-                                    @if ($item->gambar)
-                                        <img src="{{ Storage::url($item->gambar) }}"
+                                    @if ($item->getFirstMediaUrl('gambar'))
+                                        <img src="{{ $item->getFirstMediaUrl('gambar') }}"
                                              alt="{{ $item->judul }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                     @else

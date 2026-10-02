@@ -48,7 +48,7 @@ class BeritaController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $berita->addMediaFromRequest('gambar')->toMediaCollection('gambar');
+            $berita->addMediaFromRequest('gambar')->toMediaCollection('gambar', 'public');
         }
 
         return redirect()
@@ -92,7 +92,7 @@ class BeritaController extends Controller
 
         if ($request->hasFile('gambar')) {
             $berita->clearMediaCollection('gambar'); // hapus gambar lama otomatis
-            $berita->addMediaFromRequest('gambar')->toMediaCollection('gambar');
+            $berita->addMediaFromRequest('gambar')->toMediaCollection('gambar', 'public');
     }
 
         return redirect()
