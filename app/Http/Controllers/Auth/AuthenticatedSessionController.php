@@ -43,9 +43,9 @@ class AuthenticatedSessionController extends Controller
     }
 
         // Arahkan berdasarkan rolenya ke rute baru yang sudah kita buat
-        if ($user->role === 'admin') {
+        if ($user->hasRole('admin')) {
             return redirect()->intended(route('admin.dashboard'));
-        } elseif ($user->role === 'petugas') {
+        } elseif ($user->hasRole('petugas')) {
             return redirect()->intended(route('petugas.dashboard'));
         }
 

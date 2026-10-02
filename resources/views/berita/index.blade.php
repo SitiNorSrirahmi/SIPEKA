@@ -1,11 +1,11 @@
-@php
-$role = auth()->check() ? auth()->user()->role : 'guest';
-@endphp
-
-@if ($role === 'admin')
-@include('berita.index-admin')
-@elseif ($role === 'petugas')
-@include('berita.index-petugas')
+@auth
+    @if (auth()->user()->hasRole('admin'))
+        @include('berita.index-admin')
+    @elseif (auth()->user()->hasRole('petugas'))
+        @include('berita.index-petugas')
+    @else
+        @include('berita.index-guest')
+    @endif
 @else
-@include('berita.index-guest')
-@endif
+    @include('berita.index-guest')
+@endauth

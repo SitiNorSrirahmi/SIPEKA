@@ -39,7 +39,7 @@ class StatistikController extends Controller
         $totalKerugian = LaporanMasuk::where('status', 'verified')
             ->sum('estimasi_kerugian');
 
-        $isAdmin = Auth::check() && Auth::user()->role== 'admin';
+        $isAdmin = Auth::check() && Auth::user()->hasRole('admin');
 
         if ($isAdmin) {
             $daftarKejadian = LaporanMasuk::with('jenisBencana', 'kejadianBencana')

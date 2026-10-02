@@ -16,9 +16,9 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         // Cek rolenya
-        if ($user->role === 'admin') {
+        if ($user->hasRole('admin')) {
             return view('admin.dashboard');
-        } elseif ($user->role === 'petugas') {
+        } elseif ($user->hasRole('petugas')) {
 
             // ===== STATISTIK LAPORAN PETUGAS =====
             $totalLaporan = LaporanMasuk::where('dibuat_oleh', $user->id)->count();

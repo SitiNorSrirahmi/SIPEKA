@@ -40,14 +40,15 @@ class UserController extends Controller
             'role' => 'required|in:admin,petugas',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'nip' => $validated['nip'] ?? null,
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
             'aktif' => true,
         ]);
+
+        $user->assignRole($validated['role']);
 
         return redirect()
             ->route('admin.users.index')
@@ -65,7 +66,7 @@ class UserController extends Controller
     /**
      * Update akun (tanpa ubah password di sini, password diubah terpisah)
      */
-    public function update(Request $request, User $user)
+        public function update(Request $request, User $user)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -74,7 +75,13 @@ class UserController extends Controller
             'role' => 'required|in:admin,petugas',
         ]);
 
-        $user->update($validated);
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'nip' => $validated['nip'] ?? null,
+        ]);
+
+        $user->syncRoles([$validated['role']]);
 
         return redirect()
             ->route('admin.users.index')

@@ -63,7 +63,7 @@ class LaporanMasukController extends Controller
         }
 
         // Tentukan status & pemilik laporan berdasarkan siapa yang lapor
-        if (Auth::check() && in_array(Auth::user()->role, ['petugas', 'admin'])) {
+        if (Auth::check() && Auth::user()->hasAnyRole(['petugas', 'admin'])) {
             $status = 'verified'; // Petugas & Admin -> auto verified, langsung publish
             $dibuatOleh = Auth::id();
             $pelaporNama = null;
