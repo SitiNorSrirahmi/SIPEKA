@@ -34,11 +34,9 @@ class KejadianBencanaController extends Controller
         $jenisBencana = JenisBencana::all();
 
         if (Auth::check()) {
-            $role = Auth::user()->role;
-
-            if ($role === 'admin') {
+            if (Auth::user()->hasRole('admin')) {
                 return view('admin.kejadian.index', compact('kejadian', 'jenisBencana'));
-            } elseif ($role === 'petugas') {
+            } elseif (Auth::user()->hasRole('petugas')) {
                 return view('admin.kejadian.index-petugas', compact('kejadian', 'jenisBencana'));
             }
         }
@@ -92,11 +90,9 @@ class KejadianBencanaController extends Controller
         $kejadianBencana->load('jenisBencana', 'laporanMasuk');
 
         if (Auth::check()) {
-            $role = Auth::user()->role;
-
-            if ($role === 'admin') {
+            if (Auth::user()->hasRole('admin')) {
                 return view('admin.kejadian.show-admin', compact('kejadianBencana'));
-            } elseif ($role === 'petugas') {
+            } elseif (Auth::user()->hasRole('petugas')) {
                 return view('admin.kejadian.show-petugas', compact('kejadianBencana'));
             }
         }

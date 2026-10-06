@@ -40,11 +40,10 @@ Route::get('/wilayahrawan', [WilayahRawanController::class, 'publikIndex'])->nam
 // ============ TENTANG SIPEKA (DINAMIS SESUAI ROLE) ============
 Route::get('/tentang', function (Request $request) {
     $user = $request->user();
-    $role = $user ? $user->role : 'publik';
 
-    if ($role === 'admin') {
+    if ($user && $user->hasRole('admin')) {
         $layout = 'layouts.admin';
-    } elseif ($role === 'petugas') {
+    } elseif ($user && $user->hasRole('petugas')) {
         $layout = 'layouts.petugas';
     } else {
         $layout = 'layouts.publik';

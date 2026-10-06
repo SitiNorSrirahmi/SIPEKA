@@ -58,10 +58,9 @@
                 <tbody class="divide-y divide-gray-100">
                     @forelse ($users as $item)
                         @php
-                            $roleColor = match(strtolower($item->role ?? '')) {
-                                'admin' => 'bg-purple-100 text-purple-700',
-                                'petugas' => 'bg-blue-100 text-blue-700',
-                                'masyarakat', 'user' => 'bg-gray-100 text-gray-700',
+                            $roleColor = match(true) {
+                                $item->hasRole('admin') => 'bg-purple-100 text-purple-700',
+                                $item->hasRole('petugas') => 'bg-blue-100 text-blue-700',
                                 default => 'bg-gray-100 text-gray-600',
                             };
                             $aksiConfirm = $item->aktif ? 'Nonaktifkan akun ini?' : 'Aktifkan akun ini?';
@@ -97,7 +96,7 @@
                             {{-- ROLE --}}
                             <td class="px-5 py-3.5">
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide {{ $roleColor }}">
-                                    {{ $item->role ?? 'user' }}
+                                    {{ $item->getRoleNames()->first() ?? 'user' }}
                                 </span>
                             </td>
 
@@ -174,10 +173,9 @@
         <div class="md:hidden divide-y divide-gray-100">
             @forelse ($users as $item)
                 @php
-                    $roleColor = match(strtolower($item->role ?? '')) {
-                        'admin' => 'bg-purple-100 text-purple-700',
-                        'petugas' => 'bg-blue-100 text-blue-700',
-                        'masyarakat', 'user' => 'bg-gray-100 text-gray-700',
+                    $roleColor = match(true) {
+                        $item->hasRole('admin') => 'bg-purple-100 text-purple-700',
+                        $item->hasRole('petugas') => 'bg-blue-100 text-blue-700',
                         default => 'bg-gray-100 text-gray-600',
                     };
                     $aksiConfirm = $item->aktif ? 'Nonaktifkan akun ini?' : 'Aktifkan akun ini?';
@@ -200,7 +198,7 @@
                                 <div class="flex items-center gap-1.5 mb-0.5">
                                     <p class="font-bold text-gray-800 text-sm truncate">{{ $item->name }}</p>
                                     <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wide {{ $roleColor }} shrink-0">
-                                        {{ $item->role ?? 'user' }}
+                                        {{ $item->getRoleNames()->first() ?? 'user' }}
                                     </span>
                                 </div>
                                 <p class="text-[11px] text-gray-500 truncate">✉️ {{ $item->email }}</p>

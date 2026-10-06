@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ auth()->check() ? (auth()->user()->role === 'admin' ? route('admin.dashboard') : route('petugas.dashboard')) : url('/') }}">
+                    <a href="{{ auth()->check() ? (auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('petugas.dashboard')) : url('/') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth
-                        <x-nav-link :href="auth()->user()->role === 'admin' ? route('admin.dashboard') : route('petugas.dashboard')" :active="request()->routeIs('*.dashboard')">
+                        <x-nav-link :href="auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('petugas.dashboard')" :active="request()->routeIs('*.dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                     @endauth
@@ -76,7 +76,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @auth
-                <x-responsive-nav-link :href="auth()->user()->role === 'admin' ? route('admin.dashboard') : route('petugas.dashboard')" :active="request()->routeIs('*.dashboard')">
+                <x-responsive-nav-link :href="auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('petugas.dashboard')" :active="request()->routeIs('*.dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
             @endauth

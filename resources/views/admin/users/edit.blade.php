@@ -15,11 +15,11 @@
     </a>
 
     @php
-        $roleLabel = $user->role === 'admin' ? 'Admin' : 'Petugas';
-        $roleStyle = $user->role === 'admin'
+        $roleLabel = $user->hasRole('admin') ? 'Admin' : 'Petugas';
+        $roleStyle = $user->hasRole('admin')
             ? 'bg-purple-50 text-purple-700 border-purple-200'
             : 'bg-blue-50 text-blue-700 border-blue-200';
-        $roleDot = $user->role === 'admin' ? 'bg-purple-500' : 'bg-blue-500';
+        $roleDot = $user->hasRole('admin') ? 'bg-purple-500' : 'bg-blue-500';
     @endphp
 
     {{-- ==================== HEADER — SEJAJAR ==================== --}}
@@ -129,8 +129,8 @@
                                 </label>
                                 <select name="role"
                                         class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900">
-                                    <option value="petugas" @selected(old('role', $user->role) === 'petugas')>Petugas</option>
-                                    <option value="admin" @selected(old('role', $user->role) === 'admin')>Admin</option>
+                                    <option value="petugas" @selected(old('role', $user->getRoleNames()->first()) === 'petugas')>Petugas</option>
+                                    <option value="admin" @selected(old('role', $user->getRoleNames()->first()) === 'admin')>Admin</option>
                                 </select>
                             </div>
                         </div>
