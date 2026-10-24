@@ -1,72 +1,35 @@
 @extends('layouts.publik')
 
-@php
-    function formatRupiahSingkat($angka) {
-        if ($angka >= 1000000000000) {
-            $val = $angka / 1000000000000;
-            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' T';
-        } elseif ($angka >= 1000000000) {
-            $val = $angka / 1000000000;
-            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' M';
-        } elseif ($angka >= 1000000) {
-            $val = $angka / 1000000;
-            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' Jt';
-        } elseif ($angka >= 1000) {
-            $val = $angka / 1000;
-            return 'Rp' . ($val == floor($val) ? number_format($val, 0, ',', '.') : number_format($val, 1, ',', '.')) . ' Rb';
-        }
-        return 'Rp' . number_format($angka, 0, ',', '.');
-    }
-@endphp
-
 @section('content')
 
-    {{-- ==================== HERO SECTION ==================== --}}
+    {{-- ==================== 1. HERO SECTION ==================== --}}
     <section class="pt-4 sm:pt-6 lg:pt-8 pb-8 sm:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
-
             <div class="relative isolate overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
-
                 <div class="absolute inset-0 pointer-events-none">
-                    <img src="{{ asset('images/thumbnail.png') }}"
-                         alt="Ilustrasi SIPEKA"
-                         class="w-full h-full object-cover object-center">
+                    <img src="{{ asset('images/thumbnail.png') }}" alt="Ilustrasi SIPEKA" class="w-full h-full object-cover object-center">
                     <div class="absolute inset-0 bg-gradient-to-l from-transparent via-[#0A1A3A]/60 to-[#0A1A3A]"></div>
                 </div>
-
                 <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -mt-32 pointer-events-none"></div>
                 <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl -mb-24 pointer-events-none"></div>
 
                 <div class="relative z-10 p-6 sm:p-12 lg:p-16 lg:py-20">
                     <div class="max-w-2xl">
                         <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4 sm:mb-5">
-                            Sistem Informasi<br>
-                            Pemetaan Bencana<br>
+                            Sistem Informasi<br>Pemetaan Bencana<br>
                             <span class="text-yellow-400">Kalimantan Selatan</span>
                         </h1>
-
                         <p class="text-xs sm:text-base text-blue-100/90 leading-relaxed mb-6 sm:mb-8 max-w-xl">
-                            Pantau informasi bencana secara cepat dan akurat melalui SIPEKA.
-                            Dukung bersama upaya mitigasi dan keselamatan masyarakat Kalimantan Selatan.
+                            Pantau informasi bencana secara cepat dan akurat melalui SIPEKA. Dukung bersama upaya mitigasi dan keselamatan masyarakat Kalimantan Selatan.
                         </p>
-
                         <form action="{{ route('pencarian.index') }}" method="GET">
                             <div class="flex flex-row gap-2 max-w-xl">
                                 <div class="relative flex-1">
-                                    <svg class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                    <input type="text" name="keyword" required
-                                           placeholder="Cari lokasi atau jenis bencana..."
-                                           class="w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 rounded-xl border-0 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-yellow-400 outline-none transition">
+                                    <svg class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                    <input type="text" name="keyword" required placeholder="Cari lokasi atau jenis bencana..." class="w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 rounded-xl border-0 bg-white text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-yellow-400 outline-none transition">
                                 </div>
-                                <button type="submit"
-                                        class="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-5 py-3 sm:py-3.5 rounded-xl text-xs sm:text-sm font-bold transition shrink-0">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
+                                <button type="submit" class="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-5 py-3 sm:py-3.5 rounded-xl text-xs sm:text-sm font-bold transition shrink-0">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                                     <span class="hidden sm:inline">Cari</span>
                                 </button>
                             </div>
@@ -77,504 +40,205 @@
         </div>
     </section>
 
-    {{-- ==================== 4 CARD STATISTIK ==================== --}}
+    {{-- ==================== 2. 4 CARD STATISTIK (Atas) ==================== --}}
     <section class="pb-8 sm:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-
                 <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                            </svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
                         </div>
                         <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Total Kejadian</p>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $totalKejadian }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $statTotalKejadian ?? $totalKejadian ?? 0 }}</p>
                 </div>
 
                 <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-red-100 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                         </div>
                         <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Korban Meninggal</p>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $totalKorbanMeninggal }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $statTotalKorbanMeninggal ?? $totalKorbanMeninggal ?? 0 }}</p>
                 </div>
 
                 <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-yellow-100 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                         </div>
                         <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Korban Luka</p>
                     </div>
-                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $totalKorbanLuka }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-slate-800">{{ $statTotalKorbanLuka ?? $totalKorbanLuka ?? 0 }}</p>
                 </div>
 
                 <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                         <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-green-100 flex items-center justify-center shrink-0">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-bold leading-tight">Kerugian</p>
                     </div>
-                    <p class="text-lg sm:text-xl font-extrabold text-slate-800 truncate"
-                       title="Rp{{ number_format($totalKerugian ?? 0, 0, ',', '.') }}">
-                        {{ formatRupiahSingkat($totalKerugian ?? 0) }}
+                    <p class="text-lg sm:text-xl font-extrabold text-slate-800 truncate" title="Rp{{ number_format($statTotalKerugian ?? $totalKerugian ?? 0, 0, ',', '.') }}">
+                        @if(function_exists('formatRupiahSingkat')) {{ formatRupiahSingkat($statTotalKerugian ?? $totalKerugian ?? 0) }} @else Rp{{ number_format($statTotalKerugian ?? $totalKerugian ?? 0, 0, ',', '.') }} @endif
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    {{-- ==================== PETA + BERITA (2/3 + 1/3) ==================== --}}
-    <section class="pb-12 sm:pb-16">
+    {{-- ==================== 3. PETA + BERITA ==================== --}}
+    <section class="pb-8 sm:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-
-                {{-- KIRI: PETA (2/3) --}}
+                {{-- Peta --}}
                 <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-
-                    {{-- Header peta + tombol switch --}}
-                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                        <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
-                            <span class="text-blue-600">🗺️</span>
-                            <span id="peta-title">Peta Wilayah Rawan</span>
-                        </h2>
-
-                        {{-- TOMBOL SWITCH MODE --}}
+                    <div class="px-4 py-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><span class="text-blue-600">🗺️</span><span id="peta-title">Peta Wilayah Rawan</span></h2>
                         <div class="inline-flex bg-slate-100 rounded-lg p-1 self-start sm:self-auto">
-                            <button type="button"
-                                    id="btn-mode-wilayah"
-                                    onclick="switchMapMode('wilayah')"
-                                    class="px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition-all duration-200 bg-white text-blue-600 shadow-sm">
-                                Wilayah Rawan
-                            </button>
-                            <button type="button"
-                                    id="btn-mode-kejadian"
-                                    onclick="switchMapMode('kejadian')"
-                                    class="px-3 sm:px-4 py-1.5 rounded-md text-xs sm:text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900">
-                                Kejadian
-                            </button>
+                            <button type="button" id="btn-mode-wilayah" onclick="switchMapMode('wilayah')" class="px-3 sm:px-4 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 bg-white text-blue-600 shadow-sm">Wilayah Rawan</button>
+                            <button type="button" id="btn-mode-kejadian" onclick="switchMapMode('kejadian')" class="px-3 sm:px-4 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900">Kejadian</button>
                         </div>
                     </div>
-
-                    {{-- PETA --}}
                     <div id="peta-utama" class="h-[350px] sm:h-[420px] lg:h-[500px] w-full" style="z-index: 0;"></div>
-
-                    {{-- Footer peta --}}
-                    <div class="px-4 sm:px-5 py-3 border-t border-slate-100 flex items-center justify-between">
-                        <p class="text-[11px] text-slate-500" id="peta-info">
-                            Menampilkan wilayah rawan bencana di Kalimantan Selatan
-                        </p>
-                        <a href="#" id="peta-link" class="text-[11px] font-bold text-blue-600 hover:text-blue-800">
-                            Lihat semua →
-                        </a>
+                    <div class="px-4 py-3 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-[11px] text-slate-500" id="peta-info">Menampilkan wilayah rawan bencana di Kalimantan Selatan</p>
+                        <a href="#" id="peta-link" class="text-[11px] font-bold text-blue-600 hover:text-blue-800">Lihat semua →</a>
                     </div>
                 </div>
 
-                {{-- KANAN: BERITA (1/3) --}}
+                {{-- Berita --}}
                 <div class="lg:col-span-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex items-center justify-between">
-                        <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2">
-                            <span class="text-blue-600">📰</span>
-                            Berita Terbaru
-                        </h2>
-                        <a href="{{ route('berita.index') }}"
-                           class="text-[11px] font-bold text-blue-600 hover:text-blue-800">
-                            Lihat semua →
-                        </a>
+                    <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                        <h2 class="font-bold text-sm text-slate-900 flex items-center gap-2"><span class="text-blue-600">📰</span> Berita Terbaru</h2>
+                        <a href="{{ route('berita.index') }}" class="text-[11px] font-bold text-blue-600 hover:text-blue-800">Lihat semua →</a>
                     </div>
                     <div class="divide-y divide-slate-100 flex-1">
                         @forelse ($beritaTerbaru as $item)
-                            <a href="{{ route('berita.show', $item->id) }}"
-                               class="flex items-start gap-3 p-3 sm:p-4 hover:bg-blue-50/40 transition group">
-                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0">
+                            <a href="{{ route('berita.show', $item->id) }}" class="flex items-start gap-3 p-3 sm:p-4 hover:bg-blue-50/40 transition group">
+                                <div class="w-14 h-14 rounded-xl overflow-hidden bg-slate-100 shrink-0">
                                     @if ($item->getFirstMediaUrl('gambar'))
-                                        <img src="{{ $item->getFirstMediaUrl('gambar') }}"
-                                             alt="{{ $item->judul }}"
-                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <img src="{{ $item->getFirstMediaUrl('gambar') }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                     @else
-                                        <div class="w-full h-full flex items-center justify-center bg-slate-100">
-                                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                        </div>
+                                        <div class="w-full h-full flex items-center justify-center bg-slate-100"><svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
                                     @endif
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <h3 class="font-bold text-slate-800 text-xs leading-snug line-clamp-2 mb-1">
-                                        {{ $item->judul }}
-                                    </h3>
-                                    <p class="text-[10px] text-slate-400">
-                                        {{ $item->created_at?->timezone('Asia/Makassar')->format('d M Y') }}
-                                        · {{ $item->created_at?->timezone('Asia/Makassar')->format('H:i') }} WITA
-                                    </p>
+                                    <h3 class="font-bold text-slate-800 text-xs leading-snug line-clamp-2 mb-1">{{ $item->judul }}</h3>
+                                    <p class="text-[10px] text-slate-400">{{ $item->created_at?->timezone('Asia/Makassar')->format('d M Y') }} · {{ $item->created_at?->timezone('Asia/Makassar')->format('H:i') }} WITA</p>
                                 </div>
                             </a>
                         @empty
-                            <div class="p-6 text-center text-xs text-slate-400">
-                                Belum ada berita.
-                            </div>
+                            <div class="p-6 text-center text-xs text-slate-400">Belum ada berita.</div>
                         @endforelse
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    {{-- ==================== 4. GRAFIK STATISTIK (Bawah) ==================== --}}
+    <section class="pb-12 sm:pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="mb-4">
+                <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-blue-600">📊</span> Analisis Statistik Bencana
+                </h2>
+            </div>
+            
+            {{-- Trik CSS: Sembunyikan 4 Card dari file content biar nggak dobel --}}
+            <style>
+                .wrapper-grafik-publik .grid.grid-cols-2 { display: none !important; }
+            </style>
+            <div class="wrapper-grafik-publik">
+                @include('statistik.content')
             </div>
         </div>
     </section>
 
 @endsection
 
-{{-- ==================== LEAFLET CSS & JS ==================== --}}
+{{-- LEAFLET SCRIPT (Sama Persis, biarin aja) --}}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
-    let kalselFeatureCache = null;
-    let currentMode = 'wilayah';
-    let map = null;
-    let kalselBounds = null;
-    let layerWilayah = null;
-    let layerKejadian = null;
-
-    // ============ LOAD GEOJSON KALSEL ============
+    let kalselFeatureCache = null, currentMode = 'wilayah', map = null, kalselBounds = null, layerWilayah = null, layerKejadian = null;
     async function loadKalselGeoJSON() {
         if (kalselFeatureCache) return kalselFeatureCache;
         try {
             const res = await fetch('{{ asset("geojson/indonesia-province-simple.json") }}');
             const geojson = await res.json();
-            const kalselFeature = geojson.features.find(f =>
-                f.properties && f.properties.Propinsi &&
-                f.properties.Propinsi.toUpperCase().includes('KALIMANTAN SELATAN')
-            );
-            kalselFeatureCache = kalselFeature;
-            return kalselFeature;
-        } catch (err) {
-            console.warn('Gagal load GeoJSON:', err);
-            return null;
-        }
+            const kalselFeature = geojson.features.find(f => f.properties && f.properties.Propinsi && f.properties.Propinsi.toUpperCase().includes('KALIMANTAN SELATAN'));
+            kalselFeatureCache = kalselFeature; return kalselFeature;
+        } catch (err) { console.warn('Gagal load GeoJSON:', err); return null; }
     }
-
-    // ============ HELPER: TOMBOL FOKUS KE KALSEL ============
     function tambahTombolFokus(mapInstance, getBounds) {
-        const FokusControl = L.Control.extend({
-            options: { position: 'topright' },
-            onAdd: function() {
-                const btn = L.DomUtil.create('button', 'leaflet-bar');
-                btn.innerHTML = '🎯';
-                btn.title = 'Kembali ke Kalimantan Selatan';
-                btn.style.cssText = `
-                    width: 34px;
-                    height: 34px;
-                    background: white;
-                    border: 2px solid rgba(0,0,0,0.2);
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.2s ease;
-                    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-                `;
-
-                btn.onmouseenter = function() {
-                    btn.style.background = '#f0f4fb';
-                    btn.style.transform = 'scale(1.05)';
-                };
-                btn.onmouseleave = function() {
-                    btn.style.background = 'white';
-                    btn.style.transform = 'scale(1)';
-                };
-
-                L.DomEvent.disableClickPropagation(btn);
-                L.DomEvent.on(btn, 'click', function(e) {
-                    L.DomEvent.stopPropagation(e);
-                    const bounds = getBounds();
-                    if (bounds) {
-                        mapInstance.flyToBounds(bounds, { padding: [20, 20], duration: 1.2 });
-                    }
-                });
-
-                return btn;
-            }
-        });
-        mapInstance.addControl(new FokusControl());
+        const FokusControl = L.Control.extend({ options: { position: 'topright' }, onAdd: function() {
+            const btn = L.DomUtil.create('button', 'leaflet-bar'); btn.innerHTML = '🎯'; btn.title = 'Kembali ke Kalimantan Selatan';
+            btn.style.cssText = `width: 34px; height: 34px; background: white; border: 2px solid rgba(0,0,0,0.2); border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; box-shadow: 0 1px 4px rgba(0,0,0,0.15);`;
+            btn.onmouseenter = function() { btn.style.background = '#f0f4fb'; btn.style.transform = 'scale(1.05)'; };
+            btn.onmouseleave = function() { btn.style.background = 'white'; btn.style.transform = 'scale(1)'; };
+            L.DomEvent.disableClickPropagation(btn);
+            L.DomEvent.on(btn, 'click', function(e) { L.DomEvent.stopPropagation(e); const bounds = getBounds(); if (bounds) mapInstance.flyToBounds(bounds, { padding: [20, 20], duration: 1.2 }); });
+            return btn;
+        }}); mapInstance.addControl(new FokusControl());
     }
-
-    // ============ WARNA MARKER ============
-    const markerColor = {
-        'banjir': '#1e40af',
-        'karhutla': '#991b1b',
-        'longsor': '#a16207',
-        'kebakaran': '#f97316',
-        'angin': '#10b981',
-        'tsunami': '#06b6d4',
-        'kekeringan': '#d97706',
-    };
-
-    function getMarkerColor(jenis) {
-        const key = (jenis || '').toLowerCase().replace(/\s+/g, '');
-        for (const k in markerColor) {
-            if (key.includes(k) || k.includes(key)) {
-                return markerColor[k];
-            }
-        }
-        return '#6b7280';
-    }
-
-    // ============ WARNA WILAYAH ============
-    const colorMap = {
-        'banjir': { rendah: '#93c5fd', sedang: '#3b82f6', tinggi: '#1e40af' },
-        'karhutla': { rendah: '#fca5a5', sedang: '#ef4444', tinggi: '#991b1b' },
-        'longsor': { rendah: '#d6b28c', sedang: '#a16207', tinggi: '#713f12' },
-        'kebakaran': { rendah: '#fed7aa', sedang: '#f97316', tinggi: '#9a3412' },
-    };
-
-    function getColor(jenis, level) {
-        const jenisKey = (jenis || '').toLowerCase().trim();
-        const levelKey = (level || '').toLowerCase().trim();
-        const normalizedJenis = jenisKey.replace(/\s+/g, '');
-
-        for (const key in colorMap) {
-            if (normalizedJenis.includes(key) || key.includes(normalizedJenis)) {
-                return colorMap[key][levelKey] || '#6b7280';
-            }
-        }
-        return '#6b7280';
-    }
-
-    // ============ INIT MAP ============
+    const markerColor = { 'banjir': '#1e40af', 'karhutla': '#991b1b', 'longsor': '#a16207', 'kebakaran': '#f97316', 'angin': '#10b981', 'tsunami': '#06b6d4', 'kekeringan': '#d97706' };
+    function getMarkerColor(jenis) { const key = (jenis || '').toLowerCase().replace(/\s+/g, ''); for (const k in markerColor) { if (key.includes(k) || k.includes(key)) return markerColor[k]; } return '#6b7280'; }
+    const colorMap = { 'banjir': { rendah: '#93c5fd', sedang: '#3b82f6', tinggi: '#1e40af' }, 'karhutla': { rendah: '#fca5a5', sedang: '#ef4444', tinggi: '#991b1b' }, 'longsor': { rendah: '#d6b28c', sedang: '#a16207', tinggi: '#713f12' }, 'kebakaran': { rendah: '#fed7aa', sedang: '#f97316', tinggi: '#9a3412' } };
+    function getColor(jenis, level) { const jenisKey = (jenis || '').toLowerCase().trim(); const levelKey = (level || '').toLowerCase().trim(); const normalizedJenis = jenisKey.replace(/\s+/g, ''); for (const key in colorMap) { if (normalizedJenis.includes(key) || key.includes(normalizedJenis)) return colorMap[key][levelKey] || '#6b7280'; } return '#6b7280'; }
     (async function() {
-        const el = document.getElementById('peta-utama');
-        if (!el) return;
-
+        const el = document.getElementById('peta-utama'); if (!el) return;
         map = L.map('peta-utama').setView([-3.0, 115.5], 7);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OSM'
-        }).addTo(map);
-
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OSM' }).addTo(map);
         const kalselFeature = await loadKalselGeoJSON();
-
         if (kalselFeature) {
-            // Layer Kalsel (garis batas)
-            const kalselLayer = L.geoJSON(kalselFeature, {
-                style: {
-                    color: '#1e40af',
-                    weight: 2,
-                    fillColor: '#3b82f6',
-                    fillOpacity: 0.1,
-                    dashArray: '4,4',
-                    interactive: false
-                }
-            }).addTo(map);
-
+            const kalselLayer = L.geoJSON(kalselFeature, { style: { color: '#1e40af', weight: 2, fillColor: '#3b82f6', fillOpacity: 0.1, dashArray: '4,4', interactive: false } }).addTo(map);
             kalselBounds = kalselLayer.getBounds();
-
-            // Gelap di luar Kalsel
-            const worldRing = [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]];
-            let kalselHoles = [];
-            if (kalselFeature.geometry.type === 'Polygon') {
-                kalselHoles = kalselFeature.geometry.coordinates;
-            } else if (kalselFeature.geometry.type === 'MultiPolygon') {
-                kalselFeature.geometry.coordinates.forEach(poly => {
-                    poly.forEach(ring => kalselHoles.push(ring));
-                });
-            }
-
-            L.geoJSON({
-                type: 'Feature',
-                geometry: { type: 'Polygon', coordinates: [worldRing, ...kalselHoles] },
-                properties: {}
-            }, {
-                style: {
-                    color: 'transparent',
-                    weight: 0,
-                    fillColor: '#0f172a',
-                    fillOpacity: 0.55,
-                    interactive: false
-                }
-            }).addTo(map);
-
-            map.fitBounds(kalselBounds, { padding: [20, 20] });
-
-            tambahTombolFokus(map, () => kalselBounds);
+            const worldRing = [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]; let kalselHoles = [];
+            if (kalselFeature.geometry.type === 'Polygon') { kalselHoles = kalselFeature.geometry.coordinates; } else if (kalselFeature.geometry.type === 'MultiPolygon') { kalselFeature.geometry.coordinates.forEach(poly => { poly.forEach(ring => kalselHoles.push(ring)); }); }
+            L.geoJSON({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [worldRing, ...kalselHoles] }, properties: {} }, { style: { color: 'transparent', weight: 0, fillColor: '#0f172a', fillOpacity: 0.55, interactive: false } }).addTo(map);
+            map.fitBounds(kalselBounds, { padding: [20, 20] }); tambahTombolFokus(map, () => kalselBounds);
         }
-
-        // Load data kedua mode
-        await Promise.all([loadWilayahRawan(), loadKejadian()]);
-
-        // Tampilkan mode awal
-        switchMapMode('wilayah');
+        await Promise.all([loadWilayahRawan(), loadKejadian()]); switchMapMode('wilayah');
     })();
-
-    // ============ LOAD WILAYAH RAWAN ============
     async function loadWilayahRawan() {
-        if (layerWilayah) return; // udah ada
-
-        layerWilayah = L.layerGroup();
-
-        try {
-            const res = await fetch('/api/wilayah-rawan');
-            const data = await res.json();
-
-            data.forEach(function (item) {
-                if (!item.geom || !item.geom.coordinates) return;
-                const warna = getColor(item.jenis_bencana, item.level_rawan);
-
-                if (item.geom.type === 'Polygon' || item.geom.type === 'MultiPolygon') {
-                    L.geoJSON(item.geom, {
-                        style: {
-                            color: warna,
-                            fillColor: warna,
-                            fillOpacity: 0.55,
-                            weight: 2,
-                        }
-                    }).bindPopup(
-                        '<div style="font-family: Plus Jakarta Sans, sans-serif; min-width: 140px;">' +
-                            '<p style="font-weight:700; font-size:12px; margin:0 0 4px 0;">' + (item.jenis_bencana || '-') + '</p>' +
-                            '<p style="font-size:11px; color:#475569; margin:0;">' + (item.kabupaten || '-') + ' · ' + (item.level_rawan || '-') + '</p>' +
-                        '</div>'
-                    ).addTo(layerWilayah);
-                }
+        if (layerWilayah) return; layerWilayah = L.layerGroup();
+        try { const res = await fetch('/api/wilayah-rawan'); const data = await res.json();
+            data.forEach(function (item) { if (!item.geom || !item.geom.coordinates) return; const warna = getColor(item.jenis_bencana, item.level_rawan);
+                if (item.geom.type === 'Polygon' || item.geom.type === 'MultiPolygon') { L.geoJSON(item.geom, { style: { color: warna, fillColor: warna, fillOpacity: 0.55, weight: 2 } }).bindPopup('<div style="font-family: Plus Jakarta Sans, sans-serif; min-width: 140px;"><p style="font-weight:700; font-size:12px; margin:0 0 4px 0;">' + (item.jenis_bencana || '-') + '</p><p style="font-size:11px; color:#475569; margin:0;">' + (item.kabupaten || '-') + ' · ' + (item.level_rawan || '-') + '</p></div>').addTo(layerWilayah); }
             });
-        } catch (err) {
-            console.warn('Gagal load wilayah rawan:', err);
-        }
+        } catch (err) { console.warn('Gagal load wilayah rawan:', err); }
     }
-
-    // ============ LOAD KEJADIAN ============
     async function loadKejadian() {
-        if (layerKejadian) return; // udah ada
-
-        layerKejadian = L.layerGroup();
-
-        try {
-            const res = await fetch('/api/kejadian');
-            const data = await res.json();
-
-            if (!Array.isArray(data)) return;
-
+        if (layerKejadian) return; layerKejadian = L.layerGroup();
+        try { const res = await fetch('/api/kejadian'); const data = await res.json(); if (!Array.isArray(data)) return;
             data.forEach(function (item) {
-                if (!item.latitude || !item.longitude) return;
-
-                const lat = parseFloat(item.latitude);
-                const lng = parseFloat(item.longitude);
-                if (isNaN(lat) || isNaN(lng)) return;
-
+                if (!item.latitude || !item.longitude) return; const lat = parseFloat(item.latitude); const lng = parseFloat(item.longitude); if (isNaN(lat) || isNaN(lng)) return;
                 const warna = getMarkerColor(item.jenis_bencana);
-
-                const markerIcon = L.divIcon({
-                    html: '<div style="position:relative;">' +
-                        '<svg width="24" height="30" viewBox="0 0 24 30" fill="none">' +
-                        '<path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 18 12 18s12-9 12-18c0-6.6-5.4-12-12-12z" fill="' + warna + '" stroke="white" stroke-width="1.5"/>' +
-                        '<circle cx="12" cy="12" r="4" fill="white"/>' +
-                        '</svg>' +
-                        '</div>',
-                    className: 'custom-marker',
-                    iconSize: [24, 30],
-                    iconAnchor: [12, 30],
-                    popupAnchor: [0, -30]
-                });
-
-                const marker = L.marker([lat, lng], { icon: markerIcon });
-
-                const kerugian = item.estimasi_kerugian ?
-                    'Rp' + parseInt(item.estimasi_kerugian).toLocaleString('id-ID') :
-                    '-';
-
-                marker.bindPopup(
-                    '<div style="font-family: Plus Jakarta Sans, system-ui, sans-serif; min-width: 180px;">' +
-                    '<span style="display:inline-flex; align-items:center; gap:6px; padding:3px 8px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; background:' + warna + '20; color:' + warna + '; border:1px solid ' + warna + '40; margin-bottom:8px;">' +
-                    '<span style="width:6px; height:6px; border-radius:999px; background:' + warna + ';"></span>' +
-                    (item.jenis_bencana || '-') +
-                    '</span>' +
-                    '<p style="font-size:11px; color:#475569; margin:6px 0 3px 0;">' +
-                    '<strong style="color:#0f172a;">Korban:</strong> ' + (item.jumlah_korban || 0) + ' orang' +
-                    '</p>' +
-                    '<p style="font-size:11px; color:#475569; margin:0 0 3px 0;">' +
-                    '<strong style="color:#0f172a;">Kerugian:</strong> ' + kerugian +
-                    '</p>' +
-                    '<p style="font-size:11px; color:#475569; margin:0 0 10px 0;">' +
-                    '<strong style="color:#0f172a;">Tanggal:</strong> ' + (item.tanggal_kejadian || '-') +
-                    '</p>' +
-                    '<a href="/kejadian/' + item.id + '" style="display:inline-flex; align-items:center; gap:4px; padding:5px 10px; border-radius:6px; background:' + warna + '; color:white; font-size:10px; font-weight:700; text-decoration:none;">' +
-                    'Detail →' +
-                    '</a>' +
-                    '</div>'
-                );
-
+                const markerIcon = L.divIcon({ html: '<div style="position:relative;"><svg width="24" height="30" viewBox="0 0 24 30" fill="none"><path d="M12 0C5.4 0 0 5.4 0 12c0 9 12 18 12 18s12-9 12-18c0-6.6-5.4-12-12-12z" fill="' + warna + '" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="white"/></svg></div>', className: 'custom-marker', iconSize: [24, 30], iconAnchor: [12, 30], popupAnchor: [0, -30] });
+                const marker = L.marker([lat, lng], { icon: markerIcon }); const kerugian = item.estimasi_kerugian ? 'Rp' + parseInt(item.estimasi_kerugian).toLocaleString('id-ID') : '-';
+                marker.bindPopup('<div style="font-family: Plus Jakarta Sans, system-ui, sans-serif; min-width: 180px;"><span style="display:inline-flex; align-items:center; gap:6px; padding:3px 8px; border-radius:999px; font-size:10px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; background:' + warna + '20; color:' + warna + '; border:1px solid ' + warna + '40; margin-bottom:8px;"><span style="width:6px; height:6px; border-radius:999px; background:' + warna + ';"></span>' + (item.jenis_bencana || '-') + '</span><p style="font-size:11px; color:#475569; margin:6px 0 3px 0;"><strong style="color:#0f172a;">Korban:</strong> ' + (item.jumlah_korban || 0) + ' orang</p><p style="font-size:11px; color:#475569; margin:0 0 3px 0;"><strong style="color:#0f172a;">Kerugian:</strong> ' + kerugian + '</p><p style="font-size:11px; color:#475569; margin:0 0 10px 0;"><strong style="color:#0f172a;">Tanggal:</strong> ' + (item.tanggal_kejadian || '-') + '</p><a href="/kejadian/' + item.id + '" style="display:inline-flex; align-items:center; gap:4px; padding:5px 10px; border-radius:6px; background:' + warna + '; color:white; font-size:10px; font-weight:700; text-decoration:none;">Detail →</a></div>');
                 marker.addTo(layerKejadian);
             });
-        } catch (err) {
-            console.warn('Gagal load kejadian:', err);
-        }
+        } catch (err) { console.warn('Gagal load kejadian:', err); }
     }
-
-    // ============ SWITCH MODE ============
     window.switchMapMode = function(mode) {
-        if (!map) return;
-        currentMode = mode;
-
-        // Remove semua layer
-        if (layerWilayah) map.removeLayer(layerWilayah);
-        if (layerKejadian) map.removeLayer(layerKejadian);
-
-        // Update tombol
-        const btnWilayah = document.getElementById('btn-mode-wilayah');
-        const btnKejadian = document.getElementById('btn-mode-kejadian');
-        const petaTitle = document.getElementById('peta-title');
-        const petaInfo = document.getElementById('peta-info');
-        const petaLink = document.getElementById('peta-link');
-
+        if (!map) return; currentMode = mode;
+        if (layerWilayah) map.removeLayer(layerWilayah); if (layerKejadian) map.removeLayer(layerKejadian);
+        const btnWilayah = document.getElementById('btn-mode-wilayah'), btnKejadian = document.getElementById('btn-mode-kejadian'), petaTitle = document.getElementById('peta-title'), petaInfo = document.getElementById('peta-info'), petaLink = document.getElementById('peta-link');
         if (mode === 'wilayah') {
-            // Tampilkan wilayah
             if (layerWilayah) layerWilayah.addTo(map);
-
-            // Update tombol
-            btnWilayah.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
-            btnWilayah.classList.remove('text-slate-600');
-            btnKejadian.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
-            btnKejadian.classList.add('text-slate-600');
-
-            // Update judul & info
-            petaTitle.textContent = 'Peta Wilayah Rawan';
-            petaInfo.textContent = 'Menampilkan wilayah rawan bencana di Kalimantan Selatan';
-            petaLink.href = '{{ route("wilayahrawan.index") }}';
+            btnWilayah.classList.add('bg-white', 'text-blue-600', 'shadow-sm'); btnWilayah.classList.remove('text-slate-600'); btnKejadian.classList.remove('bg-white', 'text-blue-600', 'shadow-sm'); btnKejadian.classList.add('text-slate-600');
+            petaTitle.textContent = 'Peta Wilayah Rawan'; petaInfo.textContent = 'Menampilkan wilayah rawan bencana di Kalimantan Selatan'; petaLink.href = '{{ route("wilayahrawan.index") }}';
         } else {
-            // Tampilkan kejadian
             if (layerKejadian) layerKejadian.addTo(map);
-
-            // Update tombol
-            btnKejadian.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
-            btnKejadian.classList.remove('text-slate-600');
-            btnWilayah.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
-            btnWilayah.classList.add('text-slate-600');
-
-            // Update judul & info
-            petaTitle.textContent = 'Peta Kejadian Bencana';
-            petaInfo.textContent = 'Menampilkan kejadian bencana di Kalimantan Selatan';
-            petaLink.href = '{{ route("kejadian.index") }}';
+            btnKejadian.classList.add('bg-white', 'text-blue-600', 'shadow-sm'); btnKejadian.classList.remove('text-slate-600'); btnWilayah.classList.remove('bg-white', 'text-blue-600', 'shadow-sm'); btnWilayah.classList.add('text-slate-600');
+            petaTitle.textContent = 'Peta Kejadian Bencana'; petaInfo.textContent = 'Menampilkan kejadian bencana di Kalimantan Selatan'; petaLink.href = '{{ route("kejadian.index") }}';
         }
     };
-
 });
 </script>
