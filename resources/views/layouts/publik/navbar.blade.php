@@ -1,5 +1,5 @@
 <nav x-data="{ mobileOpen: false }" class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-50">
         <div class="flex items-center justify-between h-16">
 
             {{-- Logo --}}
@@ -25,11 +25,7 @@
                           {{ request()->routeIs('wilayahrawan.*') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600' }}">
                     Wilayah Rawan
                 </a>
-                <a href="{{ route('statistik.index') }}"
-                   class="px-3 py-2 rounded-lg text-sm font-medium transition
-                          {{ request()->routeIs('statistik.*') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600' }}">
-                    Statistik
-                </a>
+                {{-- Menu Statistik dihapus --}}
                 <a href="{{ route('berita.index') }}"
                    class="px-3 py-2 rounded-lg text-sm font-medium transition
                           {{ request()->routeIs('berita.*') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-600' }}">
@@ -94,6 +90,18 @@
         </div>
     </div>
 
+    {{-- OVERLAY BACKDROP (Ditaruh di sini biar nutupin semua halaman, tapi di bawah menu) --}}
+    <div x-show="mobileOpen" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="mobileOpen = false"
+         class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+         x-cloak></div>
+
     {{-- MOBILE MENU --}}
     <div x-show="mobileOpen"
          x-cloak
@@ -104,7 +112,7 @@
          x-transition:leave-start="opacity-100 translate-x-0"
          x-transition:leave-end="opacity-0 translate-x-4"
          @click.away="mobileOpen = false"
-         class="lg:hidden absolute top-full right-0 w-72 max-w-[85vw] bg-white shadow-lg border-l border-gray-100 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-bl-2xl">
+         class="lg:hidden absolute top-full right-0 w-72 max-w-[85vw] bg-white shadow-lg border-l border-gray-100 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-bl-2xl z-50">
 
         <div class="px-4 py-3 space-y-1">
 
@@ -140,15 +148,7 @@
                 Wilayah Rawan
             </a>
 
-            <a href="{{ route('statistik.index') }}"
-               class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition
-                      {{ request()->routeIs('statistik.*') ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-gray-700 hover:bg-gray-50' }}">
-                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                Statistik
-            </a>
+            {{-- Menu Statistik dihapus --}}
 
             <a href="{{ route('berita.index') }}"
                class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition
