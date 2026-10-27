@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class LaporanMasuk extends Model
+
+class LaporanMasuk extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $table = 'laporan_masuk';
 
@@ -34,6 +37,11 @@ class LaporanMasuk extends Model
     protected $casts = [
         'tanggal_kejadian' => 'datetime',
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('foto')->singleFile();
+    }
 
     public function jenisBencana()
     {

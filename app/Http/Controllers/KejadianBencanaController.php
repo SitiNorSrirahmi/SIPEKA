@@ -87,7 +87,8 @@ class KejadianBencanaController extends Controller
      */
     public function show(KejadianBencana $kejadianBencana)
     {
-        $kejadianBencana->load('jenisBencana', 'laporanMasuk');
+        // Load relasi laporanMasuk beserta media Spatie-nya
+        $kejadianBencana->load(['jenisBencana', 'laporanMasuk.media']);
 
         if (Auth::check()) {
             if (Auth::user()->hasRole('admin')) {

@@ -277,7 +277,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h2 class="text-sm font-semibold text-slate-900">Foto Kejadian</h2>
+                                    <h2 class="text-sm font-semibold text-slate-900">Foto Kejadian <span class="text-red-500">*</span></h2>
                                     <p class="text-xs text-slate-400">Bukti visual</p>
                                 </div>
                             </div>
@@ -296,12 +296,19 @@
                             </div>
 
                             <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
-                                Pilih Foto <span class="text-slate-400 normal-case tracking-normal font-normal">(opsional)</span>
+                                Pilih Foto <span class="text-red-500">*</span>
                             </label>
-                            <input type="file" name="foto" accept="image/*"
+                            <input type="file" name="foto" id="foto" 
+                                accept="image/jpeg,image/png,image/jpg,image/heic,image/heif,.heic,.heif"
+                                required
                                 onchange="previewImage(event)"
-                                class="w-full text-[10px] sm:text-xs text-slate-500 file:mr-2 sm:file:mr-3 file:py-2 sm:file:py-2.5 file:px-3 sm:file:px-4 file:rounded-lg file:border-0 file:text-[10px] sm:file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 file:cursor-pointer cursor-pointer border border-slate-200 rounded-xl bg-slate-50/50 p-1.5 transition">
-                            <p class="text-[10px] sm:text-[11px] text-slate-400 mt-2">Format: JPG, PNG. Maks 2MB.</p>
+                                class="w-full text-[10px] sm:text-xs text-slate-500 file:mr-2 sm:file:mr-3 file:py-2 sm:file:py-2.5 file:px-3 sm:file:px-4 file:rounded-lg file:border-0 file:text-[10px] sm:file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 file:cursor-pointer cursor-pointer border border-slate-200 rounded-xl bg-slate-50/50 p-1.5 transition @error('foto') border-red-500 @enderror">
+                            
+                            @error('foto')
+                                <p class="text-[10px] sm:text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
+
+                            <p class="text-[10px] sm:text-[11px] text-slate-400 mt-2">Format: JPG, PNG, HEIC. Maks 5MB.</p>
                         </div>
 
                         {{-- CARD: INFO — HANYA UNTUK GUEST --}}

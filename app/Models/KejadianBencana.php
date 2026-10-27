@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KejadianBencana extends Model
+
+class KejadianBencana extends Model 
 {
     use HasFactory;
 
@@ -25,6 +26,7 @@ class KejadianBencana extends Model
      protected $casts = [
         'tanggal_kejadian' => 'datetime',
     ];
+   
 
     public function jenisBencana()
     {

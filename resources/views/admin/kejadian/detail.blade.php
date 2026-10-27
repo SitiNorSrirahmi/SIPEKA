@@ -17,19 +17,42 @@
             {{-- ============ FOTO (atas di mobile, kanan di desktop) ============ --}}
             <div class="lg:col-span-2 lg:order-2">
                 <div class="rounded-2xl overflow-hidden bg-slate-100 aspect-video sm:aspect-[3/4] lg:aspect-auto lg:h-full min-h-[240px] sm:min-h-[320px] lg:min-h-[420px]">
-                    @if ($kejadianBencana->laporanMasuk && $kejadianBencana->laporanMasuk->sumber)
-                    <img src="{{ Storage::url($kejadianBencana->laporanMasuk->sumber) }}"
-                        class="w-full h-full object-cover">
+                    @if ($kejadianBencana->laporanMasuk && $kejadianBencana->laporanMasuk->hasMedia('foto'))
+                        @php
+                            $media = $kejadianBencana->laporanMasuk->getFirstMedia('foto');
+                            $isHeic = $media && in_array(strtolower($media->extension), ['heic', 'heif']);
+                        @endphp
+
+                        @if ($isHeic)
+                            {{-- Fallback untuk file HEIC --}}
+                            <div class="w-full h-full flex flex-col items-center justify-center bg-slate-100 p-4 text-center">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <p class="text-xs sm:text-sm font-semibold text-slate-700 mb-1">Format Foto: HEIC / HEIF</p>
+                                <p class="text-xs text-slate-500 mb-3">Browser tidak dapat menampilkan pratinjau HEIC secara langsung.</p>
+                                <a href="{{ $media->getUrl() }}" target="_blank" class="px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition">
+                                    Buka / Download Foto
+                                </a>
+                            </div>
+                        @else
+                            {{-- Gambar JPG/PNG biasa --}}
+                            <img src="{{ $media->getUrl() }}" 
+                                alt="Foto Kejadian Bencana" 
+                                class="w-full h-full object-cover">
+                        @endif
                     @else
-                    <div class="w-full h-full flex flex-col items-center justify-center bg-slate-100">
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-200 flex items-center justify-center mb-2 sm:mb-3">
-                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                        <div class="w-full h-full flex flex-col items-center justify-center bg-slate-100">
+                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-200 flex items-center justify-center mb-2 sm:mb-3">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-400 font-medium">Tidak ada foto</p>
                         </div>
-                        <p class="text-xs sm:text-sm text-slate-400 font-medium">Tidak ada foto</p>
-                    </div>
                     @endif
                 </div>
             </div>

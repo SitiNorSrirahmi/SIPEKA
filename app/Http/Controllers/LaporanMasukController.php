@@ -36,7 +36,7 @@ class LaporanMasukController extends Controller
             'lokasi' => 'required|string|max:255',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'foto' => 'nullable|image|max:5120',
+            'foto' => 'required|file|mimes:jpg,jpeg,png,heic,heif|max:5120',
             'jumlah_korban_meninggal' => 'nullable|integer|min:0',
             'jumlah_korban_luka' => 'nullable|integer|min:0',
             'estimasi_kerugian' => 'nullable|numeric|min:0',
@@ -52,15 +52,9 @@ class LaporanMasukController extends Controller
 
         $validated = $request->validate($rules);
 
-        // Proses foto & cek geotag EXIF (Opsi 1: cek ada/tidaknya saja)
-        $statusGeotag = 'tanpa_foto';
-        $fotoPath = null;
-
-        if ($request->hasFile('foto')) {
+        // Cek Geotag EXIF sebelum transaksi
             $file = $request->file('foto');
-            $fotoPath = $file->store('laporan_foto', 'public');
             $statusGeotag = $this->cekGeotagExif($file->getRealPath());
-        }
 
         // Tentukan status & pemilik laporan berdasarkan siapa yang lapor
         if (Auth::check() && Auth::user()->hasAnyRole(['petugas', 'admin'])) {
@@ -76,14 +70,13 @@ class LaporanMasukController extends Controller
         }
 
         $laporanHasil = DB::transaction(function () use (
-            $validated, $statusGeotag, $fotoPath, $status, $dibuatOleh, $pelaporNama, $pelaporHp
+            $validated, $statusGeotag, $status, $dibuatOleh, $pelaporNama, $pelaporHp, $request
         ) {
             $laporan = LaporanMasuk::create([
                 'id_bencana' => $validated['id_bencana'],
                 'lokasi' => $validated['lokasi'],
                 'latitude' => $validated['latitude'],
                 'longitude' => $validated['longitude'],
-                'sumber' => $fotoPath,
                 'pelapor_nama' => $pelaporNama,
                 'pelapor_hp' => $pelaporHp,
                 'status_geotag' => $statusGeotag,
@@ -95,6 +88,12 @@ class LaporanMasukController extends Controller
                 'deskripsi' => $validated['deskripsi'] ?? null,
                 'tanggal_kejadian' => $validated['tanggal_kejadian'] ?? now(),
             ]);
+
+            // 2. Simpan media menggunakan Spatie Media Library ke dalam koleksi 'foto'
+            if ($request->hasFile('foto')) {
+                $laporan->addMediaFromRequest('foto')
+                        ->toMediaCollection('foto');
+            }
 
             // Petugas -> langsung salin ke kejadian_bencana (auto publish)
             if ($status === 'verified') {
@@ -119,7 +118,7 @@ class LaporanMasukController extends Controller
 
     public function show(LaporanMasuk $laporanMasuk)
     {
-        $laporanMasuk->load('jenisBencana', 'dibuatOleh', 'diverifikasiOleh');
+        $laporanMasuk->load('jenisBencana', 'dibuatOleh', 'diverifikasiOleh', 'media');
         return view('admin.laporan.show', compact('laporanMasuk'));
     }
 
@@ -201,6 +200,7 @@ class LaporanMasukController extends Controller
             'status_data' => 'published',
             'tanggal_kejadian' => $laporan->tanggal_kejadian ?? now(),
         ]);
+
     }
 
     /**
