@@ -6,11 +6,15 @@ use App\Models\Berita;
 use App\Models\KejadianBencana;
 use App\Models\LaporanMasuk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB; // Jangan lupa import DB
 
 class LandingController extends Controller
 {
     public function index()
     {
+        // ==========================================
+        // 1. DATA YANG UDAH ADA (Card Atas)
+        // ==========================================
         $totalKejadian = KejadianBencana::where('status_data', 'published')->count();
 
         $totalKorbanMeninggal = LaporanMasuk::where('status', 'verified')
@@ -19,7 +23,6 @@ class LandingController extends Controller
         $totalKorbanLuka = LaporanMasuk::where('status', 'verified')
             ->sum('jumlah_korban_luka');
 
-        // ✅ UBAH: dari kejadian_bencana → laporan_masuk (biar konsisten)
         $totalKerugian = LaporanMasuk::where('status', 'verified')
             ->sum('estimasi_kerugian');
 
@@ -28,18 +31,57 @@ class LandingController extends Controller
             ->take(3)
             ->get();
 
+        // ==========================================
+        // 2. DATA STATISTIK BARU (Grafik & Tabel)
+        // ==========================================
+        $statTotalKejadian = $totalKejadian;
+        $statTotalKorbanMeninggal = $totalKorbanMeninggal;
+        $statTotalKorbanLuka = $totalKorbanLuka;
+        $statTotalKerugian = $totalKerugian;
+
+        $perJenis = KejadianBencana::select('id_bencana', DB::raw('count(*) as total'))
+            ->with('jenisBencana')
+            ->groupBy('id_bencana')
+            ->get()
+            ->map(function($item) {
+                return (object) [
+                    'nama_bencana' => $item->jenisBencana->nama_bencana ?? '-',
+                    'total' => $item->total
+                ];
+            });
+
+        $perPeriode = KejadianBencana::select(DB::raw("DATE_FORMAT(tanggal_kejadian, '%Y-%m') as bulan"), DB::raw('count(*) as total'))
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        $isAdmin = false;
+        $daftarKejadian = KejadianBencana::with(['jenisBencana', 'laporanMasuk'])
+            ->where('status_data', 'published')
+            ->latest()
+            ->paginate(10);
+
+        // ==========================================
+        // 3. KIRIM SEMUA KE VIEW
+        // ==========================================
         return view('welcome', compact(
             'totalKejadian',
             'totalKorbanMeninggal',
             'totalKorbanLuka',
             'totalKerugian',
-            'beritaTerbaru'
+            'beritaTerbaru',
+            // Variabel tambahan buat statistik
+            'statTotalKejadian',
+            'statTotalKorbanMeninggal',
+            'statTotalKorbanLuka',
+            'statTotalKerugian',
+            'perJenis',
+            'perPeriode',
+            'daftarKejadian',
+            'isAdmin'
         ));
     }
 
-    /**
-     * Pencarian dari landing page — cari berdasarkan lokasi atau nama jenis bencana
-     */
     public function search(Request $request)
     {
         $request->validate([
