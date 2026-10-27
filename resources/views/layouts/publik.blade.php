@@ -24,13 +24,15 @@
     @include('layouts.publik.navbar')
 
     {{-- KONTEN UTAMA --}}
-    <main class="min-h-screen">
+    {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+    <main class="min-h-screen w-full">
         @yield('content')
     </main>
 
     {{-- FOOTER --}}
     <footer class="bg-[#0A1A3A] text-white/70 text-xs py-4 mt-12">
-        <div class="max-w-7xl mx-auto px-6 text-center">
+        {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+        <div class="w-full mx-auto px-6 text-center">
             SIPEKA v1.0 &nbsp;•&nbsp; © {{ date('Y') }} — Kalimantan Selatan
         </div>
     </footer>

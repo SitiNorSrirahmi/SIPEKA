@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ========================================= */
+/* CUSTOM PAGINATION BIRU MODERN             */
+/* ========================================= */
+
+/* Container pagination */
+nav[role="navigation"] > div:first-child {
+    display: none; /* Sembunyikan teks "Showing 1 to 10 of..." biar lebih bersih */
+}
+
+/* Tombol Halaman (Angka & Prev/Next) */
+nav[role="navigation"] > div:last-child span[aria-current="page"] > span,
+nav[role="navigation"] > div:last-child a {
+    background-color: #ffffff !important;
+    border-color: #e5e7eb !important;
+    color: #374151 !important;
+    border-radius: 0.5rem !important; /* Bikin ujungnya agak bulat */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+    margin: 0 2px;
+}
+
+/* Tombol Halaman Aktif (Warna Biru Solid) */
+nav[role="navigation"] > div:last-child span[aria-current="page"] > span {
+    background-color: #2563eb !important; /* Biru primary */
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.4);
+}
+
+/* Hover Effect (Warna Biru Muda) */
+nav[role="navigation"] > div:last-child a:hover {
+    background-color: #eff6ff !important;
+    border-color: #bfdbfe !important;
+    color: #2563eb !important;
+    transform: translateY(-1px);
+}
+
+/* Teks di dalam tombol Previous / Next */
+nav[role="navigation"] > div:last-child a span {
+    color: inherit !important;
+}

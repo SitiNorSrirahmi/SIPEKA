@@ -4,7 +4,8 @@
 
     {{-- ==================== 1. HERO SECTION ==================== --}}
     <section class="pt-4 sm:pt-6 lg:pt-8 pb-8 sm:pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative isolate overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl bg-gradient-to-br from-[#0A1A3A] via-[#13294b] to-[#0D2440]">
                 <div class="absolute inset-0 pointer-events-none">
                     <img src="{{ asset('images/thumbnail.png') }}" alt="Ilustrasi SIPEKA" class="w-full h-full object-cover object-center">
@@ -42,7 +43,8 @@
 
     {{-- ==================== 2. 4 CARD STATISTIK (Atas) ==================== --}}
     <section class="pb-8 sm:pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
@@ -91,7 +93,8 @@
 
     {{-- ==================== 3. PETA + BERITA ==================== --}}
     <section class="pb-8 sm:pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
                 {{-- Peta --}}
                 <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
@@ -141,7 +144,8 @@
 
     {{-- ==================== 4. GRAFIK STATISTIK (Bawah) ==================== --}}
     <section class="pb-12 sm:pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-4">
                 <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
                     <span class="text-blue-600">📊</span> Analisis Statistik Bencana

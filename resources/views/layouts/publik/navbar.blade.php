@@ -1,5 +1,6 @@
 <nav x-data="{ mobileOpen: false }" class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-50">
+    {{-- DIUBAH: dari max-w-7xl jadi w-full --}}
+    <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-50">
         <div class="flex items-center justify-between h-16">
 
             {{-- Logo --}}
@@ -90,7 +91,7 @@
         </div>
     </div>
 
-    {{-- OVERLAY BACKDROP (Ditaruh di sini biar nutupin semua halaman, tapi di bawah menu) --}}
+    {{-- OVERLAY BACKDROP --}}
     <div x-show="mobileOpen" 
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"

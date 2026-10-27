@@ -51,6 +51,7 @@
     }
     $gradientCSS = implode(', ', $gradientParts);
 @endphp
+
 <div class="w-full space-y-5">
     {{-- 4 CARD STATISTIK --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -103,9 +104,8 @@
         </div>
     </div>
 
-    {{-- 3 KOLOM: GRAFIK & TABEL --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-        
+    {{-- 2 KOLOM: GRAFIK SEJAJAR --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
         {{-- Donut Chart --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6">
             <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2 mb-4">
@@ -143,13 +143,22 @@
                 <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
                     <span class="text-blue-600">📊</span> Kejadian per Bulan
                 </h2>
+                
+                {{-- DROPDOWN TAHUN YANG UDAH DIRAPIHIN --}}
                 @if($tahunTersedia->isNotEmpty())
-                    <form method="GET" class="flex items-center gap-2">
-                        <select name="tahun" onchange="this.form.submit()" class="px-2 py-1 rounded-lg border border-gray-300 text-[10px] sm:text-xs font-bold text-gray-700 bg-white outline-none">
-                            @foreach($tahunTersedia as $tahun)
-                                <option value="{{ $tahun }}" @selected($tahun == $tahunAktif)>{{ $tahun }}</option>
-                            @endforeach
-                        </select>
+                    <form method="GET" class="flex items-center">
+                        <div class="relative">
+                            <select name="tahun" onchange="this.form.submit()" class="appearance-none pl-4 pr-10 py-2 rounded-lg border border-gray-300 text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-blue-100 outline-none transition-all cursor-pointer shadow-sm">
+                                @foreach($tahunTersedia as $tahun)
+                                    <option value="{{ $tahun }}" @selected($tahun == $tahunAktif)>{{ $tahun }}</option>
+                                @endforeach
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
                     </form>
                 @endif
             </div>
@@ -161,104 +170,146 @@
                 <span class="font-bold text-blue-600">{{ array_sum($dataPerBulan) }}</span>
             </div>
         </div>
+    </div>
 
-        {{-- DAFTAR KEJADIAN --}}
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-            <div class="px-4 sm:px-5 py-3 sm:py-4 border-b border-gray-100 flex items-center gap-2 bg-gray-50/50">
-                <span class="text-red-500">📍</span>
-                <h2 class="font-bold text-sm sm:text-base text-gray-800">Daftar Kejadian</h2>
+    {{-- ========================================== --}}
+    {{-- TABEL DAFTAR KEJADIAN                     --}}
+    {{-- ========================================== --}}
+    <div id="tabel-kejadian" class="bg-white rounded-2xl border border-gray-200 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col scroll-mt-24">
+        
+        {{-- Header Tabel --}}
+        <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-3 bg-white">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
+                <span class="text-blue-600 text-lg">📍</span>
             </div>
-            
-            {{-- DESKTOP: Tabel (Teks Wrap, Gak Kepotong) --}}
-            <div class="hidden md:block flex-1">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="bg-gray-50 border-b border-gray-100">
-                            <th class="text-left px-4 py-3 font-bold text-gray-600 text-xs uppercase tracking-wider">Jenis</th>
-                            <th class="text-left px-4 py-3 font-bold text-gray-600 text-xs uppercase tracking-wider">Lokasi</th>
-                            <th class="text-center px-4 py-3 font-bold text-gray-600 text-xs uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @forelse ($daftarKejadian as $item)
-                            <tr class="hover:bg-blue-50/30 transition-colors">
-                                <td class="px-4 py-4 font-semibold text-gray-800 text-sm align-top">{{ $item->jenisBencana->nama_bencana ?? '-' }}</td>
-                                <td class="px-4 py-4 text-gray-600 text-xs max-w-[250px] whitespace-normal leading-relaxed align-top" title="{{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}">
-                                    {{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}
-                                </td>
-                                <td class="px-4 py-4 text-center align-top">
-                                    @if ($isAdmin)
-                                        @if (($item->status ?? '') === 'verified' && $item->kejadianBencana)
-                                            <a href="{{ route('kejadian.show', $item->kejadianBencana->id) }}" class="inline-flex items-center px-3 py-1.5 rounded-lg border border-blue-400 text-blue-600 text-[10px] font-bold hover:bg-blue-50 transition">Detail</a>
-                                        @else
-                                            <span class="text-gray-300 text-xs">-</span>
-                                        @endif
-                                    @else
-                                        <a href="{{ route('kejadian.show', $item->id) }}" class="inline-flex items-center px-3 py-1.5 rounded-lg border border-blue-400 text-blue-600 text-[10px] font-bold hover:bg-blue-50 transition">Detail</a>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr><td colspan="3" class="px-4 py-12 text-center text-sm text-gray-400">Belum ada data.</td></tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            <div>
+                <h2 class="font-bold text-lg text-gray-800 tracking-tight">Daftar Kejadian</h2>
+                <p class="text-sm text-gray-500 mt-0.5">Data kejadian bencana terkini</p>
             </div>
-
-            {{-- MOBILE: Card Mewah --}}
-            <div class="md:hidden flex-1 bg-gray-50/30">
-                @forelse ($daftarKejadian as $item)
-                    <div class="p-4 bg-white border-b border-gray-100 hover:bg-gray-50 transition duration-200">
-                        <div class="flex items-start justify-between gap-3 mb-2">
-                            <div class="min-w-0 flex-1">
-                                <h3 class="font-bold text-gray-800 text-sm truncate">{{ $item->jenisBencana->nama_bencana ?? '-' }}</h3>
-                                <p class="text-[11px] text-gray-500 mt-1 flex items-center gap-1">
-                                    <svg class="w-3 h-3 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                                    <span class="truncate">{{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}</span>
-                                </p>
-                            </div>
-                            @if ($isAdmin)
-                                @if(($item->status ?? '') === 'verified')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-bold bg-green-100 text-green-700 border border-green-200 shrink-0">TERVERIFIKASI</span>
-                                @elseif(($item->status ?? '') === 'pending')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-bold bg-yellow-100 text-yellow-700 border border-yellow-200 shrink-0">MENUNGGU</span>
-                                @else
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-bold bg-red-100 text-red-700 border border-red-200 shrink-0">DITOLAK</span>
-                                @endif
-                            @endif
-                        </div>
-
-                        <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-50">
-                            <span class="text-[10px] text-gray-400 font-medium flex items-center gap-1">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                {{ $item->tanggal_kejadian?->format('d M Y') ?? $item->created_at?->format('d M Y') }}
-                            </span>
+        </div>
+        
+        {{-- DESKTOP: Tabel Zebra --}}
+        <div class="hidden md:block flex-1 overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50 w-1/3">Jenis Bencana</th>
+                        <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50 w-1/2">Lokasi</th>
+                        <th class="px-6 py-4 font-bold text-sm uppercase tracking-wider text-center w-1/6">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($daftarKejadian as $index => $item)
+                        <tr class="{{ $index % 2 === 0 ? 'bg-blue-50/60' : 'bg-white' }} hover:bg-blue-100/70 transition-colors duration-200 group border-b border-gray-100 last:border-0">
                             
-                            @if ($isAdmin)
-                                @if (($item->status ?? '') === 'verified' && $item->kejadianBencana)
-                                    <a href="{{ route('kejadian.show', $item->kejadianBencana->id) }}" class="text-[11px] font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1">
-                                        Detail <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                            <td class="px-6 py-5 border-r border-gray-100/50">
+                                <div class="flex items-center gap-3">
+                                    <span class="font-bold text-gray-800 text-base group-hover:text-blue-700 transition-colors">{{ $item->jenisBencana->nama_bencana ?? '-' }}</span>
+                                </div>
+                            </td>
+                            
+                            <td class="px-6 py-5 border-r border-gray-100/50">
+                                <div class="flex items-center gap-2 text-gray-600 text-sm">
+                                    <svg class="w-5 h-5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                    <span class="leading-relaxed font-medium">{{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}</span>
+                                </div>
+                            </td>
+                            
+                            <td class="px-6 py-5 text-center">
+                                @if ($isAdmin)
+                                    @if (($item->status ?? '') === 'verified' && $item->kejadianBencana)
+                                        <a href="{{ route('kejadian.show', $item->kejadianBencana->id) }}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-blue-600 bg-white border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 shadow-sm text-sm font-bold transition-all duration-300">
+                                            Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+                                        </a>
+                                    @else
+                                        <span class="text-gray-300 text-sm">-</span>
+                                    @endif
+                                @else
+                                    <a href="{{ route('kejadian.show', $item->id) }}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-blue-600 bg-white border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 shadow-sm text-sm font-bold transition-all duration-300">
+                                        Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
                                     </a>
                                 @endif
-                            @else
-                                <a href="{{ route('kejadian.show', $item->id) }}" class="text-[11px] font-bold text-blue-600 hover:text-blue-800 transition flex items-center gap-1">
-                                    Detail <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                @empty
-                    <div class="p-6 text-center text-xs text-gray-400">Belum ada data kejadian.</div>
-                @endforelse
-            </div>
-            
-            @if($daftarKejadian->hasPages())
-                <div class="p-2 border-t border-gray-100 bg-gray-50/50">{{ $daftarKejadian->links() }}</div>
-            @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-16 text-center">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                    </div>
+                                    <p class="text-sm font-medium text-gray-400">Belum ada data kejadian.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
 
+        {{-- MOBILE: Card Mewah --}}
+        <div class="md:hidden flex-1 bg-gray-50/50 p-4 space-y-4">
+            @forelse ($daftarKejadian as $item)
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 hover:shadow-md transition-shadow duration-200">
+                    <div class="flex items-start justify-between gap-3 mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-900 text-lg leading-tight">{{ $item->jenisBencana->nama_bencana ?? '-' }}</h3>
+                            <div class="flex items-center gap-1.5 mt-2 text-gray-500">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                <span class="text-sm font-medium leading-tight">{{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-gray-100">
+                        @if ($isAdmin)
+                            @if (($item->status ?? '') === 'verified' && $item->kejadianBencana)
+                                <a href="{{ route('kejadian.show', $item->kejadianBencana->id) }}" class="w-full flex items-center justify-center gap-2 bg-blue-50 text-blue-700 px-4 py-2.5 rounded-lg text-sm font-bold border border-blue-100 hover:bg-blue-100 transition">
+                                    Lihat Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+                                </a>
+                            @else
+                                <button disabled class="w-full flex items-center justify-center gap-2 bg-gray-100 text-gray-400 px-4 py-2.5 rounded-lg text-sm font-bold border border-gray-200 cursor-not-allowed">
+                                    Belum Tersedia
+                                </button>
+                            @endif
+                        @else
+                            <a href="{{ route('kejadian.show', $item->id) }}" class="w-full flex items-center justify-center gap-2 bg-blue-50 text-blue-700 px-4 py-2.5 rounded-lg text-sm font-bold border border-blue-100 hover:bg-blue-100 transition">
+                                Lihat Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            @empty
+                <div class="p-8 text-center text-sm text-gray-400 bg-white rounded-xl border border-gray-100">
+                    Belum ada data kejadian.
+                </div>
+            @endforelse
+        </div>
+        
+        {{-- PAGINATION --}}
+        @if($daftarKejadian->hasPages())
+            <div class="p-4 border-t border-gray-100 bg-white">
+                {{ $daftarKejadian->links() }}
+            </div>
+        @endif
     </div>
 </div>
+
+{{-- SCRIPT AUTO-SCROLL KE TABEL PAS PAGINATION DIKLIK --}}
+<script>
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('page')) {
+            const tabel = document.getElementById('tabel-kejadian');
+            if (tabel) {
+                tabel.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }
+        }
+    });
+</script>
 
 <script id="chart-data-per-bulan" type="application/json">
 { "labels": {!! json_encode(array_column($barData, 'label')) !!}, "values": {!! json_encode(array_column($barData, 'total')) !!} }
