@@ -1,4 +1,4 @@
-<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
     {{-- ==================== FILTER ==================== --}}
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3 sm:p-4 mb-4 sm:mb-6">
@@ -19,7 +19,8 @@
 
     {{-- ==================== GRID BERITA ==================== --}}
     @if ($berita->count() > 0)
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+    {{-- Tambahan xl:grid-cols-4 biar pas di zoom out layar lebar tetep penuh --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
         @foreach ($berita as $item)
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-1 flex flex-col">
 
@@ -42,7 +43,7 @@
             {{-- ISI --}}
             <div class="p-3 sm:p-4 flex flex-col flex-1">
                 {{-- JUDUL --}}
-                <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
+                <h3 class="font-bold text-slate-900 text-sm leading-snug line-clamp-2 min-h-[2.5rem]">
                     <a href="{{ route('berita.show', $item->id) }}" class="hover:text-blue-600 transition">
                         {{ $item->judul }}
                     </a>
@@ -56,7 +57,7 @@
                 {{-- TOMBOL DETAIL --}}
                 <div class="mt-auto pt-3">
                     <a href="{{ route('berita.show', $item->id) }}"
-                        class="w-full inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold transition">
+                        class="w-full inline-flex items-center justify-center gap-1 sm:gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-full text-[10px] sm:text-xs font-bold transition">
                         Detail
                         <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
@@ -70,7 +71,7 @@
 
     {{-- PAGINATION --}}
     @if ($berita->hasPages())
-    <div class="mt-4 sm:mt-6">
+    <div class="mt-6">
         {{ $berita->links() }}
     </div>
     @endif

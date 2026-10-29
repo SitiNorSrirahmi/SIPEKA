@@ -1,161 +1,165 @@
-{{-- ==================== PETA ==================== --}}
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4 sm:mb-6">
-    <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
-        <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
-            <span class="text-blue-600">🗺️</span>
-            Peta Sebaran Kejadian
-        </h2>
-        <div class="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2 text-xs">
-            <span class="flex items-center gap-1.5">
-                <span class="w-3 h-3 rounded-full" style="background:#1e40af;"></span>
-                <span class="text-gray-500">Banjir</span>
-            </span>
-            <span class="flex items-center gap-1.5">
-                <span class="w-3 h-3 rounded-full" style="background:#991b1b;"></span>
-                <span class="text-gray-500">Karhutla</span>
-            </span>
+{{-- WRAPPER UTAMA: w-full biar pas di-zoom out nggak mengecil ke tengah --}}
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    {{-- ==================== PETA ==================== --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4 sm:mb-6">
+        <div class="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+            <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
+                <span class="text-blue-600">🗺️</span>
+                Peta Sebaran Kejadian
+            </h2>
+            <div class="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2 text-xs">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full" style="background:#1e40af;"></span>
+                    <span class="text-gray-500">Banjir</span>
+                </span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full" style="background:#991b1b;"></span>
+                    <span class="text-gray-500">Karhutla</span>
+                </span>
+            </div>
+        </div>
+
+        <div id="peta-kejadian" class="h-[300px] sm:h-[400px]" style="z-index: 0;"></div>
+
+        <div id="peta-empty" class="px-4 sm:px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
+            ⚠️ Belum ada data kejadian. Peta akan otomatis menampilkan marker setelah data ditambahkan.
         </div>
     </div>
 
-    <div id="peta-kejadian" class="h-[300px] sm:h-[400px]" style="z-index: 0;"></div>
+    {{-- ==================== FILTER ==================== --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 mb-4 sm:mb-6">
+        <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
+            <select name="id_bencana"
+                class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
+                <option value="">Semua Jenis Bencana</option>
+                @foreach ($jenisBencana as $jb)
+                <option value="{{ $jb->id }}" @selected(request('id_bencana')==$jb->id)>
+                    {{ $jb->nama_bencana }}
+                </option>
+                @endforeach
+            </select>
 
-    <div id="peta-empty" class="px-4 sm:px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
-        ⚠️ Belum ada data kejadian. Peta akan otomatis menampilkan marker setelah data ditambahkan.
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Cari lokasi..."
+                class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition sm:col-span-1 md:col-span-2">
+
+            <div class="flex gap-2 sm:col-span-2 md:col-span-1">
+                <button type="submit"
+                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition">
+                    Filter
+                </button>
+                <a href="{{ url()->current() }}"
+                    class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-semibold text-center transition">
+                    Reset
+                </a>
+            </div>
+        </form>
     </div>
-</div>
 
-{{-- ==================== FILTER ==================== --}}
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-5 mb-4 sm:mb-6">
-    <form method="GET" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
-        <select name="id_bencana"
-            class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition">
-            <option value="">Semua Jenis Bencana</option>
-            @foreach ($jenisBencana as $jb)
-            <option value="{{ $jb->id }}" @selected(request('id_bencana')==$jb->id)>
-                {{ $jb->nama_bencana }}
-            </option>
-            @endforeach
-        </select>
+    {{-- ==================== TABEL ==================== --}}
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] overflow-hidden">
 
-        <input type="text" name="search" value="{{ request('search') }}"
-            placeholder="Cari lokasi..."
-            class="px-3 sm:px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition sm:col-span-1 md:col-span-2">
+        {{-- Desktop: tabel --}}
+        <div class="hidden md:block overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                {{-- HEADER TABEL WARNA BIRU --}}
+                <thead>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">ID</th>
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Jenis Bencana</th>
+                        <th class="text-center px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Korban</th>
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Kerugian</th>
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Tanggal</th>
+                        @if (!empty($showAksi) && $showAksi)
+                        <th class="text-center px-5 py-4 font-bold text-sm uppercase tracking-wider">Aksi</th>
+                        @else
+                        <th class="text-center px-5 py-4 font-bold text-sm uppercase tracking-wider">Detail</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($kejadian as $index => $item)
+                    {{-- LOGIKA ZEBRA: Baris ganjil biru muda, baris genap putih --}}
+                    <tr class="{{ $index % 2 === 0 ? 'bg-blue-50/60' : 'bg-white' }} hover:bg-blue-100/70 transition-colors duration-200 group border-b border-gray-100 last:border-0">
+                        <td class="px-5 py-4 border-r border-gray-100/50 font-mono text-xs text-gray-500 group-hover:text-blue-700 transition-colors">
+                            #{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}
+                        </td>
+                        <td class="px-5 py-4 border-r border-gray-100/50 font-bold text-gray-800 text-sm group-hover:text-blue-700 transition-colors">
+                            {{ $item->jenisBencana->nama_bencana ?? '-' }}
+                        </td>
+                        <td class="px-5 py-4 border-r border-gray-100/50 text-center">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
+                                {{ $item->jumlah_korban ?? 0 }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-4 border-r border-gray-100/50 text-gray-700 text-sm">
+                            Rp{{ number_format($item->estimasi_kerugian ?? 0, 0, ',', '.') }}
+                        </td>
+                        <td class="px-5 py-4 border-r border-gray-100/50 text-gray-600 text-sm">
+                            {{ $item->tanggal_kejadian?->format('d M Y') ?? '-' }}
+                        </td>
 
-        <div class="flex gap-2 sm:col-span-2 md:col-span-1">
-            <button type="submit"
-                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition">
-                Filter
-            </button>
-            <a href="{{ url()->current() }}"
-                class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-semibold text-center transition">
-                Reset
-            </a>
-        </div>
-    </form>
-</div>
-
-{{-- ==================== TABEL ==================== --}}
-<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-
-    {{-- Desktop: tabel --}}
-    <div class="hidden md:block overflow-x-auto">
-        <table class="w-full text-sm">
-            <thead>
-                <tr class="bg-gray-50 border-b border-gray-100">
-                    <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">ID</th>
-                    <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Jenis Bencana</th>
-                    <th class="text-center px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Korban</th>
-                    <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Kerugian</th>
-                    <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Tanggal</th>
-                    @if (!empty($showAksi) && $showAksi)
-                    <th class="text-center px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Aksi</th>
-                    @else
-                    <th class="text-center px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Detail</th>
-                    @endif
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @forelse ($kejadian as $item)
-                <tr class="hover:bg-blue-50/30 transition-colors">
-                    <td class="px-5 py-3.5 font-mono text-xs text-gray-500">#{{ $item->id }}</td>
-                    <td class="px-5 py-3.5 font-semibold text-gray-800 text-sm">
-                        {{ $item->jenisBencana->nama_bencana ?? '-' }}
-                    </td>
-                    <td class="px-5 py-3.5 text-center">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700">
-                            {{ $item->jumlah_korban ?? 0 }}
-                        </span>
-                    </td>
-                    <td class="px-5 py-3.5 text-gray-700 text-sm">
-                        Rp{{ number_format($item->estimasi_kerugian ?? 0, 0, ',', '.') }}
-                    </td>
-                    <td class="px-5 py-3.5 text-gray-600 text-sm">
-                        {{ $item->tanggal_kejadian?->format('d M Y') ?? '-' }}
-                    </td>
-
-                    @if (!empty($showAksi) && $showAksi)
-                    {{-- KOLOM AKSI (ADMIN) --}}
-                    <td class="px-5 py-3.5">
-                        <div class="flex items-center justify-center gap-2">
-                            <a href="{{ route('admin.kejadian.edit', $item->id) }}"
-                                class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 transition"
-                                title="Edit">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </a>
-
-                            <form action="{{ route('admin.kejadian.destroy', $item->id) }}" method="POST"
-                                class="inline" onsubmit="return confirm('Yakin hapus data ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 transition"
-                                    title="Hapus">
+                        @if (!empty($showAksi) && $showAksi)
+                        {{-- KOLOM AKSI (ADMIN) --}}
+                        <td class="px-5 py-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <a href="{{ route('admin.kejadian.edit', $item->id) }}"
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white border border-blue-200 text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
+                                    title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                    @else
-                    {{-- KOLOM DETAIL (GUEST/PETUGAS) --}}
-                    <td class="px-5 py-3.5 text-center">
-                        <a href="{{ route('kejadian.show', $item->id) }}"
-                            class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-xs font-bold transition">
-                            Lihat
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </a>
-                    </td>
-                    @endif
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="6" class="px-5 py-16 text-center">
-                        <div class="flex flex-col items-center gap-3 text-gray-400">
-                            <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
-                                <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                                </svg>
-                            </div>
-                            <p class="text-sm font-medium">Belum ada data kejadian bencana.</p>
-                        </div>
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                                </a>
 
-    {{-- ==================== Mobile: card list ==================== --}}
-    <div class="md:hidden divide-y divide-gray-100">
-        @forelse ($kejadian as $item)
+                                <form action="{{ route('admin.kejadian.destroy', $item->id) }}" method="POST"
+                                    class="inline" onsubmit="return confirm('Yakin hapus data ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white border border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300"
+                                        title="Hapus">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        @else
+                        {{-- KOLOM DETAIL (GUEST/PETUGAS) --}}
+                        <td class="px-5 py-4 text-center">
+                            <a href="{{ route('kejadian.show', $item->id) }}"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-blue-200 text-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 shadow-sm text-sm font-bold transition-all duration-300">
+                                Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
+                            </a>
+                        </td>
+                        @endif
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-5 py-16 text-center">
+                            <div class="flex flex-col items-center gap-3 text-gray-400">
+                                <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                    </svg>
+                                </div>
+                                <p class="text-sm font-medium">Belum ada data kejadian bencana.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        {{-- ==================== Mobile: card list ==================== --}}
+        <div class="md:hidden divide-y divide-gray-100">
+            @forelse ($kejadian as $item)
             <div class="p-4 hover:bg-blue-50/30 transition-colors">
                 <div class="flex items-center gap-3">
                     {{-- KIRI: Info --}}
@@ -184,44 +188,44 @@
                     {{-- KANAN: Tombol --}}
                     <div class="shrink-0">
                         @if (!empty($showAksi) && $showAksi)
-                            {{-- Aksi admin (mobile) --}}
-                            <div class="flex flex-col gap-1">
-                                <a href="{{ route('admin.kejadian.edit', $item->id) }}"
-                                    class="inline-flex items-center justify-center gap-1 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
+                        {{-- Aksi admin (mobile) --}}
+                        <div class="flex flex-col gap-1">
+                            <a href="{{ route('admin.kejadian.edit', $item->id) }}"
+                                class="inline-flex items-center justify-center gap-1 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Edit
+                            </a>
+                            <form action="{{ route('admin.kejadian.destroy', $item->id) }}" method="POST"
+                                onsubmit="return confirm('Yakin hapus data ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="w-full inline-flex items-center justify-center gap-1 bg-red-50 hover:bg-red-100 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
-                                    Edit
-                                </a>
-                                <form action="{{ route('admin.kejadian.destroy', $item->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin hapus data ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="w-full inline-flex items-center justify-center gap-1 bg-red-50 hover:bg-red-100 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold transition">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                        Hapus
-                                    </button>
-                                </form>
-                            </div>
+                                    Hapus
+                                </button>
+                            </form>
+                        </div>
                         @else
-                            {{-- Detail (guest/petugas) --}}
-                            <a href="{{ route('kejadian.show', $item->id) }}"
-                                class="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-[10px] font-bold transition whitespace-nowrap">
-                                Lihat
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                        {{-- Detail (guest/petugas) --}}
+                        <a href="{{ route('kejadian.show', $item->id) }}"
+                            class="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-[10px] font-bold transition whitespace-nowrap">
+                            Lihat
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
                         @endif
                     </div>
                 </div>
             </div>
-        @empty
+            @empty
             <div class="p-8 text-center">
                 <div class="flex flex-col items-center gap-3 text-gray-400">
                     <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
@@ -233,14 +237,16 @@
                     <p class="text-sm font-medium">Belum ada data kejadian.</p>
                 </div>
             </div>
-        @endforelse
+            @endforelse
+        </div>
+
+        @if ($kejadian->hasPages())
+        <div class="px-4 sm:px-5 py-4 border-t border-gray-100 bg-white">
+            {{ $kejadian->links() }}
+        </div>
+        @endif
     </div>
 
-    @if ($kejadian->hasPages())
-    <div class="px-4 sm:px-5 py-3 sm:py-4 border-t border-gray-100 bg-gray-50/50">
-        {{ $kejadian->links() }}
-    </div>
-    @endif
 </div>
 
 {{-- ==================== LEAFLET + MARKERCLUSTER + GLOBE ==================== --}}
@@ -303,7 +309,7 @@
         function getMarkerColor(jenis) {
             const key = (jenis || '').toLowerCase().replace(/\s+/g, '');
             for (const k in markerColor) {
-                if (key.includes(k) || k.includes(key)) {
+                if (key.includes(k) || key.includes(key)) {
                     return markerColor[k];
                 }
             }
@@ -334,7 +340,11 @@
                     kalselBounds = kalselLayer.getBounds();
 
                     const worldRing = [
-                        [-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]
+                        [-180, -90],
+                        [180, -90],
+                        [180, 90],
+                        [-180, 90],
+                        [-180, -90]
                     ];
 
                     let kalselHoles = [];
@@ -363,10 +373,14 @@
                         }
                     }).addTo(map);
 
-                    map.fitBounds(kalselBounds, { padding: [20, 20] });
+                    map.fitBounds(kalselBounds, {
+                        padding: [20, 20]
+                    });
 
                     const FokusControl = L.Control.extend({
-                        options: { position: 'topright' },
+                        options: {
+                            position: 'topright'
+                        },
                         onAdd: function() {
                             const btn = L.DomUtil.create('button', 'leaflet-bar');
                             btn.innerHTML = '🎯';
@@ -394,7 +408,8 @@
                                 L.DomEvent.stopPropagation(e);
                                 if (kalselBounds) {
                                     map.flyToBounds(kalselBounds, {
-                                        padding: [20, 20], duration: 1.2
+                                        padding: [20, 20],
+                                        duration: 1.2
                                     });
                                 }
                             });
@@ -437,7 +452,9 @@
                                 popupAnchor: [0, -40]
                             });
 
-                            const marker = L.marker([lat, lng], { icon: markerIcon });
+                            const marker = L.marker([lat, lng], {
+                                icon: markerIcon
+                            });
 
                             const kerugian = item.estimasi_kerugian ?
                                 'Rp' + parseInt(item.estimasi_kerugian).toLocaleString('id-ID') :

@@ -1,4 +1,5 @@
-<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+{{-- WRAPPER UTAMA: w-full biar pas di-zoom out melebar penuh --}}
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
     {{-- ==================== PETA ==================== --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-4 sm:mb-6">
@@ -19,7 +20,6 @@
             </div>
         </div>
 
-        {{-- PETA: tinggi responsive --}}
         <div id="peta-wilayah" class="h-[300px] sm:h-[400px]" style="z-index: 0;"></div>
 
         <div id="peta-empty" class="px-4 sm:px-6 py-3 border-t border-gray-100 bg-amber-50/50 text-xs text-amber-700 hidden">
@@ -57,29 +57,30 @@
         </form>
     </div>
 
-    {{-- ==================== TABEL DESKTOP ==================== --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    {{-- ==================== TABEL (ISTIQAMAH DENGAN KEJADIAN) ==================== --}}
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] overflow-hidden">
 
         {{-- Desktop: tabel --}}
         <div class="hidden md:block overflow-x-auto">
-            <table class="w-full text-sm">
+            <table class="w-full text-left border-collapse">
+                {{-- HEADER TABEL WARNA BIRU --}}
                 <thead>
-                    <tr class="bg-gray-50 border-b border-gray-100">
-                        <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Jenis Bencana</th>
-                        <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Kabupaten</th>
-                        <th class="text-center px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Level Rawan</th>
-                        <th class="text-left px-5 py-3 font-bold text-gray-500 text-xs uppercase tracking-wider">Sumber Data</th>
+                    <tr class="bg-blue-600 text-white">
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Jenis Bencana</th>
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Kabupaten</th>
+                        <th class="text-center px-5 py-4 font-bold text-sm uppercase tracking-wider border-r border-blue-500/50">Level Rawan</th>
+                        <th class="text-left px-5 py-4 font-bold text-sm uppercase tracking-wider">Sumber Data</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @forelse ($wilayah as $item)
+                <tbody>
+                    @forelse ($wilayah as $index => $item)
                         @php
                             $level = strtolower($item->level_rawan ?? '');
                             $levelStyle = match($level) {
-                                'tinggi', 'high' => 'bg-red-100 text-red-700 ring-red-200',
-                                'sedang', 'medium' => 'bg-yellow-100 text-yellow-700 ring-yellow-200',
-                                'rendah', 'low' => 'bg-green-100 text-green-700 ring-green-200',
-                                default => 'bg-gray-100 text-gray-600 ring-gray-200',
+                                'tinggi', 'high' => 'bg-red-100 text-red-700 border-red-200',
+                                'sedang', 'medium' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                                'rendah', 'low' => 'bg-green-100 text-green-700 border-green-200',
+                                default => 'bg-gray-100 text-gray-600 border-gray-200',
                             };
                             $levelDot = match($level) {
                                 'tinggi', 'high' => 'bg-red-500',
@@ -89,38 +90,32 @@
                             };
                         @endphp
 
-                        <tr class="hover:bg-blue-50/30 transition-colors">
-                            <td class="px-5 py-3.5 font-semibold text-gray-800 text-sm">
+                        <tr class="{{ $index % 2 === 0 ? 'bg-blue-50/60' : 'bg-white' }} hover:bg-blue-100/70 transition-colors duration-200 group border-b border-gray-100 last:border-0">
+                            <td class="px-5 py-4 border-r border-gray-100/50 font-bold text-gray-800 text-sm group-hover:text-blue-700 transition-colors">
                                 {{ $item->jenisBencana->nama_bencana ?? '-' }}
                             </td>
-                            <td class="px-5 py-3.5">
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    <span class="text-gray-700 text-sm">{{ $item->kabupaten ?? '-' }}</span>
+                            <td class="px-5 py-4 border-r border-gray-100/50">
+                                <div class="flex items-center gap-2 text-gray-700 text-sm">
+                                    <svg class="w-5 h-5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                    <span class="font-medium">{{ $item->kabupaten ?? '-' }}</span>
                                 </div>
                             </td>
-                            <td class="px-5 py-3.5 text-center">
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ring-1 {{ $levelStyle }}">
+                            <td class="px-5 py-4 border-r border-gray-100/50 text-center">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border {{ $levelStyle }}">
                                     <span class="w-1.5 h-1.5 rounded-full {{ $levelDot }}"></span>
                                     {{ $item->level_rawan ?? '-' }}
                                 </span>
                             </td>
-                            <td class="px-5 py-3.5 text-gray-600 text-sm">{{ $item->sumber_data ?? '-' }}</td>
+                            <td class="px-5 py-4 text-gray-600 text-sm">
+                                {{ $item->sumber_data ?? '-' }}
+                            </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="4" class="px-5 py-16 text-center">
                                 <div class="flex flex-col items-center gap-3 text-gray-400">
-                                    <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center">
-                                        <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                                        </svg>
+                                    <div class="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
                                     </div>
                                     <p class="text-sm font-medium">Belum ada data wilayah rawan.</p>
                                 </div>
@@ -137,10 +132,10 @@
                 @php
                     $level = strtolower($item->level_rawan ?? '');
                     $levelStyle = match($level) {
-                        'tinggi', 'high' => 'bg-red-100 text-red-700',
-                        'sedang', 'medium' => 'bg-yellow-100 text-yellow-700',
-                        'rendah', 'low' => 'bg-green-100 text-green-700',
-                        default => 'bg-gray-100 text-gray-600',
+                        'tinggi', 'high' => 'bg-red-100 text-red-700 border-red-200',
+                        'sedang', 'medium' => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+                        'rendah', 'low' => 'bg-green-100 text-green-700 border-green-200',
+                        default => 'bg-gray-100 text-gray-600 border-gray-200',
                     };
                     $levelDot = match($level) {
                         'tinggi', 'high' => 'bg-red-500',
@@ -157,7 +152,7 @@
                                 {{ $item->jenisBencana->nama_bencana ?? '-' }}
                             </p>
                             <div class="flex items-center gap-1.5 mt-1">
-                                <svg class="w-3.5 h-3.5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -166,7 +161,7 @@
                                 <span class="text-xs text-gray-600 truncate">{{ $item->kabupaten ?? '-' }}</span>
                             </div>
                         </div>
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ring-1 {{ $levelStyle }} shrink-0">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border {{ $levelStyle }} shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full {{ $levelDot }}"></span>
                             {{ $item->level_rawan ?? '-' }}
                         </span>
@@ -194,7 +189,7 @@
         </div>
 
         @if ($wilayah->hasPages())
-            <div class="px-4 sm:px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+            <div class="px-4 sm:px-5 py-4 border-t border-gray-100 bg-white">
                 {{ $wilayah->links() }}
             </div>
         @endif

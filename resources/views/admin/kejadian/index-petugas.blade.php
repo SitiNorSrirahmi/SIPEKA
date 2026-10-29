@@ -3,9 +3,9 @@
 @section('header', 'Peta & Kejadian Bencana')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
-    {{-- ==================== KONTEN (peta + filter + tabel) ==================== --}}
+    {{-- Panggil dari folder admin --}}
     @include('admin.kejadian.index-content')
 
 </div>

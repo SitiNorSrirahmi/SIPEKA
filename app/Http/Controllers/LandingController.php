@@ -28,7 +28,7 @@ class LandingController extends Controller
 
         $beritaTerbaru = Berita::where('status', 'published')
             ->latest()
-            ->take(3)
+            ->take(6) // <--- UBAH JADI 6
             ->get();
 
         // ==========================================

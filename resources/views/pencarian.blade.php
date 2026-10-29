@@ -3,7 +3,8 @@
 @section('content')
 
 <div class="bg-[#F0F4FB] min-h-screen py-6 sm:py-8">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    {{-- PERBAIKAN: max-w-5xl diganti menjadi w-full agar melebar penuh --}}
+    <div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
 
         {{-- ==================== HEADER ==================== --}}
         <div class="mb-5 sm:mb-6">
@@ -30,15 +31,15 @@
 
         {{-- ==================== HASIL ==================== --}}
         @if ($hasil->count() > 0)
-        <div class="space-y-2.5 sm:space-y-3">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
             @foreach ($hasil as $item)
             <a href="{{ route('kejadian.show', $item->id) }}"
-                class="group block bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 overflow-hidden">
+                class="group block bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
 
                 <div class="flex items-center gap-3 sm:gap-4 p-4 sm:p-5">
 
                     {{-- Ikon Jenis Bencana --}}
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-blue-100 transition-all duration-300">
                         <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -69,7 +70,7 @@
                     </div>
 
                     {{-- Tombol Detail (desktop) --}}
-                    <div class="hidden sm:flex items-center gap-1 text-xs font-bold text-blue-600 group-hover:gap-2 transition-all shrink-0">
+                    <div class="hidden sm:flex items-center gap-1 text-xs font-bold text-blue-600 opacity-0 group-hover:opacity-100 group-hover:gap-2 transition-all shrink-0">
                         Detail
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -95,22 +96,22 @@
         @endif
         @else
         {{-- EMPTY STATE --}}
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 sm:p-16 text-center">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 sm:p-20 text-center">
             <div class="flex flex-col items-center gap-3">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-slate-100 flex items-center justify-center">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
                     <svg class="w-8 h-8 sm:w-10 sm:h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
                 <p class="text-sm font-semibold text-slate-600">Tidak ada hasil ditemukan</p>
-                <p class="text-xs text-slate-400 max-w-md">
+                <p class="text-xs text-slate-400 max-w-md mx-auto">
                     Tidak ditemukan kejadian untuk <strong class="text-slate-600">"{{ $keyword }}"</strong>.
-                    Coba kata kunci lain.
+                    Coba gunakan kata kunci lain atau periksa ejaan Anda.
                 </p>
 
                 <a href="{{ route('home') }}"
-                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition mt-2">
+                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition mt-3 shadow-md shadow-blue-600/20">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>

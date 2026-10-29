@@ -52,7 +52,7 @@
     $gradientCSS = implode(', ', $gradientParts);
 @endphp
 
-<div class="w-full space-y-5">
+<div class="w-full mx-auto space-y-5">
     {{-- 4 CARD STATISTIK --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div class="bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-300">
@@ -143,8 +143,6 @@
                 <h2 class="font-bold text-sm sm:text-base text-gray-800 flex items-center gap-2">
                     <span class="text-blue-600">📊</span> Kejadian per Bulan
                 </h2>
-                
-                {{-- DROPDOWN TAHUN YANG UDAH DIRAPIHIN --}}
                 @if($tahunTersedia->isNotEmpty())
                     <form method="GET" class="flex items-center">
                         <div class="relative">
@@ -202,20 +200,20 @@
                     @forelse ($daftarKejadian as $index => $item)
                         <tr class="{{ $index % 2 === 0 ? 'bg-blue-50/60' : 'bg-white' }} hover:bg-blue-100/70 transition-colors duration-200 group border-b border-gray-100 last:border-0">
                             
-                            <td class="px-6 py-5 border-r border-gray-100/50">
+                            <td class="px-6 py-4 border-r border-gray-100/50">
                                 <div class="flex items-center gap-3">
-                                    <span class="font-bold text-gray-800 text-base group-hover:text-blue-700 transition-colors">{{ $item->jenisBencana->nama_bencana ?? '-' }}</span>
+                                    <span class="font-bold text-gray-800 text-sm group-hover:text-blue-700 transition-colors">{{ $item->jenisBencana->nama_bencana ?? '-' }}</span>
                                 </div>
                             </td>
                             
-                            <td class="px-6 py-5 border-r border-gray-100/50">
+                            <td class="px-6 py-4 border-r border-gray-100/50">
                                 <div class="flex items-center gap-2 text-gray-600 text-sm">
                                     <svg class="w-5 h-5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                     <span class="leading-relaxed font-medium">{{ $isAdmin ? ($item->lokasi ?? '-') : ($item->laporanMasuk->lokasi ?? '-') }}</span>
                                 </div>
                             </td>
                             
-                            <td class="px-6 py-5 text-center">
+                            <td class="px-6 py-4 text-center">
                                 @if ($isAdmin)
                                     @if (($item->status ?? '') === 'verified' && $item->kejadianBencana)
                                         <a href="{{ route('kejadian.show', $item->kejadianBencana->id) }}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-blue-600 bg-white border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 shadow-sm text-sm font-bold transition-all duration-300">
