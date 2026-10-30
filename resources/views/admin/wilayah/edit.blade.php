@@ -3,7 +3,8 @@
 @section('header', 'Edit Wilayah Rawan Bencana')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+{{-- WRAPPER UTAMA: w-full biar melebar penuh --}}
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 
     {{-- ==================== BACK ==================== --}}
     <a href="{{ url()->previous() }}"
@@ -31,7 +32,7 @@
     @endphp
 
     {{-- ==================== HEADER — SEJAJAR ==================== --}}
-    <div class="flex items-center justify-between gap-3 mb-4 sm:mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
         <div class="flex items-center gap-3 min-w-0">
             <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +51,7 @@
         </div>
 
         {{-- Badge level --}}
-        <span class="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border text-[11px] sm:text-sm font-semibold {{ $levelStyle }} shrink-0">
+        <span class="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border text-[11px] sm:text-sm font-semibold {{ $levelStyle }} shrink-0 self-start sm:self-auto">
             <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full {{ $levelDot }}"></span>
             {{ $levelLabel }}
         </span>
@@ -74,7 +75,7 @@
     </div>
     @endif
 
-    {{-- ==================== FORM ==================== --}}
+    {{-- ==================== FORM UPDATE ==================== --}}
     <form action="{{ route('admin.wilayah.update', $wilayahRawan->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -116,7 +117,7 @@
                         </div>
 
                         {{-- Grid 2 kolom: Kabupaten + Level --}}
-                        <div class="grid grid-cols-2 gap-3 sm:gap-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
                                     Kabupaten/Kota <span class="text-rose-500">*</span>
@@ -225,10 +226,10 @@
                         </div>
                     </div>
 
-                    {{-- CARD: AKSI --}}
+                    {{-- CARD: AKSI (Tombol Simpan & Batal) --}}
                     <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
                         <button type="submit"
-                                class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold transition-colors mb-2 sm:mb-3">
+                                class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold transition-colors mb-2 sm:mb-3 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                             </svg>
@@ -240,9 +241,29 @@
                         </a>
                     </div>
 
+                    {{-- CARD: ZONA HAPUS (Dipisah agar aman) --}}
+                    <div class="bg-red-50/50 rounded-2xl border border-red-100 p-4 sm:p-6">
+                        <p class="text-xs text-red-600 font-medium mb-3 text-center">Ingin menghapus data ini?</p>
+                        <button type="button"
+                                onclick="if(confirm('Yakin ingin menghapus data wilayah ini secara permanen?')) { document.getElementById('form-hapus').submit(); }"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 px-4 py-2.5 rounded-xl text-xs font-bold transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Hapus Wilayah
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </form>
+
+    {{-- ==================== FORM HAPUS (Di luar form utama) ==================== --}}
+    <form id="form-hapus" action="{{ route('admin.wilayah.destroy', $wilayahRawan->id) }}" method="POST" class="hidden">
+        @csrf
+        @method('DELETE')
+    </form>
+
 </div>
 @endsection

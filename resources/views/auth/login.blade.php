@@ -19,12 +19,7 @@
             font-family: 'Plus Jakarta Sans', 'Figtree', sans-serif !important;
         }
 
-        input,
-        label,
-        button,
-        select,
-        textarea,
-        ::placeholder {
+        input, label, button, select, textarea, ::placeholder {
             font-family: 'Plus Jakarta Sans', 'Figtree', sans-serif !important;
         }
 
@@ -100,17 +95,17 @@
         /* ==================== CARD ==================== */
         .lux-card {
             background: #ffffff;
-            border-radius: 20px;
+            border-radius: 24px; /* Sedikit lebih bulat agar modern */
             box-shadow:
-                0 10px 40px rgba(15, 23, 42, 0.10),
-                0 4px 12px rgba(15, 23, 42, 0.06);
+                0 20px 50px -12px rgba(15, 23, 42, 0.15), /* Shadow lebih tegas */
+                0 4px 12px rgba(15, 23, 42, 0.05);
             transition: box-shadow 0.3s ease;
         }
 
         .lux-card:hover {
             box-shadow:
-                0 16px 50px rgba(15, 23, 42, 0.14),
-                0 6px 16px rgba(15, 23, 42, 0.08);
+                0 24px 60px -12px rgba(15, 23, 42, 0.20),
+                0 8px 16px rgba(15, 23, 42, 0.06);
         }
 
         /* ==================== INPUT FOCUS ==================== */
@@ -120,20 +115,21 @@
 
         .input-lux:focus {
             border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); /* Ring lebih tebal */
+            background-color: #ffffff;
         }
 
         /* ==================== TOMBOL ==================== */
         .btn-lux {
             position: relative;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.28);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.3);
             transition: all 0.3s ease;
         }
 
         .btn-lux:hover {
-            box-shadow: 0 10px 28px rgba(30, 58, 138, 0.40);
-            transform: translateY(-1px);
+            box-shadow: 0 12px 32px rgba(30, 58, 138, 0.45);
+            transform: translateY(-2px);
         }
 
         /* ==================== MOBILE ONLY ==================== */
@@ -191,12 +187,13 @@
         </div>
 
         {{-- ==================== KANAN: FORM LOGIN ==================== --}}
-        <div class="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:bg-white">
-            <div class="lux-card w-full max-w-md p-6 sm:p-8 lg:p-10">
+        {{-- PERUBAHAN: bg-slate-50 agar card putih menonjol --}}
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:bg-slate-50 relative">
+            <div class="lux-card w-full max-w-md p-6 sm:p-8 lg:p-10 relative z-10">
 
                 {{-- Link Kembali ke Beranda --}}
                 <a href="{{ url('/') }}"
-                    class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-blue-700 hover:text-blue-900 mb-5 sm:mb-6">
+                    class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-blue-700 hover:text-blue-900 mb-5 sm:mb-6 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -218,7 +215,7 @@
 
                     {{-- Email --}}
                     <div>
-                        <label for="email" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2 tracking-wide">
+                        <label for="email" class="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1.5 sm:mb-2 tracking-wider uppercase">
                             EMAIL
                         </label>
                         <input id="email"
@@ -227,13 +224,13 @@
                             value="{{ old('email') }}"
                             required autofocus autocomplete="username"
                             placeholder="Masukkan alamat email"
-                            class="input-lux w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
+                            class="input-lux w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white outline-none text-sm text-slate-800 placeholder:text-slate-400">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     {{-- Password --}}
                     <div>
-                        <label for="password" class="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2 tracking-wide">
+                        <label for="password" class="block text-[11px] sm:text-xs font-bold text-slate-700 mb-1.5 sm:mb-2 tracking-wider uppercase">
                             KATA SANDI
                         </label>
                         <div class="relative">
@@ -242,11 +239,11 @@
                                 name="password"
                                 required autocomplete="current-password"
                                 placeholder="Masukkan kata sandi"
-                                class="input-lux w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-11 sm:pr-12 rounded-lg border border-gray-300 focus:border-blue-500 outline-none text-sm">
+                                class="input-lux w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-11 sm:pr-12 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white outline-none text-sm text-slate-800 placeholder:text-slate-400">
 
                             <button type="button"
                                 id="togglePassword"
-                                class="absolute inset-y-0 right-0 flex items-center pr-3 sm:pr-4 text-gray-500 hover:text-gray-800 focus:outline-none transition"
+                                class="absolute inset-y-0 right-0 flex items-center pr-3 sm:pr-4 text-gray-400 hover:text-gray-800 focus:outline-none transition"
                                 aria-label="Tampilkan kata sandi">
                                 <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -264,20 +261,23 @@
                     </div>
 
                     {{-- Remember Me --}}
-                    <div class="flex items-center text-xs sm:text-sm">
-                        <label for="remember_me" class="inline-flex items-center cursor-pointer">
+                    <div class="flex items-center text-xs sm:text-sm pt-1">
+                        <label for="remember_me" class="inline-flex items-center cursor-pointer group">
                             <input id="remember_me" type="checkbox" name="remember"
-                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
-                            <span class="ms-2 text-gray-600">Ingat saya</span>
+                                class="w-4 h-4 rounded border-slate-300 text-blue-600 shadow-sm focus:ring-blue-500 transition cursor-pointer">
+                            <span class="ms-2 text-slate-600 group-hover:text-slate-900 transition-colors">Ingat saya</span>
                         </label>
                     </div>
 
                     {{-- Tombol Masuk --}}
-                    <button type="submit"
-                        class="btn-lux w-full py-2.5 sm:py-3 rounded-lg font-bold text-white text-sm sm:text-base"
-                        style="background-color: #1e3a8a;">
-                        Masuk
-                    </button>
+                    <div class="pt-2">
+                        <button type="submit"
+                            class="btn-lux w-full py-3 rounded-xl font-bold text-white text-sm sm:text-base flex justify-center items-center gap-2"
+                            style="background-color: #1e3a8a;">
+                            Masuk Sistem
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </div>
                 </form>
 
             </div>

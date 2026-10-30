@@ -1,5 +1,6 @@
 <div class="bg-[#F0F4FB] min-h-screen">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    {{-- REVISI: max-w-7xl dihapus agar benar-benar full width dari ujung ke ujung --}}
+    <div class="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
         {{-- ==================== SUCCESS ==================== --}}
         @if (session('success'))
@@ -265,7 +266,7 @@
 
                 {{-- ============ RIGHT: SIDEBAR ============ --}}
                 <div class="lg:col-span-1">
-                    <div class="lg:sticky lg:top-6 space-y-4 sm:space-y-6">
+                    <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
 
                         {{-- CARD: FOTO --}}
                         <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
@@ -662,5 +663,12 @@
                 '</svg>' +
                 '<span>' + message + '</span>';
         }
+
+        // ============ PERBAIKAN PETA GEPENG ============
+        // Tambahan agar Leaflet menghitung ulang ukuran container saat layar di-resize/zoom out
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 500);
+
     });
 </script>

@@ -3,7 +3,8 @@
 @section('header', 'Edit Data Kejadian Bencana')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+{{-- WRAPPER UTAMA: w-full biar pas di-zoom out melebar --}}
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 
     {{-- ==================== BACK ==================== --}}
     <a href="{{ url()->previous() }}"

@@ -4,17 +4,15 @@
 
 @section('content')
 
-{{-- WRAPPER UTAMA --}}
-<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+{{-- WRAPPER UTAMA: DIUBAH JADI W-FULL BIAR PAS ZOOM OUT MELAR --}}
+<div class="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
 
     {{-- ============ SECTION 1: HERO ============ --}}
     <section class="relative overflow-hidden rounded-2xl sm:rounded-3xl mb-8 sm:mb-12 h-[280px] sm:h-[400px] lg:h-[500px]" style="background: #0A1A3A;">
-
         <div class="absolute inset-0">
             <img src="{{ asset('images/thumbnail.png') }}"
                 alt="SIPEKA"
                 class="w-full h-full object-cover object-center">
-
             <div class="absolute inset-0"
                 style="background: linear-gradient(to right, #0A1A3A 0%, #0A1A3A 30%, rgba(10,26,58,0.7) 60%, rgba(10,26,58,0.3) 100%);"></div>
         </div>
@@ -24,11 +22,9 @@
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-3 sm:mb-6 leading-tight">
                     Tentang <span class="text-yellow-400">SIPEKA</span>
                 </h1>
-
                 <p class="text-base sm:text-lg lg:text-xl text-white/90 font-medium mb-3 sm:mb-4 leading-snug">
                     Sistem Informasi Peta Kebencanaan<br>Kalimantan Selatan
                 </p>
-
                 <p class="text-xs sm:text-sm lg:text-base text-white/70 leading-relaxed">
                     SIPEKA adalah sistem informasi berbasis web yang menyediakan peta kebencanaan
                     dan informasi terkait bencana di wilayah Kalimantan Selatan.
@@ -40,12 +36,10 @@
     {{-- ============ SECTION 2: APA ITU SIPEKA ============ --}}
     <section class="mb-8 sm:mb-12 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-slate-200">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-
             <div>
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-4 sm:mb-6 leading-tight">
                     Apa itu <span class="text-blue-600">SIPEKA</span>?
                 </h2>
-
                 <p class="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed mb-4 sm:mb-5 text-justify">
                     SIPEKA adalah sistem informasi berbasis web yang menyediakan peta kebencanaan
                     dan informasi terkait bencana di wilayah Kalimantan Selatan.
@@ -107,13 +101,11 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </section>
 
     {{-- ============ SECTION 3: FITUR UTAMA ============ --}}
     <section class="mb-8 sm:mb-12">
-
         <div class="mb-6 sm:mb-10">
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-3 sm:mb-4">Fitur Utama</h2>
             <p class="text-sm sm:text-base text-slate-600 max-w-2xl">
@@ -122,7 +114,6 @@
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-
             <div class="group bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative">
                 <div class="mb-3 sm:mb-5">
                     <div class="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-blue-100 flex items-center justify-center">
@@ -194,13 +185,11 @@
                 <h3 class="font-bold text-slate-900 mb-1.5 sm:mb-2 text-sm sm:text-lg">Multi-Role</h3>
                 <p class="text-[11px] sm:text-sm text-slate-600 leading-relaxed">Akses berbeda per role.</p>
             </div>
-
         </div>
     </section>
 
     {{-- ============ SECTION 4: TIM PENGEMBANG ============ --}}
     <section class="mb-4 pt-12">
-
         <div class="mb-8 sm:mb-10 text-center">
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 mb-3 sm:mb-4">Tim Pengembang</h2>
             <p class="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
@@ -209,187 +198,114 @@
         </div>
 
         <div class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-
-            {{-- ============ SIDIQ — HIJAU (EMERALD) ============ --}}
+            {{-- SIDIQ — HIJAU (EMERALD) --}}
             <div class="team-card group relative" style="animation-delay: 0.1s;">
-
                 <div class="relative overflow-hidden rounded-t-2xl" style="height: 240px;">
                     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full blur-3xl opacity-50 pointer-events-none"
                         style="background: radial-gradient(circle, #10B981, transparent 70%);"></div>
-
                     <img src="{{ asset('images/tim/sidiq.png') }}"
                         alt="Muhamad Sidiq"
                         class="relative w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                         style="filter: drop-shadow(0 15px 25px rgba(16, 185, 129, 0.4)); transform: scale(0.95); transform-origin: bottom center;">
                 </div>
-
                 <div class="relative bg-white rounded-b-2xl overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl"
                     style="border: 1px solid rgba(16, 185, 129, 0.2); border-top: none; box-shadow: 0 2px 12px rgba(16, 185, 129, 0.08);">
-
-                    <div class="absolute top-0 left-0 right-0 h-1"
-                        style="background: linear-gradient(90deg, #34D399, #059669, #34D399);"></div>
-
+                    <div class="absolute top-0 left-0 right-0 h-1" style="background: linear-gradient(90deg, #34D399, #059669, #34D399);"></div>
                     <div class="pt-4 px-4 text-center">
                         <h3 class="text-base font-black text-slate-900 tracking-tight">Muhamad Sidiq</h3>
                     </div>
-
                     <div class="px-4 py-3">
-                        <div class="rounded-xl px-3 py-2 text-center"
-                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 1px solid rgba(16, 185, 129, 0.2);">
-                            <p class="text-[11px] font-bold tracking-wide" style="color: #059669;">
-                                Frontend Developer & UI/UX
-                            </p>
+                        <div class="rounded-xl px-3 py-2 text-center" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p class="text-[11px] font-bold tracking-wide" style="color: #059669;">Frontend Developer & UI/UX</p>
                         </div>
                     </div>
-
                     <div class="px-4 pb-4">
                         <div class="flex items-center gap-1.5 mb-2">
                             <svg class="w-3.5 h-3.5" style="color: #059669;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            <p class="text-[9px] font-bold uppercase tracking-wider" style="color: #059669;">
-                                Tugas & Tanggung Jawab:
-                            </p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider" style="color: #059669;">Tugas & Tanggung Jawab:</p>
                         </div>
                         <ul class="space-y-1.5 text-[11px] text-slate-600">
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span>
-                                <span>Merancang tampilan antarmuka (UI)</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span>
-                                <span>Mengembangkan fitur frontend</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span>
-                                <span>Mendesain pengalaman pengguna (UX)</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span>
-                                <span>Memastikan tampilan responsive</span>
-                            </li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span><span>Merancang tampilan antarmuka (UI)</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span><span>Mengembangkan fitur frontend</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span><span>Mendesain pengalaman pengguna (UX)</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #10B981;">✓</span><span>Memastikan tampilan responsive</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            {{-- ============ SITI — MERAH (RED) ============ --}}
+            {{-- SITI — MERAH (RED) --}}
             <div class="team-card group relative" style="animation-delay: 0.25s;">
-
                 <div class="relative overflow-hidden rounded-t-2xl" style="height: 240px;">
                     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full blur-3xl opacity-50 pointer-events-none"
                         style="background: radial-gradient(circle, #EF4444, transparent 70%);"></div>
-
                     <img src="{{ asset('images/tim/siti.png') }}"
                         alt="Siti Nor Srirahmi"
                         class="relative w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                         style="filter: drop-shadow(0 15px 25px rgba(239, 68, 68, 0.4));">
                 </div>
-
                 <div class="relative bg-white rounded-b-2xl overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl"
                     style="border: 1px solid rgba(239, 68, 68, 0.2); border-top: none; box-shadow: 0 2px 12px rgba(239, 68, 68, 0.08);">
-
-                    <div class="absolute top-0 left-0 right-0 h-1"
-                        style="background: linear-gradient(90deg, #F87171, #DC2626, #F87171);"></div>
-
+                    <div class="absolute top-0 left-0 right-0 h-1" style="background: linear-gradient(90deg, #F87171, #DC2626, #F87171);"></div>
                     <div class="pt-4 px-4 text-center">
                         <h3 class="text-base font-black text-slate-900 tracking-tight">Siti Nor Srirahmi</h3>
                     </div>
-
                     <div class="px-4 py-3">
-                        <div class="rounded-xl px-3 py-2 text-center"
-                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05)); border: 1px solid rgba(239, 68, 68, 0.2);">
-                            <p class="text-[11px] font-bold tracking-wide" style="color: #DC2626;">
-                                Backend Developer
-                            </p>
+                        <div class="rounded-xl px-3 py-2 text-center" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05)); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <p class="text-[11px] font-bold tracking-wide" style="color: #DC2626;">Backend Developer</p>
                         </div>
                     </div>
-
                     <div class="px-4 pb-4">
                         <div class="flex items-center gap-1.5 mb-2">
                             <svg class="w-3.5 h-3.5" style="color: #DC2626;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            <p class="text-[9px] font-bold uppercase tracking-wider" style="color: #DC2626;">
-                                Tugas & Tanggung Jawab:
-                            </p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider" style="color: #DC2626;">Tugas & Tanggung Jawab:</p>
                         </div>
                         <ul class="space-y-1.5 text-[11px] text-slate-600">
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span>
-                                <span>Merancang & membangun sistem aplikasi</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span>
-                                <span>Membuat struktur database</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span>
-                                <span>Mengatur sistem login & hak akses</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span>
-                                <span>Mengembangkan fitur backend</span>
-                            </li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span><span>Merancang & membangun sistem aplikasi</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span><span>Membuat struktur database</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span><span>Mengatur sistem login & hak akses</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #EF4444;">✓</span><span>Mengembangkan fitur backend</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            {{-- ============ ANDI — BIRU (BLUE) ============ --}}
+            {{-- ANDI — BIRU (BLUE) --}}
             <div class="team-card group relative" style="animation-delay: 0.4s;">
-
                 <div class="relative overflow-hidden rounded-t-2xl" style="height: 240px;">
                     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full blur-3xl opacity-50 pointer-events-none"
                         style="background: radial-gradient(circle, #3B82F6, transparent 70%);"></div>
-
                     <img src="{{ asset('images/tim/andi.png') }}"
                         alt="Muhammad Andi Maulana"
                         class="relative w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                         style="filter: drop-shadow(0 15px 25px rgba(59, 130, 246, 0.4));">
                 </div>
-
                 <div class="relative bg-white rounded-b-2xl overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl"
                     style="border: 1px solid rgba(59, 130, 246, 0.2); border-top: none; box-shadow: 0 2px 12px rgba(59, 130, 246, 0.08);">
-
-                    <div class="absolute top-0 left-0 right-0 h-1"
-                        style="background: linear-gradient(90deg, #60A5FA, #2563EB, #60A5FA);"></div>
-
+                    <div class="absolute top-0 left-0 right-0 h-1" style="background: linear-gradient(90deg, #60A5FA, #2563EB, #60A5FA);"></div>
                     <div class="pt-4 px-4 text-center">
                         <h3 class="text-base font-black text-slate-900 tracking-tight">Muhammad Andi Maulana</h3>
                     </div>
-
                     <div class="px-4 py-3">
-                        <div class="rounded-xl px-3 py-2 text-center"
-                            style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(59, 130, 246, 0.2);">
-                            <p class="text-[11px] font-bold tracking-wide" style="color: #2563EB;">
-                                Desain Visual & Aset
-                            </p>
+                        <div class="rounded-xl px-3 py-2 text-center" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); border: 1px solid rgba(59, 130, 246, 0.2);">
+                            <p class="text-[11px] font-bold tracking-wide" style="color: #2563EB;">Desain Visual & Aset</p>
                         </div>
                     </div>
-
                     <div class="px-4 pb-4">
                         <div class="flex items-center gap-1.5 mb-2">
                             <svg class="w-3.5 h-3.5" style="color: #2563EB;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            <p class="text-[9px] font-bold uppercase tracking-wider" style="color: #2563EB;">
-                                Tugas & Tanggung Jawab:
-                            </p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider" style="color: #2563EB;">Tugas & Tanggung Jawab:</p>
                         </div>
                         <ul class="space-y-1.5 text-[11px] text-slate-600">
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #3B82F6;">✓</span>
-                                <span>Merancang logo SIPEKA</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #3B82F6;">✓</span>
-                                <span>Menyiapkan aset visual</span>
-                            </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="mt-0.5 shrink-0 font-bold" style="color: #3B82F6;">✓</span>
-                                <span>Mendukung kebutuhan desain</span>
-                            </li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #3B82F6;">✓</span><span>Merancang logo SIPEKA</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #3B82F6;">✓</span><span>Menyiapkan aset visual</span></li>
+                            <li class="flex items-start gap-1.5"><span class="mt-0.5 shrink-0 font-bold" style="color: #3B82F6;">✓</span><span>Mendukung kebutuhan desain</span></li>
                         </ul>
                     </div>
                 </div>

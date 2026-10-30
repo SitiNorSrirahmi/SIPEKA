@@ -139,6 +139,17 @@ class BeritaController extends Controller
     {
         abort_if($berita->status !== 'published', 404);
 
-        return view('berita.show', compact('berita'));
+        // =======================================================
+        // TAMBAHAN DARI SIDIQ: 
+        // Mengambil 4 berita lain untuk ditampilkan di sidebar 
+        // rekomendasi pada halaman detail berita (show).
+        // =======================================================
+        $beritaLain = Berita::where('id', '!=', $berita->id)
+            ->where('status', 'published')
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('berita.show', compact('berita', 'beritaLain'));
     }
 }

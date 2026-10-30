@@ -1,4 +1,5 @@
-<div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+{{-- WRAPPER UTAMA: w-full biar pas di-zoom out melebar --}}
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
     {{-- ==================== BACK ==================== --}}
     <a href="{{ url()->previous() }}"
@@ -24,7 +25,6 @@
                         @endphp
 
                         @if ($isHeic)
-                            {{-- Fallback untuk file HEIC --}}
                             <div class="w-full h-full flex flex-col items-center justify-center bg-slate-100 p-4 text-center">
                                 <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,6 @@
                                 </a>
                             </div>
                         @else
-                            {{-- Gambar JPG/PNG biasa --}}
                             <img src="{{ $media->getUrl() }}" 
                                 alt="Foto Kejadian Bencana" 
                                 class="w-full h-full object-cover">
@@ -157,6 +156,21 @@
                         </p>
                     </div>
                 </div>
+
+                {{-- Deskripsi Kejadian (DARI LAPORAN MASUK) --}}
+                @if ($kejadianBencana->laporanMasuk && ($kejadianBencana->laporanMasuk->deskripsi || $kejadianBencana->laporanMasuk->keterangan))
+                    <div class="mt-6 pt-6 border-t border-slate-100">
+                        <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-bold mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                            </svg>
+                            Deskripsi Kejadian
+                        </p>
+                        <div class="prose prose-sm prose-slate max-w-none text-slate-700 leading-relaxed text-justify">
+                            {!! nl2br(e($kejadianBencana->laporanMasuk->deskripsi ?? $kejadianBencana->laporanMasuk->keterangan ?? '-')) !!}
+                        </div>
+                    </div>
+                @endif
 
             </div>
 

@@ -3,7 +3,8 @@
 @section('header', 'Tambah Wilayah Rawan Bencana')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+{{-- WRAPPER UTAMA: w-full biar melebar penuh --}}
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
 
     {{-- ==================== BACK ==================== --}}
     <a href="{{ url()->previous() }}"
@@ -14,7 +15,7 @@
         Kembali
     </a>
 
-    {{-- ==================== HEADER — SEJAJAR ==================== --}}
+    {{-- ==================== HEADER ==================== --}}
     <div class="flex items-center gap-3 mb-4 sm:mb-6">
         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +94,7 @@
                         </div>
 
                         {{-- Grid 2 kolom: Kabupaten + Level --}}
-                        <div class="grid grid-cols-2 gap-3 sm:gap-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
                                     Kabupaten/Kota <span class="text-rose-500">*</span>
@@ -246,7 +247,7 @@
                     {{-- CARD: AKSI --}}
                     <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6">
                         <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold transition-colors mb-2 sm:mb-3">
+                            class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm font-semibold transition-colors mb-2 sm:mb-3 shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                             </svg>
