@@ -46,11 +46,19 @@ class LaporanMasukController extends Controller
 
         // Masyarakat (guest, belum login) wajib isi data diri
         if (!Auth::check()) {
-            $rules['pelapor_nama'] = 'required|string|max:255';
-            $rules['pelapor_hp'] = 'required|string|max:20';
+            $rules['pelapor_nama'] = ['required', 'string', 'max:255', "regex:/^[\pL\s.'\-]+$/u"];
+            $rules['pelapor_hp'] = ['required', 'digits_between:10,13'];
         }
 
-        $validated = $request->validate($rules);
+        $validated = $request->validate($rules, [
+            'foto.required' => 'Foto kejadian wajib diunggah.',
+            'foto.mimes' => 'Format foto harus JPG, PNG, atau HEIC.',
+            'foto.max' => 'Ukuran foto maksimal 5 MB.',
+            'pelapor_nama.required' => 'Nama pelapor wajib diisi.',
+            'pelapor_nama.regex' => 'Nama hanya boleh berisi huruf.',
+            'pelapor_hp.required' => 'Nomor HP wajib diisi.',
+            'pelapor_hp.digits_between' => 'Nomor HP hanya boleh berisi angka, 10 sampai 13 digit.',
+        ]);
 
         // Cek Geotag EXIF sebelum transaksi
             $file = $request->file('foto');

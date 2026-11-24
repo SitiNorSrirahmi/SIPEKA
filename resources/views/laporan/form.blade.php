@@ -246,18 +246,24 @@
                                 <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
                                     Nama Pelapor <span class="text-rose-500">*</span>
                                 </label>
-                                <input type="text" name="pelapor_nama" value="{{ old('pelapor_nama', 'Warga Testing') }}"
+                                <input type="text" id="pelapor_nama" name="pelapor_nama" value="{{ old('pelapor_nama') }}"
                                     placeholder="Nama lengkap"
                                     class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-500">
+                                <small id="nama-error" class="hidden text-rose-500 text-xs mt-1">
+                                    Nama pelapor hanya boleh berisi huruf dan spasi.
+                                </small>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-900 uppercase tracking-wider mb-2">
                                     No HP Pelapor <span class="text-rose-500">*</span>
                                 </label>
-                                <input type="text" name="pelapor_hp" value="{{ old('pelapor_hp', '08123456789') }}"
+                                <input type="text" id="pelapor_hp" name="pelapor_hp" value="{{ old('pelapor_hp') }}"
                                     placeholder="08xx-xxxx-xxxx"
                                     class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-slate-900 placeholder:text-slate-500">
-                            </div>
+                                <small id="hp-error" class="hidden text-rose-500 text-xs mt-1">
+                                    Nomor HP hanya boleh berisi angka.
+                                </small>
+                                </div>
                         </div>
                     </div>
                     @endguest
@@ -385,6 +391,49 @@
 {{-- ==================== SCRIPT: PETA + GPS + REVERSE GEOCODE + HIGHLIGHT KALSEL ==================== --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // ============ VALIDASI NAMA PELAPOR ============
+        const namaInput = document.getElementById('pelapor_nama');
+        const namaError = document.getElementById('nama-error');
+
+        if (namaInput && namaError) {
+            namaInput.addEventListener('input', function () {
+                const nama = namaInput.value.trim();
+                const valid = /^[\p{L}\s]+$/u.test(nama);
+
+                if (nama !== '' && !valid) {
+                    namaError.classList.remove('hidden');
+                    namaInput.setCustomValidity(
+                        'Nama pelapor hanya boleh berisi huruf dan spasi.'
+                    );
+                } else {
+                    namaError.classList.add('hidden');
+                    namaInput.setCustomValidity('');
+                }
+            });
+        }
+
+        // ============ VALIDASI NOMOR HP ============
+        const hpInput = document.getElementById('pelapor_hp');
+        const hpError = document.getElementById('hp-error');
+
+        if (hpInput && hpError) {
+            hpInput.addEventListener('input', function () {
+                const hp = hpInput.value.trim();
+                const valid = /^[0-9]+$/.test(hp);
+
+                if (hp !== '' && !valid) {
+                    hpError.classList.remove('hidden');
+                    hpInput.setCustomValidity(
+                        'Nomor HP hanya boleh berisi angka.'
+                    );
+                } else {
+                    hpError.classList.add('hidden');
+                    hpInput.setCustomValidity('');
+                }
+            });
+        }
+
+
         const mapEl = document.getElementById('peta-laporan');
         if (!mapEl) return;
 
@@ -669,6 +718,6 @@
         setTimeout(function() {
             map.invalidateSize();
         }, 500);
-
     });
 </script>
+
